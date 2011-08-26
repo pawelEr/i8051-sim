@@ -1,0 +1,27 @@
+d:\moje dokumenty\visual studio 2010\Projects\symulator8051\symulator8051\obj\x86\Debug\ResolveAssemblyReference.cache
+d:\moje dokumenty\visual studio 2010\Projects\symulator8051\symulator8051\obj\x86\Debug\symulator8051.Form1.resources
+d:\moje dokumenty\visual studio 2010\Projects\symulator8051\symulator8051\obj\x86\Debug\symulator8051.Properties.Resources.resources
+d:\moje dokumenty\visual studio 2010\Projects\symulator8051\symulator8051\obj\x86\Debug\GenerateResource.read.1.tlog
+d:\moje dokumenty\visual studio 2010\Projects\symulator8051\symulator8051\obj\x86\Debug\GenerateResource.write.1.tlog
+D:\Moje Dokumenty\Visual Studio 2010\Projects\symulator8051\symulator8051\bin\Debug\symulator8051.exe
+D:\Moje Dokumenty\Visual Studio 2010\Projects\symulator8051\symulator8051\bin\Debug\symulator8051.pdb
+D:\Moje Dokumenty\Visual Studio 2010\Projects\symulator8051\symulator8051\obj\x86\Debug\symulator8051.exe
+D:\Moje Dokumenty\Visual Studio 2010\Projects\symulator8051\symulator8051\obj\x86\Debug\symulator8051.pdb
+D:\Moje Dokumenty\Uczelnia\Aplikacje VS2010\symulator8051\symulator8051\obj\x86\Debug\symulator8051.exe
+D:\Moje Dokumenty\Uczelnia\Aplikacje VS2010\symulator8051\symulator8051\obj\x86\Debug\symulator8051.pdb
+Z:\Aplikacje VS2010\symulator8051\symulator8051\obj\x86\Debug\symulator8051.exe
+Z:\Aplikacje VS2010\symulator8051\symulator8051\obj\x86\Debug\symulator8051.pdb
+C:\Users\proszak\Desktop\symulator8051\symulator8051\obj\x86\Debug\symulator8051.exe
+C:\Users\proszak\Desktop\symulator8051\symulator8051\obj\x86\Debug\symulator8051.pdb
+C:\Users\proszak\Desktop\symulator8051\symulator8051\obj\x86\Debug\ResolveAssemblyReference.cache
+C:\Users\proszak\Desktop\symulator8051\symulator8051\obj\x86\Debug\Main.baml
+C:\Users\proszak\Desktop\symulator8051\symulator8051\obj\x86\Debug\Main.g.cs
+C:\Users\proszak\Desktop\symulator8051\symulator8051\obj\x86\Debug\symulator8051_MarkupCompile.cache
+C:\Users\proszak\Desktop\symulator8051\symulator8051\obj\x86\Debug\symulator8051.g.resources
+C:\Users\proszak\Desktop\symulator8051\symulator8051\obj\x86\Debug\symulator8051.Properties.Resources.resources
+C:\Users\proszak\Desktop\symulator8051\symulator8051\obj\x86\Debug\GenerateResource.read.1.tlog
+C:\Users\proszak\Desktop\symulator8051\symulator8051\obj\x86\Debug\GenerateResource.write.1.tlog
+C:\Users\proszak\Desktop\symulator8051\symulator8051\bin\Debug\symulator8051.exe
+C:\Users\proszak\Desktop\symulator8051\symulator8051\bin\Debug\symulator8051.pdb
+C:\Users\proszak\Desktop\symulator8051\symulator8051\obj\x86\Debug\App.baml
+C:\Users\proszak\Desktop\symulator8051\symulator8051\obj\x86\Debug\App.g.cs
