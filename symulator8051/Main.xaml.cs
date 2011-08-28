@@ -17,14 +17,23 @@ namespace symulator8051
     /// <summary>
     /// Interaction logic for Main.xaml
     /// </summary>
-    public partial class Main : UserControl
+    public partial class Main : Window
     {
         public Main()
         {
+            
             InitializeComponent();
+            I8051 i8051 = new I8051();
+            MainGrid.DataContext = i8051;
+
         }
 
         private void UserControl_Loaded(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void Window_Loaded(object sender, RoutedEventArgs e)
         {
 
         }
