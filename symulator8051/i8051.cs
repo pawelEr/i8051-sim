@@ -9,9 +9,9 @@ namespace symulator8051
 
         public event PropertyChangedEventHandler PropertyChanged;
         #region memory/registers
-        private byte[] SFR = new byte[0x100]; // rejestry funkcji specjalnych 
-        private byte[] EXT_RAM = new byte[0x10000]; //zewnetrzna pamiec 64kB
-        private byte[] EXT_PMEM = new byte[0x10000]; //zewnetrzna pamiec na program 64kb 
+        public byte[] SFR = new byte[0x100]; // rejestry funkcji specjalnych 
+        public byte[] EXT_RAM = new byte[0x10000]; //zewnetrzna pamiec 64kB
+        public byte[] EXT_PMEM = new byte[0x10000]; //zewnetrzna pamiec na program 64kb 
 
         public byte ACC //akumulator
         {
