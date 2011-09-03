@@ -19,7 +19,7 @@ namespace symulator8051.Commands
         I8051 i;
 
         private byte cycles = 1;
-        public byte MyProperty
+        public byte Cycles
         {
             get { return cycles; }
         }

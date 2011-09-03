@@ -374,7 +374,7 @@ namespace symulator8051
 
                         break;
                     case "mov":
-                        c.AddCommand(new Mov());
+                        //c.AddCommand(new Mov());
                         break;
                     case "movc":
 
