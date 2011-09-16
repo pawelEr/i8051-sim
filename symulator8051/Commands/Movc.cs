@@ -21,7 +21,7 @@ namespace symulator8051.Commands
         }
         public void execute()
         {
-            i.ACC = i.EXT_PMEM[i.ACC + i.DPTR];
+            i.ACC = i.EXT_PMEM[i.ACC + i.DPTR].Data;
         }
     }
     class x83 //MOVC A, @A+PC
@@ -38,7 +38,7 @@ namespace symulator8051.Commands
         }
         public void execute()
         {
-            i.ACC = i.EXT_PMEM[i.ACC + i.PC];
+            i.ACC = i.EXT_PMEM[i.ACC + i.PC].Data;
         }
     }
 
