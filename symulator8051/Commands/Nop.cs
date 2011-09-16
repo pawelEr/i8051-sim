@@ -5,7 +5,7 @@ using System.Text;
 
 namespace symulator8051
 {
-    class Nop : ICommand
+    class x00 : ICommand
     {
         public byte cycles = 1;
         public byte Cycles 
