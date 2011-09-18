@@ -5,294 +5,279 @@ using System.Text;
 
 namespace symulator8051.Commands
 {
-    class x14 : ICommand //DEC A
+    class x52 : ICommand //ANL iram addr, A
     {
         I8051 i;
+
         private byte cycles = 1;
         public byte Cycles
         {
             get { return cycles; }
         }
-        public x14(I8051 i)
+        private byte arg;
+        public x52(byte arg, I8051 i)
         {
+            this.arg=arg;
             this.i = i;
         }
         public void execute()
         {
-            if (i.ACC == 0)
-            {
-                i.ACC = 255;
-            }
-            else
-            {
-                i.ACC--;
-            }
+            i.SFR[arg] = (i.ACC & i.SFR[arg]);
         }
     }
-    class x15 : ICommand //DEC iram addr
+
+    class x53 : ICommand //ANL iram addr, #data
     {
         I8051 i;
-        private byte cycles = 1;
-        private byte arg;
+
+        private byte cycles = 2;
         public byte Cycles
         {
             get { return cycles; }
         }
-        public x15(byte arg, I8051 i)
+        private byte arg;
+        private byte arg2;
+        public x53(byte arg2, byte arg, I8051 i)
+        {
+            this.arg2 = arg2;
+            this.arg = arg;
+            this.i = i;
+        }
+        public void execute()
+        {
+            i.SFR[arg] = (arg2 & i.SFR[arg]);
+        }
+    }
+
+    class x54 : ICommand //ANL A, #data
+    {
+        I8051 i;
+
+        private byte cycles = 1;
+        public byte Cycles
+        {
+            get { return cycles; }
+        }
+        private byte arg;
+        public x54(I8051 i, byte arg)
         {
             this.i = i;
             this.arg = arg;
         }
         public void execute()
         {
-            if (i.SFR[arg] == 0)
-            {
-                i.SFR[arg] = 255;
-            }
-            else
-            {
-                i.SFR[arg]--;
-            }
+            i.ACC = (i.ACC & arg);
         }
     }
-    class x16 : ICommand //DEC @R0
+
+    class x55 : ICommand //ANL A, iram addr
     {
         I8051 i;
+
+        private byte cycles = 1;
+        public byte Cycles 
+        {
+            get { return cycles; }
+        }
+        private byte arg;
+        public x55(I8051 i, byte arg)
+        {
+            this.i = i;
+            this.arg = arg;
+        }
+        public void execute()
+        {
+            i.ACC = (i.ACC & i.SFR[arg]);
+        }
+    }
+
+    class x56 : ICommand //ANL A,@R0
+    {
+        I8051 i;
+
         private byte cycles = 1;
         public byte Cycles
         {
             get { return cycles; }
         }
-        public x16(I8051 i)
+        public x56(I8051 i)
         {
             this.i = i;
         }
         public void execute()
         {
-            if (i.EXT_RAM[i.R0] == 0)
-            {
-                i.EXT_RAM[i.R0] = 255;
-            }
-            else
-            {
-                i.EXT_RAM[i.R0]--;
-            }
+            i.ACC = (i.ACC & i.EXT_RAM[i.R0]);
         }
     }
-    class x17 : ICommand //DEC @R1
+
+    class x57 : ICommand //ANL A,@R1
     {
         I8051 i;
+
         private byte cycles = 1;
         public byte Cycles
         {
             get { return cycles; }
         }
-        public x17(I8051 i)
+        public x57(I8051 i)
         {
             this.i = i;
         }
         public void execute()
         {
-            if (i.EXT_RAM[i.R1] == 0)
-            {
-                i.EXT_RAM[i.R1] = 255;
-            }
-            else
-            {
-                i.EXT_RAM[i.R1]--;
-            }
+            i.ACC = (i.ACC & i.EXT_RAM[i.R1]);
         }
     }
-    class x18 : ICommand //DEC R0
+
+    class x58 : ICommand //ANL A,R0
     {
         I8051 i;
+
         private byte cycles = 1;
         public byte Cycles
         {
             get { return cycles; }
         }
-        public x18(I8051 i)
+        public x58(I8051 i)
         {
-            this.i = i;
+            this.i=i;
         }
         public void execute()
         {
-            if (i.R0 == 0)
-            {
-                i.R0 = 255;
-            }
-            else
-            {
-                i.R0--;
-            }
+            i.ACC = (i.ACC & i.R0);
         }
     }
-    class x19 : ICommand //DEC R1
+
+    class x59 : ICommand //ANL A,R1
     {
         I8051 i;
+
         private byte cycles = 1;
         public byte Cycles
         {
             get { return cycles; }
         }
-        public x19(I8051 i)
+        public x59(I8051 i)
         {
             this.i = i;
         }
         public void execute()
         {
-            if (i.R1 == 0)
-            {
-                i.R1 = 255;
-            }
-            else
-            {
-                i.R1--;
-            }
+            i.ACC = (i.ACC & i.R1);
         }
     }
-    class x1A : ICommand //DEC R2
+
+    class x5A : ICommand //ANL A,R2
     {
         I8051 i;
+
         private byte cycles = 1;
         public byte Cycles
         {
             get { return cycles; }
         }
-        public x1A(I8051 i)
+        public x5A(I8051 i)
         {
             this.i = i;
         }
         public void execute()
         {
-            if (i.R2 == 0)
-            {
-                i.R2 = 255;
-            }
-            else
-            {
-                i.R2--;
-            }
+            i.ACC = (i.ACC & i.R2);
         }
     }
-    class x1B : ICommand //DEC R3
+
+    class x5B : ICommand //ANL A,R3
     {
         I8051 i;
+
         private byte cycles = 1;
         public byte Cycles
         {
             get { return cycles; }
         }
-        public x1B(I8051 i)
+        public x5B(I8051 i)
         {
             this.i = i;
         }
         public void execute()
         {
-            if (i.R3 == 0)
-            {
-                i.R3 = 255;
-            }
-            else
-            {
-                i.R3--;
-            }
+            i.ACC = (i.ACC & i.R3);
         }
     }
-    class x1C : ICommand //DEC R4
+
+    class x5C : ICommand //ANL A,R4
     {
         I8051 i;
+
         private byte cycles = 1;
         public byte Cycles
         {
             get { return cycles; }
         }
-        public x1C(I8051 i)
+        public x5C(I8051 i)
         {
             this.i = i;
         }
         public void execute()
         {
-            if (i.R4 == 0)
-            {
-                i.R4 = 255;
-            }
-            else
-            {
-                i.R4--;
-            }
+            i.ACC = (i.ACC & i.R4);
         }
     }
-    class x1D : ICommand //DEC R5
+
+    class x5D : ICommand //ANL A,R5
     {
         I8051 i;
+
         private byte cycles = 1;
         public byte Cycles
         {
             get { return cycles; }
         }
-        public x1D(I8051 i)
+        public x5D(I8051 i)
         {
             this.i = i;
         }
         public void execute()
         {
-            if (i.R5 == 0)
-            {
-                i.R5 = 255;
-            }
-            else
-            {
-                i.R5--;
-            }
+            i.ACC = (i.ACC & i.R5);
         }
     }
-    class x1E : ICommand //DEC R6
+
+    class x5E : ICommand //ANL A,R6
     {
         I8051 i;
+
         private byte cycles = 1;
         public byte Cycles
         {
             get { return cycles; }
         }
-        public x1E(I8051 i)
+        public x5E(I8051 i)
         {
             this.i = i;
         }
         public void execute()
         {
-            if (i.R6 == 0)
-            {
-                i.R6 = 255;
-            }
-            else
-            {
-                i.R6--;
-            }
+            i.ACC = (i.ACC & i.R6);
         }
     }
-    class x1F : ICommand //DEC R7
+
+    class x5F : ICommand //ANL A,R7
     {
         I8051 i;
+
         private byte cycles = 1;
         public byte Cycles
         {
             get { return cycles; }
         }
-        public x1F(I8051 i)
+        public x5F(I8051 i)
         {
             this.i = i;
         }
         public void execute()
         {
-            if (i.R7 == 0)
-            {
-                i.R7 = 255;
-            }
-            else
-            {
-                i.R7--;
-            }
+            i.ACC = (i.ACC & i.R7);
         }
     }
 }
