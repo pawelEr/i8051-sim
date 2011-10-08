@@ -23,6 +23,11 @@ namespace symulator8051.Commands
         {
             get { return cycles; }
         }
+        private ushort bytes = 2;
+        public ushort Bytes
+        {
+            get { return bytes; }
+        }
         public x76(byte arg, I8051 i)
         {
             this.arg = arg;
@@ -43,6 +48,11 @@ namespace symulator8051.Commands
         {
             get { return cycles; }
         }
+        private ushort bytes = 2;
+        public ushort Bytes
+        {
+            get { return bytes; }
+        }
         public x77(byte arg, I8051 i)
         {
             this.arg = arg;
@@ -61,6 +71,11 @@ namespace symulator8051.Commands
         {
             get { return cycles; }
         }
+        private ushort bytes = 1;
+        public ushort Bytes
+        {
+            get { return bytes; }
+        }
         public xF6(I8051 i)
         {
             this.i = i;
@@ -78,6 +93,11 @@ namespace symulator8051.Commands
         {
             get { return cycles; }
         }
+        private ushort bytes = 1;
+        public ushort Bytes
+        {
+            get { return bytes; }
+        }
         public xF7(I8051 i)
         {
             this.i = i;
@@ -94,6 +114,11 @@ namespace symulator8051.Commands
         public byte Cycles
         {
             get { return cycles; }
+        }
+        private ushort bytes = 2;
+        public ushort Bytes
+        {
+            get { return bytes; }
         }
         private byte arg;
         public xA6(byte arg, I8051 i)
@@ -114,6 +139,11 @@ namespace symulator8051.Commands
         {
             get { return cycles; }
         }
+        private ushort bytes = 2;
+        public ushort Bytes
+        {
+            get { return bytes; }
+        }
         private byte arg;
         public xA7(byte arg, I8051 i)
         {
@@ -132,6 +162,11 @@ namespace symulator8051.Commands
         public byte Cycles
         {
             get { return cycles; }
+        }
+        private ushort bytes = 2;
+        public ushort Bytes
+        {
+            get { return bytes; }
         }
         private byte arg;
         public x74(byte arg, I8051 i)
@@ -152,6 +187,11 @@ namespace symulator8051.Commands
         {
             get { return cycles; }
         }
+        private ushort bytes = 1;
+        public ushort Bytes
+        {
+            get { return bytes; }
+        }
         public xE6(I8051 i)
         {
             this.i = i;
@@ -168,6 +208,11 @@ namespace symulator8051.Commands
         public byte Cycles
         {
             get { return cycles; }
+        }
+        private ushort bytes = 1;
+        public ushort Bytes
+        {
+            get { return bytes; }
         }
         public xE7(I8051 i)
         {
@@ -186,6 +231,11 @@ namespace symulator8051.Commands
         {
             get { return cycles; }
         }
+        private ushort bytes = 1;
+        public ushort Bytes
+        {
+            get { return bytes; }
+        }
         public xE8(I8051 i)
         {
             this.i = i;
@@ -202,6 +252,11 @@ namespace symulator8051.Commands
         public byte Cycles
         {
             get { return cycles; }
+        }
+        private ushort bytes = 1;
+        public ushort Bytes
+        {
+            get { return bytes; }
         }
         public xE9(I8051 i)
         {
@@ -220,6 +275,11 @@ namespace symulator8051.Commands
         {
             get { return cycles; }
         }
+        private ushort bytes = 1;
+        public ushort Bytes
+        {
+            get { return bytes; }
+        }
         public xEA(I8051 i)
         {
             this.i = i;
@@ -236,6 +296,11 @@ namespace symulator8051.Commands
         public byte Cycles
         {
             get { return cycles; }
+        }
+        private ushort bytes = 1;
+        public ushort Bytes
+        {
+            get { return bytes; }
         }
         public xEB(I8051 i)
         {
@@ -254,6 +319,11 @@ namespace symulator8051.Commands
         {
             get { return cycles; }
         }
+        private ushort bytes = 1;
+        public ushort Bytes
+        {
+            get { return bytes; }
+        }
         public xEC(I8051 i)
         {
             this.i = i;
@@ -270,6 +340,11 @@ namespace symulator8051.Commands
         public byte Cycles
         {
             get { return cycles; }
+        }
+        private ushort bytes = 1;
+        public ushort Bytes
+        {
+            get { return bytes; }
         }
         public xED(I8051 i)
         {
@@ -288,6 +363,11 @@ namespace symulator8051.Commands
         {
             get { return cycles; }
         }
+        private ushort bytes = 1;
+        public ushort Bytes
+        {
+            get { return bytes; }
+        }
         public xEE(I8051 i)
         {
             this.i = i;
@@ -305,6 +385,11 @@ namespace symulator8051.Commands
         {
             get { return cycles; }
         }
+        private ushort bytes = 1;
+        public ushort Bytes
+        {
+            get { return bytes; }
+        }
         public xEF(I8051 i)
         {
             this.i = i;
@@ -321,6 +406,11 @@ namespace symulator8051.Commands
         public byte Cycles
         {
             get { return cycles; }
+        }
+        private ushort bytes = 2;
+        public ushort Bytes
+        {
+            get { return bytes; }
         }
         private byte arg;
         public xE5(byte arg, I8051 i)
@@ -341,6 +431,11 @@ namespace symulator8051.Commands
         {
             get { return cycles; }
         }
+        private ushort bytes = 3;
+        public ushort Bytes
+        {
+            get { return bytes; }
+        }
         private ushort arg;
         public x90(ushort arg, I8051 i)
         {
@@ -359,6 +454,11 @@ namespace symulator8051.Commands
         public byte Cycles
         {
             get { return cycles; }
+        }
+        private ushort bytes = 2;
+        public ushort Bytes
+        {
+            get { return bytes; }
         }
         private byte arg;
         public x78(byte arg, I8051 i)
@@ -379,6 +479,11 @@ namespace symulator8051.Commands
         {
             get { return cycles; }
         }
+        private ushort bytes = 2;
+        public ushort Bytes
+        {
+            get { return bytes; }
+        }
         private byte arg;
         public x79(byte arg, I8051 i)
         {
@@ -397,6 +502,11 @@ namespace symulator8051.Commands
         public byte Cycles
         {
             get { return cycles; }
+        }
+        private ushort bytes = 2;
+        public ushort Bytes
+        {
+            get { return bytes; }
         }
         private byte arg;
         public x7A(byte arg, I8051 i)
@@ -417,6 +527,11 @@ namespace symulator8051.Commands
         {
             get { return cycles; }
         }
+        private ushort bytes = 2;
+        public ushort Bytes
+        {
+            get { return bytes; }
+        }
         private byte arg;
         public x7B(byte arg, I8051 i)
         {
@@ -435,6 +550,11 @@ namespace symulator8051.Commands
         public byte Cycles
         {
             get { return cycles; }
+        }
+        private ushort bytes = 2;
+        public ushort Bytes
+        {
+            get { return bytes; }
         }
         private byte arg;
         public x7C(byte arg, I8051 i)
@@ -455,6 +575,11 @@ namespace symulator8051.Commands
         {
             get { return cycles; }
         }
+        private ushort bytes = 2;
+        public ushort Bytes
+        {
+            get { return bytes; }
+        }
         private byte arg;
         public x7D(byte arg, I8051 i)
         {
@@ -473,6 +598,11 @@ namespace symulator8051.Commands
         public byte Cycles
         {
             get { return cycles; }
+        }
+        private ushort bytes = 2;
+        public ushort Bytes
+        {
+            get { return bytes; }
         }
         private byte arg;
         public x7E(byte arg, I8051 i)
@@ -493,6 +623,11 @@ namespace symulator8051.Commands
         {
             get { return cycles; }
         }
+        private ushort bytes = 2;
+        public ushort Bytes
+        {
+            get { return bytes; }
+        }
         private byte arg;
         public x7F(byte arg, I8051 i)
         {
@@ -511,6 +646,11 @@ namespace symulator8051.Commands
         public byte Cycles
         {
             get { return cycles; }
+        }
+        private ushort bytes = 1;
+        public ushort Bytes
+        {
+            get { return bytes; }
         }
         private byte arg;
         public xF8(byte arg, I8051 i)
@@ -531,6 +671,11 @@ namespace symulator8051.Commands
         {
             get { return cycles; }
         }
+        private ushort bytes = 1;
+        public ushort Bytes
+        {
+            get { return bytes; }
+        }
         private byte arg;
         public xF9(byte arg, I8051 i)
         {
@@ -549,6 +694,11 @@ namespace symulator8051.Commands
         public byte Cycles
         {
             get { return cycles; }
+        }
+        private ushort bytes = 1;
+        public ushort Bytes
+        {
+            get { return bytes; }
         }
         private byte arg;
         public xFA(byte arg, I8051 i)
@@ -569,6 +719,11 @@ namespace symulator8051.Commands
         {
             get { return cycles; }
         }
+        private ushort bytes = 1;
+        public ushort Bytes
+        {
+            get { return bytes; }
+        }
         private byte arg;
         public xFB(byte arg, I8051 i)
         {
@@ -587,6 +742,11 @@ namespace symulator8051.Commands
         public byte Cycles
         {
             get { return cycles; }
+        }
+        private ushort bytes = 1;
+        public ushort Bytes
+        {
+            get { return bytes; }
         }
         private byte arg;
         public xFC(byte arg, I8051 i)
@@ -607,6 +767,11 @@ namespace symulator8051.Commands
         {
             get { return cycles; }
         }
+        private ushort bytes = 1;
+        public ushort Bytes
+        {
+            get { return bytes; }
+        }
         private byte arg;
         public xFD(byte arg, I8051 i)
         {
@@ -625,6 +790,11 @@ namespace symulator8051.Commands
         public byte Cycles
         {
             get { return cycles; }
+        }
+        private ushort bytes = 1;
+        public ushort Bytes
+        {
+            get { return bytes; }
         }
         private byte arg;
         public xFE(byte arg, I8051 i)
@@ -645,6 +815,11 @@ namespace symulator8051.Commands
         {
             get { return cycles; }
         }
+        private ushort bytes = 1;
+        public ushort Bytes
+        {
+            get { return bytes; }
+        }
         private byte arg;
         public xFF(byte arg, I8051 i)
         {
@@ -663,6 +838,11 @@ namespace symulator8051.Commands
         public byte Cycles
         {
             get { return cycles; }
+        }
+        private ushort bytes = 2;
+        public ushort Bytes
+        {
+            get { return bytes; }
         }
         private byte arg;
         public xA8(byte arg, I8051 i)
@@ -683,6 +863,11 @@ namespace symulator8051.Commands
         {
             get { return cycles; }
         }
+        private ushort bytes = 2;
+        public ushort Bytes
+        {
+            get { return bytes; }
+        }
         private byte arg;
         public xA9(byte arg, I8051 i)
         {
@@ -701,6 +886,11 @@ namespace symulator8051.Commands
         public byte Cycles
         {
             get { return cycles; }
+        }
+        private ushort bytes = 2;
+        public ushort Bytes
+        {
+            get { return bytes; }
         }
         private byte arg;
         public xAA(byte arg, I8051 i)
@@ -721,6 +911,11 @@ namespace symulator8051.Commands
         {
             get { return cycles; }
         }
+        private ushort bytes = 2;
+        public ushort Bytes
+        {
+            get { return bytes; }
+        }
         private byte arg;
         public xAB(byte arg, I8051 i)
         {
@@ -739,6 +934,11 @@ namespace symulator8051.Commands
         public byte Cycles
         {
             get { return cycles; }
+        }
+        private ushort bytes = 2;
+        public ushort Bytes
+        {
+            get { return bytes; }
         }
         private byte arg;
         public xAC(byte arg, I8051 i)
@@ -759,6 +959,11 @@ namespace symulator8051.Commands
         {
             get { return cycles; }
         }
+        private ushort bytes = 2;
+        public ushort Bytes
+        {
+            get { return bytes; }
+        }
         private byte arg;
         public xAD(byte arg, I8051 i)
         {
@@ -777,6 +982,11 @@ namespace symulator8051.Commands
         public byte Cycles
         {
             get { return cycles; }
+        }
+        private ushort bytes = 2;
+        public ushort Bytes
+        {
+            get { return bytes; }
         }
         private byte arg;
         public xAE(byte arg, I8051 i)
@@ -797,6 +1007,11 @@ namespace symulator8051.Commands
         {
             get { return cycles; }
         }
+        private ushort bytes = 2;
+        public ushort Bytes
+        {
+            get { return bytes; }
+        }
         private byte arg;
         public xAF(byte arg, I8051 i)
         {
@@ -815,6 +1030,11 @@ namespace symulator8051.Commands
         public byte Cycles
         {
             get { return cycles; }
+        }
+        private ushort bytes = 3;
+        public ushort Bytes
+        {
+            get { return bytes; }
         }
         private byte arg;
         private byte arg2;
@@ -837,6 +1057,11 @@ namespace symulator8051.Commands
         {
             get { return cycles; }
         }
+        private ushort bytes = 2;
+        public ushort Bytes
+        {
+            get { return bytes; }
+        }
         private byte arg;
         public x86(byte arg, I8051 i)
         {
@@ -855,6 +1080,11 @@ namespace symulator8051.Commands
         public byte Cycles
         {
             get { return cycles; }
+        }
+        private ushort bytes = 2;
+        public ushort Bytes
+        {
+            get { return bytes; }
         }
         private byte arg;
         public x87(byte arg, I8051 i)
@@ -875,6 +1105,11 @@ namespace symulator8051.Commands
         {
             get { return cycles; }
         }
+        private ushort bytes = 2;
+        public ushort Bytes
+        {
+            get { return bytes; }
+        }
         private byte arg;
         public x88(byte arg, I8051 i)
         {
@@ -893,6 +1128,11 @@ namespace symulator8051.Commands
         public byte Cycles
         {
             get { return cycles; }
+        }
+        private ushort bytes = 2;
+        public ushort Bytes
+        {
+            get { return bytes; }
         }
         private byte arg;
         public x89(byte arg, I8051 i)
@@ -913,6 +1153,11 @@ namespace symulator8051.Commands
         {
             get { return cycles; }
         }
+        private ushort bytes = 2;
+        public ushort Bytes
+        {
+            get { return bytes; }
+        }
         private byte arg;
         public x8A(byte arg, I8051 i)
         {
@@ -931,6 +1176,11 @@ namespace symulator8051.Commands
         public byte Cycles
         {
             get { return cycles; }
+        }
+        private ushort bytes = 2;
+        public ushort Bytes
+        {
+            get { return bytes; }
         }
         private byte arg;
         public x8B(byte arg, I8051 i)
@@ -951,6 +1201,11 @@ namespace symulator8051.Commands
         {
             get { return cycles; }
         }
+        private ushort bytes = 2;
+        public ushort Bytes
+        {
+            get { return bytes; }
+        }
         private byte arg;
         public x8C(byte arg, I8051 i)
         {
@@ -969,6 +1224,11 @@ namespace symulator8051.Commands
         public byte Cycles
         {
             get { return cycles; }
+        }
+        private ushort bytes = 2;
+        public ushort Bytes
+        {
+            get { return bytes; }
         }
         private byte arg;
         public x8D(byte arg, I8051 i)
@@ -989,6 +1249,11 @@ namespace symulator8051.Commands
         {
             get { return cycles; }
         }
+        private ushort bytes = 2;
+        public ushort Bytes
+        {
+            get { return bytes; }
+        }
         private byte arg;
         public x8E(byte arg, I8051 i)
         {
@@ -1007,6 +1272,11 @@ namespace symulator8051.Commands
         public byte Cycles
         {
             get { return cycles; }
+        }
+        private ushort bytes = 2;
+        public ushort Bytes
+        {
+            get { return bytes; }
         }
         private byte arg;
         public x8F(byte arg, I8051 i)
@@ -1028,6 +1298,11 @@ namespace symulator8051.Commands
         {
             get { return cycles; }
         }
+        private ushort bytes = 2;
+        public ushort Bytes
+        {
+            get { return bytes; }
+        }
         private byte arg;
         public xF5(byte arg, I8051 i)
         {
@@ -1046,6 +1321,11 @@ namespace symulator8051.Commands
         public byte Cycles
         {
             get { return cycles; }
+        }
+        private ushort bytes = 3;
+        public ushort Bytes
+        {
+            get { return bytes; }
         }
         private byte arg;
         private byte arg2;

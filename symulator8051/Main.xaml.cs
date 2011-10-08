@@ -11,6 +11,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using Microsoft.Win32;
 
 namespace symulator8051
 {
@@ -19,23 +20,29 @@ namespace symulator8051
     /// </summary>
     public partial class Main : Window
     {
+        I8051 i8051;
         public Main()
         {
             
             InitializeComponent();
-            I8051 i8051 = new I8051();
+            i8051 = new I8051();
             MainGrid.DataContext = i8051;
-
+            
+        }
+        private void OpenFile(object sender, RoutedEventHandler e)
+        {
+            
         }
 
-        private void UserControl_Loaded(object sender, RoutedEventArgs e)
+        private void MenuItem_Click(object sender, RoutedEventArgs e)
         {
-
-        }
-
-        private void Window_Loaded(object sender, RoutedEventArgs e)
-        {
-
+            OpenFileDialog o = new OpenFileDialog();
+            if (o.ShowDialog() == true)
+            {
+                SourceCode s = new SourceCode();
+                s.FilePath=o.FileName;
+                s.Load(i8051.EXT_PMEM);
+            }
         }
     }
 }

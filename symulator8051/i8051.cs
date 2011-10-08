@@ -1,9 +1,15 @@
 ﻿using System;
 
 using System.ComponentModel;
+using symulator8051.Commands;
 
 namespace symulator8051
 {
+    class MemoryRecord
+    {
+        public byte Data;
+        public ICommand Instruction;
+    }
     class I8051 : INotifyPropertyChanged
     {
 
@@ -11,7 +17,7 @@ namespace symulator8051
         #region memory/registers
         public byte[] SFR = new byte[0x100]; // rejestry funkcji specjalnych 
         public byte[] EXT_RAM = new byte[0x10000]; //zewnetrzna pamiec 64kB
-        public byte[] EXT_PMEM = new byte[0x10000]; //zewnetrzna pamiec na program 64kb 
+        public MemoryRecord[] EXT_PMEM = new MemoryRecord[0x10000]; //zewnetrzna pamiec na program 64kb 
 
         public byte ACC //akumulator
         {
@@ -63,8 +69,8 @@ namespace symulator8051
         public byte B //rejestr B
         {
             get { return SFR[0xf0]; }
-            set 
-            { 
+            set
+            {
                 SFR[0xf0] = value;
                 OnPropertyChanged("B");
             }
@@ -82,7 +88,7 @@ namespace symulator8051
         {
             get { return SFR[0xd0]; }
             set
-            { 
+            {
                 SFR[0xd0] = value;
                 OnPropertyChanged("PSW");
             }
@@ -90,8 +96,8 @@ namespace symulator8051
         public byte P0 //pierwszy port
         {
             get { return SFR[0x80]; }
-            set 
-            { 
+            set
+            {
                 SFR[0x80] = value;
                 OnPropertyChanged("P0");
             }
@@ -100,8 +106,8 @@ namespace symulator8051
         public byte P1 //drugi port
         {
             get { return SFR[0x90]; }
-            set 
-            { 
+            set
+            {
                 SFR[0x90] = value;
                 OnPropertyChanged("P1");
             }
@@ -109,7 +115,7 @@ namespace symulator8051
         public byte P2 //trzeci port
         {
             get { return SFR[0xa0]; }
-            set 
+            set
             {
                 SFR[0xa0] = value;
                 OnPropertyChanged("P2");
@@ -118,8 +124,8 @@ namespace symulator8051
         public byte P3 //czwarty port
         {
             get { return SFR[0xb0]; }
-            set 
-            { 
+            set
+            {
                 SFR[0xb0] = value;
                 OnPropertyChanged("P3");
             }
@@ -190,8 +196,8 @@ namespace symulator8051
         public byte R0 //register R0
         {
             get { return SFR[0x00]; }
-            set 
-            { 
+            set
+            {
                 SFR[0x00] = value;
                 OnPropertyChanged("RO");
             }
@@ -199,8 +205,8 @@ namespace symulator8051
         public byte R1 //register R1
         {
             get { return SFR[0x01]; }
-            set 
-            { 
+            set
+            {
                 SFR[0x01] = value;
                 OnPropertyChanged("R1");
             }
@@ -208,8 +214,8 @@ namespace symulator8051
         public byte R2 //register R2
         {
             get { return SFR[0x02]; }
-            set 
-            { 
+            set
+            {
                 SFR[0x02] = value;
                 OnPropertyChanged("R2");
             }
@@ -217,8 +223,8 @@ namespace symulator8051
         public byte R3 //register R3
         {
             get { return SFR[0x03]; }
-            set 
-            { 
+            set
+            {
                 SFR[0x03] = value;
                 OnPropertyChanged("R3");
             }
@@ -226,7 +232,7 @@ namespace symulator8051
         public byte R4 //register R4
         {
             get { return SFR[0x04]; }
-            set 
+            set
             {
                 SFR[0x04] = value;
                 OnPropertyChanged("R4");
@@ -235,8 +241,8 @@ namespace symulator8051
         public byte R5 //register R5
         {
             get { return SFR[0x05]; }
-            set 
-            { 
+            set
+            {
                 SFR[0x05] = value;
                 OnPropertyChanged("R5");
             }
@@ -244,8 +250,8 @@ namespace symulator8051
         public byte R6 //register R6
         {
             get { return SFR[0x06]; }
-            set 
-            { 
+            set
+            {
                 SFR[0x06] = value;
                 OnPropertyChanged("R6");
             }
@@ -253,8 +259,8 @@ namespace symulator8051
         public byte R7 //register R7
         {
             get { return SFR[0x07]; }
-            set 
-            { 
+            set
+            {
                 SFR[0x07] = value;
                 OnPropertyChanged("R7");
             }
@@ -263,8 +269,8 @@ namespace symulator8051
         public ushort PC
         {
             get { return pc; }
-            set 
-            { 
+            set
+            {
                 pc = value;
                 OnPropertyChanged("PC");
             }
@@ -292,154 +298,1050 @@ namespace symulator8051
         }
         public void process()
         {
-            string code = null;
             SourceCode s = new SourceCode();
             CommandEngine c = new CommandEngine(this);
-
-            foreach (Line l in s.processedLines)
+            ushort memPosition = 0;
+            s.Load(this.EXT_PMEM);
+            while (memPosition < this.EXT_PMEM.Length)
             {
 
-                code = l.code.Trim().ToLower();
-
-                switch (code)
+                switch (this.EXT_PMEM[memPosition].Data)
                 {
                     #region dupny switch
-                    case "acall":
+                    //NOP
+                    case 0x00:
+                        c.SetCommand(new x00(), memPosition);
+                        break;
+                    //AJMP page0
+                    case 0x01:
 
                         break;
-                    case "add":
+                    //LJMP code addr
+                    case 0x02:
 
                         break;
-                    case "addc":
+                    //RR A
+                    case 0x03:
 
                         break;
-                    case "ajmp":
+                    //INC A
+                    case 0x04:
+                        c.SetCommand(new x04(this), memPosition);
+                        break;
+                    //INC iram
+                    case 0x05:
+                        c.SetCommand(new x05(this.EXT_PMEM[memPosition].Data,this), memPosition);
+                        break;
+                    //INC @R0
+                    case 0x06:
 
                         break;
-                    case "anl":
+                    //INC @R1
+                    case 0x07:
 
                         break;
-                    case "cjne":
+                    //INC R0
+                    case 0x08:
 
                         break;
-                    case "clr":
+                    //INC R1
+                    case 0x09:
 
                         break;
-                    case "cpl":
+                    //INC R2
+                    case 0x0a:
 
                         break;
-                    case "da":
+                    //INC R3
+                    case 0x0b:
 
                         break;
-                    case "dec":
+                    //INC R4
+                    case 0x0c:
 
                         break;
-                    case "div":
+                    //INC R5
+                    case 0x0d:
 
                         break;
-                    case "djnz":
+                    //INC R6
+                    case 0x0e:
 
                         break;
-                    case "inc":
+                    //INC R7
+                    case 0x0f:
 
                         break;
-                    case "jb":
+                    //JBC bitaddr, reladdr
+                    case 0x10:
 
                         break;
-                    case "jbc":
+                    //ACALL page0
+                    case 0x11:
 
                         break;
-                    case "jc":
+                    //LCALL code addr
+                    case 0x12:
 
                         break;
-                    case "jmp":
+                    //RRC A
+                    case 0x13:
 
                         break;
-                    case "jnb":
+                    //DEC A
+                    case 0x14:
 
                         break;
-                    case "jnc":
+                    //DEC iram
+                    case 0x15:
 
                         break;
-                    case "jnz":
+                    //DEC @R0
+                    case 0x16:
 
                         break;
-                    case "jz":
+                    //DEC @R1
+                    case 0x17:
 
                         break;
-                    case "lcall":
+                    //DEC R0
+                    case 0x18:
 
                         break;
-                    case "ljmp":
+                    //DEC R1
+                    case 0x19:
 
                         break;
-                    case "mov":
-                        //c.AddCommand(new Mov());
-                        break;
-                    case "movc":
+                    //DEC R2
+                    case 0x1a:
 
                         break;
-                    case "movx":
+                    //DEC R3
+                    case 0x1b:
 
                         break;
-                    case "mul":
+                    //DEC R4
+                    case 0x1c:
 
                         break;
-                    case "nop":
-                        c.AddCommand(new Nop());
-                        break;
-                    case "orl":
+                    //DEC R5
+                    case 0x1d:
 
                         break;
-                    case "pop":
+                    //DEC R6
+                    case 0x1e:
 
                         break;
-                    case "push":
+                    //DEC R7
+                    case 0x1f:
 
                         break;
-                    case "ret":
+                    //JB bitaddr, reladdr
+                    case 0x20:
 
                         break;
-                    case "reti":
+                    // AJMP page1
+                    case 0x21:
 
                         break;
-                    case "rl":
+                    // RET -
+                    case 0x22:
 
                         break;
-                    case "rlc":
+                    //RL A
+                    case 0x23:
 
                         break;
-                    case "rr":
+                    //ADD A, #data
+                    case 0x24:
 
                         break;
-                    case "rrc":
+                    //ADD A, iram
+                    case 0x25:
 
                         break;
-                    case "setb":
+                    //ADD A, @R0
+                    case 0x26:
 
                         break;
-                    case "sjmp":
+                    //ADD A, @R1
+                    case 0x27:
 
                         break;
-                    case "subb":
+                    //ADD A, R0
+                    case 0x28:
 
                         break;
-                    case "swap":
+                    //ADD A, R1
+                    case 0x29:
 
                         break;
-                    case "xch":
+                    //ADD A, R2
+                    case 0x2a:
 
                         break;
-                    case "xchd":
+                    //ADD A, R3
+                    case 0x2b:
 
                         break;
-                    case "xlr":
+                    //ADD A, R4
+                    case 0x2c:
+
+                        break;
+                    //ADD A, R5
+                    case 0x2d:
+
+                        break;
+                    //ADD A, R6
+                    case 0x2e:
+
+                        break;
+                    //ADD A, R7
+                    case 0x2f:
+
+                        break;
+                    //JNB bitaddr, reladdr
+                    case 0x30:
+
+                        break;
+                    //ACALL page1
+                    case 0x31:
+
+                        break;
+                    //RETI
+                    case 0x32:
+
+                        break;
+                    //RLC A
+                    case 0x33:
+
+                        break;
+                    //ADDC A, #data
+                    case 0x34:
+
+                        break;
+                    //ADDC A, iram
+                    case 0x35:
+
+                        break;
+                    //ADDC A, @R0
+                    case 0x36:
+
+                        break;
+                    //ADDC A, @R1
+                    case 0x37:
+
+                        break;
+                    //ADDC A, R0
+                    case 0x38:
+
+                        break;
+                    //ADDC A, R1
+                    case 0x39:
+
+                        break;
+                    //ADDC A, R2
+                    case 0x3a:
+
+                        break;
+                    //ADDC A, R3
+                    case 0x3b:
+
+                        break;
+                    //ADDC A, R4
+                    case 0x3c:
+
+                        break;
+                    //ADDC A, R5
+                    case 0x3d:
+
+                        break;
+                    //ADDC A, R6
+                    case 0x3e:
+
+                        break;
+                    //ADDC A, R7
+                    case 0x3f:
+
+                        break;
+                    //JC reladdr
+                    case 0x40:
+
+                        break;
+                    //AJMP page2
+                    case 0x41:
+
+                        break;
+                    //ORL iram, A
+                    case 0x42:
+
+                        break;
+                    //ORL iram, #data
+                    case 0x43:
+
+                        break;
+                    //ORL A, #data
+                    case 0x44:
+
+                        break;
+                    //ORL A, iram
+                    case 0x45:
+
+                        break;
+                    //ORL A, @R0
+                    case 0x46:
+
+                        break;
+                    //ORL A, @R1
+                    case 0x47:
+
+                        break;
+                    //ORL A, R0
+                    case 0x48:
+
+                        break;
+                    //ORL A, R1
+                    case 0x49:
+
+                        break;
+                    //ORL A, R2
+                    case 0x4a:
+
+                        break;
+                    //ORL A, R3
+                    case 0x4b:
+
+                        break;
+                    //ORL A, R4
+                    case 0x4c:
+
+                        break;
+                    //ORL A, R5
+                    case 0x4d:
+
+                        break;
+                    //ORL A, R6
+                    case 0x4e:
+
+                        break;
+                    //ORL A, R7
+                    case 0x4f:
+
+                        break;
+                    //JNC reladdr
+                    case 0x50:
+
+                        break;
+                    //ACALL page2
+                    case 0x51:
+
+                        break;
+                    //ANL iram, A
+                    case 0x52:
+
+                        break;
+                    //ANL iram, #data
+                    case 0x53:
+
+                        break;
+                    //ANL A, #data
+                    case 0x54:
+
+                        break;
+                    //ANL A, iram
+                    case 0x55:
+
+                        break;
+                    //ANL a, @R0
+                    case 0x56:
+
+                        break;
+                    //ANL a, @R1
+                    case 0x57:
+
+                        break;
+                    //ANL a, R0
+                    case 0x58:
+
+                        break;
+                    //ANL a, R1
+                    case 0x59:
+
+                        break;
+                    //ANL a, R2
+                    case 0x5a:
+
+                        break;
+                    //ANL a, R3
+                    case 0x5b:
+
+                        break;
+                    //ANL a, R4
+                    case 0x5c:
+
+                        break;
+                    //ANL a, R5
+                    case 0x5d:
+
+                        break;
+                    //ANL a, R6 
+                    case 0x5e:
+
+                        break;
+                    //ANL a, R7
+                    case 0x5f:
+
+                        break;
+                    //JZ reladdr
+                    case 0x60:
+
+                        break;
+                    //AJMP page3
+                    case 0x61:
+
+                        break;
+                    //XRL iram, A
+                    case 0x62:
+
+                        break;
+                    //XRL iram, #data
+                    case 0x63:
+
+                        break;
+                    //XRL A, #data 
+                    case 0x64:
+
+                        break;
+                    //XRL A, iram
+                    case 0x65:
+
+                        break;
+                    //XRL A, @R0
+                    case 0x66:
+
+                        break;
+                    //XRL A, @R1
+                    case 0x67:
+
+                        break;
+                    //XRL A, R0
+                    case 0x68:
+
+                        break;
+                    //XRL A, R1
+                    case 0x69:
+
+                        break;
+                    //XRL A, R2
+                    case 0x6a:
+
+                        break;
+                    //XRL A, R3
+                    case 0x6b:
+
+                        break;
+                    //XRL A, R4
+                    case 0x6c:
+
+                        break;
+                    //XRL A, R5
+                    case 0x6d:
+
+                        break;
+                    //XRL A, R6
+                    case 0x6e:
+
+                        break;
+                    //XRL A, R7
+                    case 0x6f:
+
+                        break;
+                    //JNZ reladdr
+                    case 0x70:
+
+                        break;
+                    //ACALL page3
+                    case 0x71:
+
+                        break;
+                    //ORL C, bitaddr
+                    case 0x72:
+
+                        break;
+                    //JMP @a+dptr
+                    case 0x73:
+
+                        break;
+                    //MOV A, #data
+                    case 0x74:
+
+                        break;
+                    //MOV iram, #data
+                    case 0x75:
+
+                        break;
+                    //MOV @R0, #data
+                    case 0x76:
+
+                        break;
+                    //MOV @R1, #data
+                    case 0x77:
+
+                        break;
+                    //MOV R0, #data
+                    case 0x78:
+
+                        break;
+                    //MOV R1, #data
+                    case 0x79:
+
+                        break;
+                    //MOV R2, #data
+                    case 0x7a:
+
+                        break;
+                    //MOV R3, #data
+                    case 0x7b:
+
+                        break;
+                    //MOV R4, #data
+                    case 0x7c:
+
+                        break;
+                    //MOV R5, #data
+                    case 0x7d:
+
+                        break;
+                    //MOV R6, #data
+                    case 0x7e:
+
+                        break;
+                    //MOV R7, #data
+                    case 0x7f:
+
+                        break;
+                    //SJMP reladdr
+                    case 0x80:
+
+                        break;
+                    //AJMP page4
+                    case 0x81:
+
+                        break;
+                    //ANL C, bitaddr
+                    case 0x82:
+
+                        break;
+                    //MOVC A, @A+DPTR
+                    case 0x83:
+
+                        break;
+                    //DIV A, B
+                    case 0x84:
+
+                        break;
+                    //MOV iram, iram
+                    case 0x85:
+
+                        break;
+                    //MOV iram, @R0
+                    case 0x86:
+
+                        break;
+                    //MOV iram, @R1
+                    case 0x87:
+
+                        break;
+                    //MOV iram, R0
+                    case 0x88:
+
+                        break;
+                    //MOV iram, R1
+                    case 0x89:
+
+                        break;
+                    //MOV iram, R2
+                    case 0x8a:
+
+                        break;
+                    //MOV iram, R3
+                    case 0x8b:
+
+                        break;
+                    //MOV iram, R4
+                    case 0x8c:
+
+                        break;
+                    //MOV iram, R5
+                    case 0x8d:
+
+                        break;
+                    //MOV iram, R6
+                    case 0x8e:
+
+                        break;
+                    //MOV iram, R7
+                    case 0x8f:
+
+                        break;
+                    //MOV DPTR, #data16
+                    case 0x90:
+
+                        break;
+                    //ACALL page4
+                    case 0x91:
+
+                        break;
+                    //MOV bitaddr, C
+                    case 0x92:
+
+                        break;
+                    //MOVC A, @A+PC
+                    case 0x93:
+
+                        break;
+                    //SUBB A, #data
+                    case 0x94:
+
+                        break;
+                    //SUBB A, iram
+                    case 0x95:
+
+                        break;
+                    //SUBB A, @R0
+                    case 0x96:
+
+                        break;
+                    //SUBB A, @R1
+                    case 0x97:
+
+                        break;
+                    //SUBB A, R0
+                    case 0x98:
+
+                        break;
+                    //SUBB A, R1
+                    case 0x99:
+
+                        break;
+                    //SUBB A, R2
+                    case 0x9a:
+
+                        break;
+                    //SUBB A, R3
+                    case 0x9b:
+
+                        break;
+                    //SUBB A, R4
+                    case 0x9c:
+
+                        break;
+                    //SUBB A, R5
+                    case 0x9d:
+
+                        break;
+                    //SUBB A, R6
+                    case 0x9e:
+
+                        break;
+                    //SUBB A, R7
+                    case 0x9f:
+
+                        break;
+                    //ORL C, bitaddr
+                    case 0xa0:
+
+                        break;
+                    //AJMP page5
+                    case 0xa1:
+
+                        break;
+                    //MOV C, bitaddr
+                    case 0xa2:
+
+                        break;
+                    //INC DPTR
+                    case 0xa3:
+
+                        break;
+                    //MUL A, B
+                    case 0xa4:
+
+                        break;
+                    //?
+                    case 0xa5:
+
+                        break;
+                    //MOV @R0, iram
+                    case 0xa6:
+
+                        break;
+                    //MOV @R1, iram
+                    case 0xa7:
+
+                        break;
+                    //MOV R0, iram
+                    case 0xa8:
+
+                        break;
+                    //MOV R1, iram
+                    case 0xa9:
+
+                        break;
+                    //MOV R2, iram
+                    case 0xaa:
+
+                        break;
+                    //MOV R3, iram
+                    case 0xab:
+
+                        break;
+                    //MOV R4, iram
+                    case 0xac:
+
+                        break;
+                    //MOV R5, iram
+                    case 0xad:
+
+                        break;
+                    //MOV R6, iram
+                    case 0xae:
+
+                        break;
+                    //MOV R7, iram
+                    case 0xaf:
+
+                        break;
+                    //ANL C, bitaddr
+                    case 0xb0:
+
+                        break;
+                    //ACALL page5
+                    case 0xb1:
+
+                        break;
+                    //CPL bitaddr
+                    case 0xb2:
+
+                        break;
+                    //CPL C
+                    case 0xb3:
+
+                        break;
+                    //CJNE A, #data, reladdr
+                    case 0xb4:
+
+                        break;
+                    //CJNE A, iram
+                    case 0xb5:
+
+                        break;
+                    //CJNE @R0, #data
+                    case 0xb6:
+
+                        break;
+                    //CJNE @R1, #data
+                    case 0xb7:
+
+                        break;
+                    //CJNE R0, #data
+                    case 0xb8:
+
+                        break;
+                    //CJNE R1, #data
+                    case 0xb9:
+
+                        break;
+                    //CJNE R2, #data
+                    case 0xba:
+
+                        break;
+                    //CJNE R3, #data
+                    case 0xbb:
+
+                        break;
+                    //CJNE R4, #data
+                    case 0xbc:
+
+                        break;
+                    //CJNE R5, #data
+                    case 0xbd:
+
+                        break;
+                    //CJNE R6, #data 
+                    case 0xbe:
+
+                        break;
+                    //CJNE R7, #data
+                    case 0xbf:
+
+                        break;
+                    //PUSH iram
+                    case 0xc0:
+
+                        break;
+                    //AJMP page6
+                    case 0xc1:
+
+                        break;
+                    //CLR bitaddr
+                    case 0xc2:
+
+                        break;
+                    //CLR C
+                    case 0xc3:
+
+                        break;
+                    //SWAP A
+                    case 0xc4:
+
+                        break;
+                    //XCH A, iram
+                    case 0xc5:
+
+                        break;
+                    //XCH A, @R0
+                    case 0xc6:
+
+                        break;
+                    //XCH A, @R1
+                    case 0xc7:
+
+                        break;
+                    //XCH A, R0
+                    case 0xc8:
+
+                        break;
+                    //XCH A, R1
+                    case 0xc9:
+
+                        break;
+                    //XCH A, R2
+                    case 0xca:
+
+                        break;
+                    //XCH A, R3
+                    case 0xcb:
+
+                        break;
+                    //XCH A, R4
+                    case 0xcc:
+
+                        break;
+                    //XCH A, R5
+                    case 0xcd:
+
+                        break;
+                    //XCH A, R6
+                    case 0xce:
+
+                        break;
+                    //XCH A, R7
+                    case 0xcf:
+
+                        break;
+                    //POP iram
+                    case 0xd0:
+
+                        break;
+                    //ACALL page6
+                    case 0xd1:
+
+                        break;
+                    //SETB bitaddr
+                    case 0xd2:
+
+                        break;
+                    //SETB C
+                    case 0xd3:
+
+                        break;
+                    //DA A
+                    case 0xd4:
+
+                        break;
+                    //DJNZ iram, reladdr
+                    case 0xd5:
+
+                        break;
+                    //XCHD A, @R0
+                    case 0xd6:
+
+                        break;
+                    //XCHD A, @R1
+                    case 0xd7:
+
+                        break;
+                    //DJNZ R0, reladdr
+                    case 0xd8:
+
+                        break;
+                    //DJNZ R1, reladdr
+                    case 0xd9:
+
+                        break;
+                    //DJNZ R2, reladdr
+                    case 0xda:
+
+                        break;
+                    //DJNZ R3, reladdr
+                    case 0xdb:
+
+                        break;
+                    //DJNZ R4, reladdr
+                    case 0xdc:
+
+                        break;
+                    //DJNZ R5, reladdr
+                    case 0xdd:
+
+                        break;
+                    //DJNZ R6, reladdr
+                    case 0xde:
+
+                        break;
+                    //DJNZ R7, reladdr
+                    case 0xdf:
+
+                        break;
+                    //MOVX A, @dptr
+                    case 0xe0:
+
+                        break;
+                    //AJMP page7
+                    case 0xe1:
+
+                        break;
+                    //MOVX A, @R0
+                    case 0xe2:
+
+                        break;
+                    //MOVX A, @R1
+                    case 0xe3:
+
+                        break;
+                    //CLR A
+                    case 0xe4:
+
+                        break;
+                    //MOV A, iram
+                    case 0xe5:
+
+                        break;
+                    //MOV A, @R0
+                    case 0xe6:
+
+                        break;
+                    //MOV A, @R1
+                    case 0xe7:
+
+                        break;
+                    //MOV A, R0
+                    case 0xe8:
+
+                        break;
+                    //MOV A, R1
+                    case 0xe9:
+
+                        break;
+                    //MOV A, R2
+                    case 0xea:
+
+                        break;
+                    //MOV A, R3
+                    case 0xeb:
+
+                        break;
+                    //MOV A, R4
+                    case 0xec:
+
+                        break;
+                    //MOV A, R5
+                    case 0xed:
+
+                        break;
+                    //MOV A, R6
+                    case 0xee:
+
+                        break;
+                    //MOV A, R7
+                    case 0xef:
+
+                        break;
+                    //MOVX @DPTR, A
+                    case 0xf0:
+
+                        break;
+                    //ACALL page7
+                    case 0xf1:
+
+                        break;
+                    //MOVX @R0, A
+                    case 0xf2:
+
+                        break;
+                    //MOVX @R1, A
+                    case 0xf3:
+
+                        break;
+                    //CPL A
+                    case 0xf4:
+
+                        break;
+                    //MOV iram, A
+                    case 0xf5:
+
+                        break;
+                    //MOV @R0, A
+                    case 0xf6:
+
+                        break;
+                    //MOV @R1, A
+                    case 0xf7:
+
+                        break;
+                    //MOV R0, A
+                    case 0xf8:
+
+                        break;
+                    //MOV R1, A
+                    case 0xf9:
+
+                        break;
+                    //MOV R2, A
+                    case 0xfa:
+
+                        break;
+                    //MOV R3, A
+                    case 0xfb:
+
+                        break;
+                    //MOV R4, A
+                    case 0xfc:
+
+                        break;
+                    //MOV R5, A
+                    case 0xfd:
+
+                        break;
+                    //MOV R6, A
+                    case 0xfe:
+
+                        break;
+                    //MOV R7, A
+                    case 0xff:
 
                         break;
                     #endregion
                 }
-
-            }
+                int j=memPosition+EXT_PMEM[memPosition].Instruction.Bytes;
+                for (int i = memPosition + 1; i <= j; i++)
+                {
+                    EXT_PMEM[i].Instruction = new Data();
+                    memPosition++;
+                }
+                //memPosition += Convert.ToUInt16(this.EXT_PMEM[memPosition].Instruction.Bytes - 1);
+            };
             c.Run();
         }
     }

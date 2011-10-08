@@ -15,5 +15,11 @@ namespace symulator8051
         public void execute()
         {
         }
+
+        private ushort bytes=1;
+        public ushort Bytes
+        {
+            get { return bytes; }
+        }
     }
 }

@@ -73,6 +73,7 @@
     </Compile>
     <Compile Include="Commands\bitOperationHelper.cs" />
     <Compile Include="Commands\Clr.cs" />
+    <Compile Include="Commands\Data.cs" />
     <Compile Include="Commands\ICommand.cs" />
     <Compile Include="CommandEngine.cs" />
     <Compile Include="Commands\Inc.cs" />

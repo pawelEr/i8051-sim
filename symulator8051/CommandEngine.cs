@@ -9,28 +9,24 @@ namespace symulator8051
 {
     class CommandEngine
     {
-        List<ICommand> commands;
         Thread commandsThread;
         I8051 i;
         bool pause = false;
         public CommandEngine(I8051 i8051)
         {
-            commands = new List<ICommand>();
-            i = i8051;
+            this.i = i8051;
         }
-        public void AddCommand(ICommand item)
+        public void SetCommand(ICommand item, ushort memAdress)
         {
-            commands.Add(item);
+            this.i.EXT_PMEM[memAdress].Instruction = item;
         }
         private void CycleCommands()
         {
-            ushort pcs = Convert.ToUInt16(commands.Count);
-            while (i.PC<pcs)
+            while (!pause)
             {
-                commands[i.PC].execute();
-                if (pause)
-                    commandsThread.Suspend();
+                this.i.EXT_PMEM[i.PC].Instruction.execute();
             }
+            commandsThread.Suspend();
         }
         public void Run()
         {
@@ -49,10 +45,6 @@ namespace symulator8051
         public void Stop()
         {
             commandsThread.Abort();
-        }
-        public void ClearCommandList()
-        {
-            commands.Clear();
         }
         public void OneStep()
         {
