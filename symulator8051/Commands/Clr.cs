@@ -6,7 +6,7 @@ using ByteExtensionMethods;
 
 namespace symulator8051.Commands
 {
-    class xC3
+    class xC3 : ICommand
     {
         I8051 i;
         private byte cycles = 1;
@@ -22,8 +22,14 @@ namespace symulator8051.Commands
         {
             i.PSW = i.PSW.clrBit(bits.bit8);
         }
+
+        private ushort bytes=1;
+        public ushort Bytes
+        {
+            get { return bytes; }
+        }
     }
-    class xE4
+    class xE4 : ICommand
     {
         I8051 i;
         private byte cycles = 1;
@@ -38,6 +44,12 @@ namespace symulator8051.Commands
         public void execute()
         {
             i.ACC = 0x00;
+        }
+
+        private ushort bytes = 1;
+        public ushort Bytes
+        {
+            get { return bytes; }
         }
     }
 }
