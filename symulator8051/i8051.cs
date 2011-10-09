@@ -774,51 +774,51 @@ namespace symulator8051
                         break;
                     //MOV A, #data
                     case 0x74:
-
+                        c.SetCommand(new x74(this.EXT_PMEM[memPosition + 1].Data, this), memPosition);
                         break;
                     //MOV iram, #data
                     case 0x75:
-
+                        c.SetCommand(new x75(this.EXT_PMEM[memPosition + 1].Data, this.EXT_PMEM[memPosition+2].Data, this), memPosition);
                         break;
                     //MOV @R0, #data
                     case 0x76:
-
+                        c.SetCommand(new x76(this.EXT_PMEM[memPosition + 1].Data, this), memPosition);
                         break;
                     //MOV @R1, #data
                     case 0x77:
-
+                        c.SetCommand(new x77(this.EXT_PMEM[memPosition + 1].Data, this), memPosition);
                         break;
                     //MOV R0, #data
                     case 0x78:
-
+                        c.SetCommand(new x78(this.EXT_PMEM[memPosition + 1].Data, this), memPosition);
                         break;
                     //MOV R1, #data
                     case 0x79:
-
+                        c.SetCommand(new x79(this.EXT_PMEM[memPosition + 1].Data, this), memPosition);
                         break;
                     //MOV R2, #data
                     case 0x7a:
-
+                        c.SetCommand(new x7A(this.EXT_PMEM[memPosition + 1].Data, this), memPosition);
                         break;
                     //MOV R3, #data
                     case 0x7b:
-
+                        c.SetCommand(new x7B(this.EXT_PMEM[memPosition + 1].Data, this), memPosition);
                         break;
                     //MOV R4, #data
                     case 0x7c:
-
+                        c.SetCommand(new x7C(this.EXT_PMEM[memPosition + 1].Data, this), memPosition);
                         break;
                     //MOV R5, #data
                     case 0x7d:
-
+                        c.SetCommand(new x7D(this.EXT_PMEM[memPosition + 1].Data, this), memPosition);
                         break;
                     //MOV R6, #data
                     case 0x7e:
-
+                        c.SetCommand(new x7E(this.EXT_PMEM[memPosition + 1].Data, this), memPosition);
                         break;
                     //MOV R7, #data
                     case 0x7f:
-
+                        c.SetCommand(new x7F(this.EXT_PMEM[memPosition + 1].Data, this), memPosition);
                         break;
                     //SJMP reladdr
                     case 0x80:
@@ -878,11 +878,11 @@ namespace symulator8051
                         break;
                     //MOV iram, R6
                     case 0x8e:
-
+                        c.SetCommand(new x8E(this.EXT_PMEM[memPosition + 1].Data, this), memPosition);
                         break;
                     //MOV iram, R7
                     case 0x8f:
-
+                        c.SetCommand(new x8F(this.EXT_PMEM[memPosition + 1].Data, this), memPosition);
                         break;
                     //MOV DPTR, #data16
                     case 0x90:
