@@ -27,7 +27,7 @@ namespace symulator8051.Commands
         }
         public void execute()
         {
-            i.SFR[arg] = (i.ACC & i.SFR[arg]);
+            i.SFR[arg] = (byte)(i.ACC & i.SFR[arg]); 
         }
     }
 
@@ -55,7 +55,7 @@ namespace symulator8051.Commands
         }
         public void execute()
         {
-            i.SFR[arg] = (arg2 & i.SFR[arg]);
+            i.SFR[arg] = (byte)(arg2 & i.SFR[arg]);
         }
     }
 
@@ -81,7 +81,7 @@ namespace symulator8051.Commands
         }
         public void execute()
         {
-            i.ACC = (i.ACC & arg);
+            i.ACC = (byte)(i.ACC & arg);
         }
     }
 
@@ -107,7 +107,7 @@ namespace symulator8051.Commands
         }
         public void execute()
         {
-            i.ACC = (i.ACC & i.SFR[arg]);
+            i.ACC = (byte)(i.ACC & i.SFR[arg]);
         }
     }
 
@@ -131,7 +131,7 @@ namespace symulator8051.Commands
         }
         public void execute()
         {
-            i.ACC = (i.ACC & i.EXT_RAM[i.R0]);
+            i.ACC = (byte)(i.ACC & i.EXT_RAM[i.R0]);
         }
     }
 
@@ -155,7 +155,7 @@ namespace symulator8051.Commands
         }
         public void execute()
         {
-            i.ACC = (i.ACC & i.EXT_RAM[i.R1]);
+            i.ACC = (byte)(i.ACC & i.EXT_RAM[i.R1]);
         }
     }
 
@@ -179,7 +179,7 @@ namespace symulator8051.Commands
         }
         public void execute()
         {
-            i.ACC = (i.ACC & i.R0);
+            i.ACC = (byte)(i.ACC & i.R0);
         }
     }
 
@@ -203,7 +203,7 @@ namespace symulator8051.Commands
         }
         public void execute()
         {
-            i.ACC = (i.ACC & i.R1);
+            i.ACC = (byte)(i.ACC & i.R1);
         }
     }
 
@@ -227,7 +227,7 @@ namespace symulator8051.Commands
         }
         public void execute()
         {
-            i.ACC = (i.ACC & i.R2);
+            i.ACC = (byte)(i.ACC & i.R2);
         }
     }
 
@@ -251,7 +251,7 @@ namespace symulator8051.Commands
         }
         public void execute()
         {
-            i.ACC = (i.ACC & i.R3);
+            i.ACC = (byte)(i.ACC & i.R3);
         }
     }
 
@@ -275,7 +275,7 @@ namespace symulator8051.Commands
         }
         public void execute()
         {
-            i.ACC = (i.ACC & i.R4);
+            i.ACC = (byte)(i.ACC & i.R4);
         }
     }
 
@@ -299,7 +299,7 @@ namespace symulator8051.Commands
         }
         public void execute()
         {
-            i.ACC = (i.ACC & i.R5);
+            i.ACC = (byte)(i.ACC & i.R5);
         }
     }
 
@@ -323,7 +323,7 @@ namespace symulator8051.Commands
         }
         public void execute()
         {
-            i.ACC = (i.ACC & i.R6);
+            i.ACC = (byte)(i.ACC & i.R6);
         }
     }
 
@@ -347,7 +347,7 @@ namespace symulator8051.Commands
         }
         public void execute()
         {
-            i.ACC = (i.ACC & i.R7);
+            i.ACC = (byte)(i.ACC & i.R7);
         }
     }
 }
