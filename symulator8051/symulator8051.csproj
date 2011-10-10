@@ -71,13 +71,18 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Commands\Anl.cs" />
     <Compile Include="Commands\bitOperationHelper.cs" />
     <Compile Include="Commands\Clr.cs" />
     <Compile Include="Commands\Data.cs" />
+    <Compile Include="Commands\Dec.cs" />
     <Compile Include="Commands\ICommand.cs" />
     <Compile Include="CommandEngine.cs" />
     <Compile Include="Commands\Inc.cs" />
     <Compile Include="Commands\Movc.cs" />
+    <Compile Include="Commands\Orl.cs" />
+    <Compile Include="Commands\XCH.cs" />
+    <Compile Include="Commands\Xrl.cs" />
     <Compile Include="Converter\HexStringByte.cs" />
     <Compile Include="i8051.cs" />
     <Compile Include="Main.xaml.cs">
