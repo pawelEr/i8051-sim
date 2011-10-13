@@ -89,6 +89,7 @@
     <Compile Include="Commands\Mul.cs" />
     <Compile Include="Commands\Orl.cs" />
     <Compile Include="Commands\Subb.cs" />
+    <Compile Include="Commands\Swap.cs" />
     <Compile Include="Commands\XCH.cs" />
     <Compile Include="Commands\Xrl.cs" />
     <Compile Include="Converter\HexStringByte.cs" />

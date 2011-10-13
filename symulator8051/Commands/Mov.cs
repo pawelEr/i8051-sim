@@ -837,8 +837,9 @@ namespace symulator8051.Commands
             get { return bytes; }
         }
         private byte arg;
-        public xA8(I8051 i)
+        public xA8(byte arg, I8051 i)
         {
+            this.arg = arg;
             this.i = i;
         }
         public void execute()
@@ -860,8 +861,9 @@ namespace symulator8051.Commands
             get { return bytes; }
         }
         private byte arg;
-        public xA9(I8051 i)
+        public xA9(byte arg, I8051 i)
         {
+            this.arg = arg;
             this.i = i;
         }
         public void execute()
@@ -883,8 +885,9 @@ namespace symulator8051.Commands
             get { return bytes; }
         }
         private byte arg;
-        public xAA(I8051 i)
+        public xAA(byte arg, I8051 i)
         {
+            this.arg = arg;
             this.i = i;
         }
         public void execute()
@@ -906,8 +909,9 @@ namespace symulator8051.Commands
             get { return bytes; }
         }
         private byte arg;
-        public xAB(I8051 i)
+        public xAB(byte arg, I8051 i)
         {
+            this.arg = arg;
             this.i = i;
         }
         public void execute()
@@ -929,8 +933,9 @@ namespace symulator8051.Commands
             get { return bytes; }
         }
         private byte arg;
-        public xAC(I8051 i)
+        public xAC(byte arg, I8051 i)
         {
+            this.arg = arg;
             this.i = i;
         }
         public void execute()
@@ -952,8 +957,9 @@ namespace symulator8051.Commands
             get { return bytes; }
         }
         private byte arg;
-        public xAD(I8051 i)
+        public xAD(byte arg, I8051 i)
         {
+            this.arg = arg;
             this.i = i;
         }
         public void execute()
@@ -975,8 +981,9 @@ namespace symulator8051.Commands
             get { return bytes; }
         }
         private byte arg;
-        public xAE(I8051 i)
+        public xAE(byte arg, I8051 i)
         {
+            this.arg = arg;
             this.i = i;
         }
         public void execute()
@@ -998,8 +1005,9 @@ namespace symulator8051.Commands
             get { return bytes; }
         }
         private byte arg;
-        public xAF( I8051 i)
+        public xAF(byte arg, I8051 i)
         {
+            this.arg = arg;
             this.i = i;
         }
         public void execute()
