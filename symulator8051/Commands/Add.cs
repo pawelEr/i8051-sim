@@ -20,7 +20,7 @@ namespace symulator8051.Commands
             get { return bytes; }
         }
         private byte arg;
-        public x24(I8051 i, byte arg )
+        public x24(I8051 i, byte arg)
         {
             this.i = i;
             this.arg = arg;
@@ -33,18 +33,18 @@ namespace symulator8051.Commands
             ByteHelper.clrBit(2, 0);
             ByteHelper.clrBit(6, 0);
             if ((i.ACC & 0x0f) + (i.SFR[arg] & 0x0f) > 0x0f)
-             ByteHelper.setBit(6,1);
+                ByteHelper.setBit(6, 1);
             if ((i.ACC & 0x7f) + (i.SFR[arg] & 0x7f) > 0x7f)
                 ByteHelper.setBit(2, 1);
             if (temp > 0xff)
             {
                 ByteHelper.setBit(7, 1);
-                if ( ByteHelper.chkBit(2, 0))
-                    ByteHelper.setBit(2,1);
+                if (ByteHelper.chkBit(2, 0))
+                    ByteHelper.setBit(2, 1);
                 else
-                    ByteHelper.setBit(2,0);
+                    ByteHelper.setBit(2, 0);
             }
-            i.ACC=(byte)temp;
+            i.ACC = (byte)temp;
         }
     }
     class x25 : ICommand //ADD A, iram addr
@@ -101,7 +101,7 @@ namespace symulator8051.Commands
         {
             get { return bytes; }
         }
-   
+
         public x26(I8051 i)
         {
             this.i = i;
@@ -142,7 +142,7 @@ namespace symulator8051.Commands
         {
             get { return bytes; }
         }
-        
+
         public x27(I8051 i)
         {
             this.i = i;
@@ -182,7 +182,7 @@ namespace symulator8051.Commands
         {
             get { return bytes; }
         }
-     
+
         public x28(I8051 i)
         {
             this.i = i;
@@ -222,7 +222,7 @@ namespace symulator8051.Commands
         {
             get { return bytes; }
         }
-       
+
         public x29(I8051 i)
         {
             this.i = i;
@@ -262,7 +262,7 @@ namespace symulator8051.Commands
         {
             get { return bytes; }
         }
-        
+
         public x2A(I8051 i)
         {
             this.i = i;
@@ -302,7 +302,7 @@ namespace symulator8051.Commands
         {
             get { return bytes; }
         }
-        
+
         public x2B(I8051 i)
         {
             this.i = i;
@@ -342,7 +342,7 @@ namespace symulator8051.Commands
         {
             get { return bytes; }
         }
-     
+
         public x2C(I8051 i)
         {
             this.i = i;
@@ -382,7 +382,7 @@ namespace symulator8051.Commands
         {
             get { return bytes; }
         }
-        
+
         public x2D(I8051 i)
         {
             this.i = i;
@@ -422,7 +422,7 @@ namespace symulator8051.Commands
         {
             get { return bytes; }
         }
-       
+
         public x2E(I8051 i)
         {
             this.i = i;
@@ -462,7 +462,7 @@ namespace symulator8051.Commands
         {
             get { return bytes; }
         }
-      
+
         public x2F(I8051 i)
         {
             this.i = i;
@@ -487,5 +487,6 @@ namespace symulator8051.Commands
                     ByteHelper.setBit(2, 0);
             }
             i.ACC = (byte)temp;
+        }
     }
 }
