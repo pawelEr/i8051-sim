@@ -389,12 +389,13 @@ namespace symulator8051
                 handler(this, new PropertyChangedEventArgs(name));
             }
         }
+        private CommandEngine c;
         public void process()
         {
             SourceCode s = new SourceCode();
-            CommandEngine c = new CommandEngine(this);
+            c = new CommandEngine(this);
             ushort memPosition = 0;
-            while (memPosition < this.EXT_PMEM.Length)
+            while (memPosition < this.EXT_PMEM.Length-1)
             {
 
                 switch (this.EXT_PMEM[memPosition].Data)
@@ -1428,14 +1429,30 @@ namespace symulator8051
                     #endregion
                 }
                 int j = memPosition + EXT_PMEM[memPosition].Instruction.Bytes;
+
                 for (int i = memPosition + 1; i <= j; i++)
                 {
-                    EXT_PMEM[i].Instruction = new Data();
-                    memPosition++;
+                    if (j < EXT_PMEM.Length)
+                    {
+                        EXT_PMEM[i].Instruction = new Data();
+                        memPosition++;
+                    }
                 }
                 //memPosition += Convert.ToUInt16(this.EXT_PMEM[memPosition].Instruction.Bytes - 1);
             };
             c.Run();
+        }
+        public void pause()
+        {
+            c.Pause();
+        }
+        public void stop()
+        {
+            c.Stop();
+        }
+        public void step()
+        {
+            c.OneStep();
         }
     }
 }

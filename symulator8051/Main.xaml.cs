@@ -50,5 +50,20 @@ namespace symulator8051
         {
             i8051.process();
         }
+
+        private void MenuItem_Click_2(object sender, RoutedEventArgs e)
+        {
+            i8051.stop();
+        }
+
+        private void MenuItem_Click_3(object sender, RoutedEventArgs e)
+        {
+            i8051.pause();
+        }
+
+        private void MenuItem_Click_4(object sender, RoutedEventArgs e)
+        {
+            i8051.step();
+        }
     }
 }

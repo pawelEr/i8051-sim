@@ -25,6 +25,7 @@ namespace symulator8051
             while (!pause)
             {
                 this.i.EXT_PMEM[i.PC].Instruction.execute();
+                this.i.PC += this.i.EXT_PMEM[i.PC].Instruction.Bytes;
             }
             commandsThread.Suspend();
         }
