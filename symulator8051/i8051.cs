@@ -2,6 +2,7 @@
 
 using System.ComponentModel;
 using symulator8051.Commands;
+using ByteExtensionMethods;
 
 namespace symulator8051
 {
@@ -91,6 +92,96 @@ namespace symulator8051
             {
                 SFR[0xd0] = value;
                 OnPropertyChanged("PSW");
+            }
+        }
+        public bool OV
+        {
+            get { return PSW.chkBit(bits.bit2); }
+            set 
+            {
+                if(value)
+                {
+                    PSW.setBit(bits.bit2);
+                }
+                else
+                {
+                    PSW.clrBit(bits.bit2);
+                }
+            }
+        }
+        public bool RS0
+        {
+            get { return PSW.chkBit(bits.bit3); }
+            set
+            {
+                if (value)
+                {
+                    PSW.setBit(bits.bit3);
+                }
+                else
+                {
+                    PSW.clrBit(bits.bit3);
+                }
+            }
+        }
+        public bool RS1
+        {
+            get { return PSW.chkBit(bits.bit4); }
+            set
+            {
+                if (value)
+                {
+                    PSW.setBit(bits.bit4);
+                }
+                else
+                {
+                    PSW.clrBit(bits.bit4);
+                }
+            }
+        }
+        public bool F0
+        {
+            get { return PSW.chkBit(bits.bit5); }
+            set
+            {
+                if (value)
+                {
+                    PSW.setBit(bits.bit5);
+                }
+                else
+                {
+                    PSW.clrBit(bits.bit5);
+                }
+            }
+        }
+        public bool AC
+        {
+            get { return PSW.chkBit(bits.bit6); }
+            set
+            {
+                if (value)
+                {
+                    PSW.setBit(bits.bit6);
+                }
+                else
+                {
+                    PSW.clrBit(bits.bit6);
+                }
+            }
+        }
+        public bool CY
+        {
+            get { return PSW.chkBit(bits.bit7); }
+            set
+            {
+                if (value)
+                {
+                    PSW.setBit(bits.bit7);
+                }
+                else
+                {
+                    PSW.clrBit(bits.bit7);
+                }
             }
         }
         public byte P0 //pierwszy port
@@ -281,6 +372,8 @@ namespace symulator8051
         {
             for (int i = 0; i < SFR.Length; i++)
                 SFR[i] = 0;
+            for (int i = 0; i < this.EXT_PMEM.Length; i++)
+                this.EXT_PMEM[i] = new MemoryRecord();
             this.P0 = 0xff;
             this.P1 = 0xff;
             this.P2 = 0xff;
@@ -301,7 +394,6 @@ namespace symulator8051
             SourceCode s = new SourceCode();
             CommandEngine c = new CommandEngine(this);
             ushort memPosition = 0;
-            s.Load(this.EXT_PMEM);
             while (memPosition < this.EXT_PMEM.Length)
             {
 
@@ -330,7 +422,7 @@ namespace symulator8051
                         break;
                     //INC iram
                     case 0x05:
-                        c.SetCommand(new x05(this.EXT_PMEM[memPosition].Data,this), memPosition);
+                        c.SetCommand(new x05(this.EXT_PMEM[memPosition].Data, this), memPosition);
                         break;
                     //INC @R0
                     case 0x06:
@@ -394,7 +486,7 @@ namespace symulator8051
                         break;
                     //DEC iram
                     case 0x15:
-                        c.SetCommand(new x15(this.EXT_PMEM[memPosition+1].Data,this), memPosition);
+                        c.SetCommand(new x15(this.EXT_PMEM[memPosition + 1].Data, this), memPosition);
                         break;
                     //DEC @R0
                     case 0x16:
@@ -574,59 +666,59 @@ namespace symulator8051
                         break;
                     //ORL iram, A
                     case 0x42:
-
+                        c.SetCommand(new x42(this.EXT_PMEM[memPosition + 1].Data, this), memPosition);
                         break;
                     //ORL iram, #data
                     case 0x43:
-
+                        c.SetCommand(new x43(this.EXT_PMEM[memPosition + 1].Data, this.EXT_PMEM[memPosition + 2].Data, this), memPosition);
                         break;
                     //ORL A, #data
                     case 0x44:
-
+                        c.SetCommand(new x44(this, this.EXT_PMEM[memPosition + 1].Data), memPosition);
                         break;
                     //ORL A, iram
                     case 0x45:
-
+                        c.SetCommand(new x45(this, this.EXT_PMEM[memPosition + 1].Data), memPosition);
                         break;
                     //ORL A, @R0
                     case 0x46:
-
+                        c.SetCommand(new x46(this), memPosition);
                         break;
                     //ORL A, @R1
                     case 0x47:
-
+                        c.SetCommand(new x47(this), memPosition);
                         break;
                     //ORL A, R0
                     case 0x48:
-
+                        c.SetCommand(new x48(this), memPosition);
                         break;
                     //ORL A, R1
                     case 0x49:
-
+                        c.SetCommand(new x49(this), memPosition);
                         break;
                     //ORL A, R2
                     case 0x4a:
-
+                        c.SetCommand(new x4A(this), memPosition);
                         break;
                     //ORL A, R3
                     case 0x4b:
-
+                        c.SetCommand(new x4B(this), memPosition);
                         break;
                     //ORL A, R4
                     case 0x4c:
-
+                        c.SetCommand(new x4C(this), memPosition);
                         break;
                     //ORL A, R5
                     case 0x4d:
-
+                        c.SetCommand(new x4D(this), memPosition);
                         break;
                     //ORL A, R6
                     case 0x4e:
-
+                        c.SetCommand(new x4E(this), memPosition);
                         break;
                     //ORL A, R7
                     case 0x4f:
-
+                        c.SetCommand(new x4F(this), memPosition);
                         break;
                     //JNC reladdr
                     case 0x50:
@@ -638,59 +730,59 @@ namespace symulator8051
                         break;
                     //ANL iram, A
                     case 0x52:
-
+                        c.SetCommand(new x52(this.EXT_PMEM[memPosition+1].Data,this), memPosition);
                         break;
                     //ANL iram, #data
                     case 0x53:
-
+                        c.SetCommand(new x53(this.EXT_PMEM[memPosition + 1].Data, this.EXT_PMEM[memPosition + 2].Data, this), memPosition);
                         break;
                     //ANL A, #data
                     case 0x54:
-
+                        c.SetCommand(new x54(this, this.EXT_PMEM[memPosition + 2].Data), memPosition);
                         break;
                     //ANL A, iram
                     case 0x55:
-
+                        c.SetCommand(new x55(this,this.EXT_PMEM[memPosition+1].Data), memPosition);
                         break;
                     //ANL a, @R0
                     case 0x56:
-
+                        c.SetCommand(new x56(this), memPosition);
                         break;
                     //ANL a, @R1
                     case 0x57:
-
+                        c.SetCommand(new x57(this), memPosition);
                         break;
                     //ANL a, R0
                     case 0x58:
-
+                        c.SetCommand(new x58(this), memPosition);
                         break;
                     //ANL a, R1
                     case 0x59:
-
+                        c.SetCommand(new x59(this), memPosition);
                         break;
                     //ANL a, R2
                     case 0x5a:
-
+                        c.SetCommand(new x5A(this), memPosition);
                         break;
                     //ANL a, R3
                     case 0x5b:
-
+                        c.SetCommand(new x5B(this), memPosition);
                         break;
                     //ANL a, R4
                     case 0x5c:
-
+                        c.SetCommand(new x5C(this), memPosition);
                         break;
                     //ANL a, R5
                     case 0x5d:
-
+                        c.SetCommand(new x5D(this), memPosition);
                         break;
                     //ANL a, R6 
                     case 0x5e:
-
+                        c.SetCommand(new x5E(this), memPosition);
                         break;
                     //ANL a, R7
                     case 0x5f:
-
+                        c.SetCommand(new x5F(this), memPosition);
                         break;
                     //JZ reladdr
                     case 0x60:
@@ -698,19 +790,19 @@ namespace symulator8051
                         break;
                     //AJMP page3
                     case 0x61:
-                        
+
                         break;
                     //XRL iram, A
                     case 0x62:
-
+                        c.SetCommand(new x62(this.EXT_PMEM[memPosition + 1].Data, this), memPosition);
                         break;
                     //XRL iram, #data
                     case 0x63:
-
+                        c.SetCommand(new x63(this.EXT_PMEM[memPosition + 1].Data, this.EXT_PMEM[memPosition + 2].Data, this), memPosition);
                         break;
                     //XRL A, #data 
                     case 0x64:
-
+                        c.SetCommand(new x64(this, this.EXT_PMEM[memPosition + 1].Data), memPosition);
                         break;
                     //XRL A, iram
                     case 0x65:
@@ -778,7 +870,7 @@ namespace symulator8051
                         break;
                     //MOV iram, #data
                     case 0x75:
-                        c.SetCommand(new x75(this.EXT_PMEM[memPosition + 1].Data, this.EXT_PMEM[memPosition+2].Data, this), memPosition);
+                        c.SetCommand(new x75(this.EXT_PMEM[memPosition + 1].Data, this.EXT_PMEM[memPosition + 2].Data, this), memPosition);
                         break;
                     //MOV @R0, #data
                     case 0x76:
@@ -886,8 +978,8 @@ namespace symulator8051
                         break;
                     //MOV DPTR, #data16
                     case 0x90:
-                        ushort arg=Convert.ToUInt16(this.EXT_PMEM[memPosition+1].Data.ToString()+this.EXT_PMEM[memPosition+2].Data.ToString());
-                        c.SetCommand(new x90(arg,this),memPosition);
+                        ushort arg = Convert.ToUInt16(this.EXT_PMEM[memPosition + 1].Data.ToString() + this.EXT_PMEM[memPosition + 2].Data.ToString());
+                        c.SetCommand(new x90(arg, this), memPosition);
                         break;
                     //ACALL page4
                     case 0x91:
@@ -895,7 +987,7 @@ namespace symulator8051
                         break;
                     //MOV bitaddr, C
                     case 0x92:
-                        
+
                         break;
                     //MOVC A, @A+PC
                     case 0x93:
@@ -959,7 +1051,7 @@ namespace symulator8051
                         break;
                     //MOV C, bitaddr
                     case 0xa2:
-                        
+
                         break;
                     //INC DPTR
                     case 0xa3:
@@ -975,7 +1067,7 @@ namespace symulator8051
                         break;
                     //MOV @R0, iram
                     case 0xa6:
-                        c.SetCommand(new xA6(this.EXT_PMEM[memPosition+1].Data,this),memPosition);
+                        c.SetCommand(new xA6(this.EXT_PMEM[memPosition + 1].Data, this), memPosition);
                         break;
                     //MOV @R1, iram
                     case 0xa7:
@@ -983,11 +1075,11 @@ namespace symulator8051
                         break;
                     //MOV R0, iram
                     case 0xa8:
-                        c.SetCommand(new xA8(this.EXT_PMEM[memPosition + 1].Data,this), memPosition);
+                        c.SetCommand(new xA8(this.EXT_PMEM[memPosition + 1].Data, this), memPosition);
                         break;
                     //MOV R1, iram
                     case 0xa9:
-                        c.SetCommand(new xA9(this.EXT_PMEM[memPosition+1].Data,this), memPosition);
+                        c.SetCommand(new xA9(this.EXT_PMEM[memPosition + 1].Data, this), memPosition);
                         break;
                     //MOV R2, iram
                     case 0xaa:
@@ -1087,7 +1179,7 @@ namespace symulator8051
                         break;
                     //CLR bitaddr
                     case 0xc2:
-                       
+
                         break;
                     //CLR C
                     case 0xc3:
@@ -1335,7 +1427,7 @@ namespace symulator8051
                         break;
                     #endregion
                 }
-                int j=memPosition+EXT_PMEM[memPosition].Instruction.Bytes;
+                int j = memPosition + EXT_PMEM[memPosition].Instruction.Bytes;
                 for (int i = memPosition + 1; i <= j; i++)
                 {
                     EXT_PMEM[i].Instruction = new Data();
