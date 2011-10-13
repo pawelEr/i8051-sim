@@ -546,51 +546,51 @@ namespace symulator8051
                         break;
                     //ADD A, #data
                     case 0x24:
-
+                        c.SetCommand(new x24(this,this.EXT_PMEM[memPosition+1].Data), memPosition);
                         break;
                     //ADD A, iram
                     case 0x25:
-
+                        c.SetCommand(new x25(this, this.EXT_PMEM[memPosition + 1].Data), memPosition);
                         break;
                     //ADD A, @R0
                     case 0x26:
-
+                        c.SetCommand(new x26(this), memPosition);
                         break;
                     //ADD A, @R1
                     case 0x27:
-
+                        c.SetCommand(new x27(this), memPosition);
                         break;
                     //ADD A, R0
                     case 0x28:
-
+                        c.SetCommand(new x28(this), memPosition);
                         break;
                     //ADD A, R1
                     case 0x29:
-
+                        c.SetCommand(new x29(this), memPosition);
                         break;
                     //ADD A, R2
                     case 0x2a:
-
+                        c.SetCommand(new x2A(this), memPosition);
                         break;
                     //ADD A, R3
                     case 0x2b:
-
+                        c.SetCommand(new x2B(this), memPosition);
                         break;
                     //ADD A, R4
                     case 0x2c:
-
+                        c.SetCommand(new x2C(this), memPosition);
                         break;
                     //ADD A, R5
                     case 0x2d:
-
+                        c.SetCommand(new x2D(this), memPosition);
                         break;
                     //ADD A, R6
                     case 0x2e:
-
+                        c.SetCommand(new x2E(this), memPosition);
                         break;
                     //ADD A, R7
                     case 0x2f:
-
+                        c.SetCommand(new x2F(this), memPosition);
                         break;
                     //JNB bitaddr, reladdr
                     case 0x30:
@@ -806,47 +806,47 @@ namespace symulator8051
                         break;
                     //XRL A, iram
                     case 0x65:
-
+                        c.SetCommand(new x65(this, this.EXT_PMEM[memPosition + 1].Data), memPosition);
                         break;
                     //XRL A, @R0
                     case 0x66:
-
+                        c.SetCommand(new x66(this), memPosition);
                         break;
                     //XRL A, @R1
                     case 0x67:
-
+                        c.SetCommand(new x67(this), memPosition);
                         break;
                     //XRL A, R0
                     case 0x68:
-
+                        c.SetCommand(new x68(this), memPosition);
                         break;
                     //XRL A, R1
                     case 0x69:
-
+                        c.SetCommand(new x69(this), memPosition);
                         break;
                     //XRL A, R2
                     case 0x6a:
-
+                        c.SetCommand(new x6A(this), memPosition);
                         break;
                     //XRL A, R3
                     case 0x6b:
-
+                        c.SetCommand(new x6B(this), memPosition);
                         break;
                     //XRL A, R4
                     case 0x6c:
-
+                        c.SetCommand(new x6C(this), memPosition);
                         break;
                     //XRL A, R5
                     case 0x6d:
-
+                        c.SetCommand(new x6D(this), memPosition);
                         break;
                     //XRL A, R6
                     case 0x6e:
-
+                        c.SetCommand(new x6E(this), memPosition);
                         break;
                     //XRL A, R7
                     case 0x6f:
-
+                        c.SetCommand(new x6F(this), memPosition);
                         break;
                     //JNZ reladdr
                     case 0x70:
@@ -858,7 +858,7 @@ namespace symulator8051
                         break;
                     //ORL C, bitaddr
                     case 0x72:
-
+                        
                         break;
                     //JMP @a+dptr
                     case 0x73:
@@ -926,7 +926,7 @@ namespace symulator8051
                         break;
                     //MOVC A, @A+DPTR
                     case 0x83:
-
+                        c.SetCommand(new x83(this), memPosition);
                         break;
                     //DIV A, B
                     case 0x84:
