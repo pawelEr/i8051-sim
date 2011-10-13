@@ -111,7 +111,7 @@
                 <MenuItem Header="_Zapisz"/>
                 <MenuItem Header="_Zamknij"/>
             </MenuItem>
-            <MenuItem Header="_Uruchom"/>
+            <MenuItem Header="_Uruchom" Click="MenuItem_Click_1"/>
             <MenuItem Header="_Zatrzymaj"/>
             <MenuItem Header="_Pauza"/>
             <MenuItem Header="_Nast. Krok"/>

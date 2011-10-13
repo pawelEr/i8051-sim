@@ -41,8 +41,14 @@ namespace symulator8051
             {
                 SourceCode s = new SourceCode();
                 s.FilePath=o.FileName;
+                s.Open();
                 s.Load(i8051.EXT_PMEM);
             }
+        }
+
+        private void MenuItem_Click_1(object sender, RoutedEventArgs e)
+        {
+            i8051.process();
         }
     }
 }
