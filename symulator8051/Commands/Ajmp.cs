@@ -6,7 +6,7 @@ using ByteExtensionMethods;
 
 namespace symulator8051.Commands
 {
-    class x11 : ICommand //ACALL  iram addr
+    class x01 : ICommand // AJMP code addr
     {
         I8051 i;
         private byte cycles = 2;
@@ -20,7 +20,7 @@ namespace symulator8051.Commands
             get { return bytes; }
         }
         private byte arg;
-        public x11(I8051 i, byte arg)
+        public x01(I8051 i, byte arg)
         {
             this.i = i;
             this.arg = arg;
@@ -28,16 +28,11 @@ namespace symulator8051.Commands
         private UInt16 temp;
         public void execute()
         {
-            temp=(UInt16)(i.SFR[i.PC] | 0 );
-            i.SP = (byte)(i.SP + 1);
-            i.EXT_RAM[i.SP] = (byte)(i.PC & 0x00ff);
-            i.SP = (byte)(i.SP + 1);
-            i.EXT_RAM[i.SP] = (byte)((i.PC >> 8) & 0x00ff);
+            temp = (UInt16)(i.SFR[i.PC] | 0);
             i.PC = (UInt16)(i.PC | temp);
-         }
+        }
     }
-
-    class x31 : ICommand //ACALL  iram addr
+    class x21 : ICommand // AJMP code addr
     {
         I8051 i;
         private byte cycles = 2;
@@ -51,7 +46,7 @@ namespace symulator8051.Commands
             get { return bytes; }
         }
         private byte arg;
-        public x31(I8051 i, byte arg)
+        public x21(I8051 i, byte arg)
         {
             this.i = i;
             this.arg = arg;
@@ -60,14 +55,10 @@ namespace symulator8051.Commands
         public void execute()
         {
             temp = (UInt16)(i.SFR[i.PC] | 1);
-            i.SP = (byte)(i.SP + 1);
-            i.EXT_RAM[i.SP] = (byte)(i.PC & 0x00ff);
-            i.SP = (byte)(i.SP + 1);
-            i.EXT_RAM[i.SP] = (byte)((i.PC >> 8) & 0x00ff);
             i.PC = (UInt16)(i.PC | temp);
         }
     }
-    class x51 : ICommand //ACALL  iram addr
+    class x41 : ICommand // AJMP code addr
     {
         I8051 i;
         private byte cycles = 2;
@@ -81,7 +72,7 @@ namespace symulator8051.Commands
             get { return bytes; }
         }
         private byte arg;
-        public x51(I8051 i, byte arg)
+        public x41(I8051 i, byte arg)
         {
             this.i = i;
             this.arg = arg;
@@ -90,14 +81,10 @@ namespace symulator8051.Commands
         public void execute()
         {
             temp = (UInt16)(i.SFR[i.PC] | 2);
-            i.SP = (byte)(i.SP + 1);
-            i.EXT_RAM[i.SP] = (byte)(i.PC & 0x00ff);
-            i.SP = (byte)(i.SP + 1);
-            i.EXT_RAM[i.SP] = (byte)((i.PC >> 8) & 0x00ff);
             i.PC = (UInt16)(i.PC | temp);
         }
     }
-    class x71 : ICommand //ACALL  iram addr
+    class x61 : ICommand // AJMP code addr
     {
         I8051 i;
         private byte cycles = 2;
@@ -111,7 +98,7 @@ namespace symulator8051.Commands
             get { return bytes; }
         }
         private byte arg;
-        public x71(I8051 i, byte arg)
+        public x61(I8051 i, byte arg)
         {
             this.i = i;
             this.arg = arg;
@@ -120,14 +107,10 @@ namespace symulator8051.Commands
         public void execute()
         {
             temp = (UInt16)(i.SFR[i.PC] | 3);
-            i.SP = (byte)(i.SP + 1);
-            i.EXT_RAM[i.SP] = (byte)(i.PC & 0x00ff);
-            i.SP = (byte)(i.SP + 1);
-            i.EXT_RAM[i.SP] = (byte)((i.PC >> 8) & 0x00ff);
             i.PC = (UInt16)(i.PC | temp);
         }
     }
-    class x91 : ICommand //ACALL  iram addr
+    class x81 : ICommand // AJMP code addr
     {
         I8051 i;
         private byte cycles = 2;
@@ -141,7 +124,7 @@ namespace symulator8051.Commands
             get { return bytes; }
         }
         private byte arg;
-        public x91(I8051 i, byte arg)
+        public x81(I8051 i, byte arg)
         {
             this.i = i;
             this.arg = arg;
@@ -150,14 +133,10 @@ namespace symulator8051.Commands
         public void execute()
         {
             temp = (UInt16)(i.SFR[i.PC] | 4);
-            i.SP = (byte)(i.SP + 1);
-            i.EXT_RAM[i.SP] = (byte)(i.PC & 0x00ff);
-            i.SP = (byte)(i.SP + 1);
-            i.EXT_RAM[i.SP] = (byte)((i.PC >> 8) & 0x00ff);
             i.PC = (UInt16)(i.PC | temp);
         }
     }
-    class xB1 : ICommand //ACALL  iram addr
+    class xA1 : ICommand // AJMP code addr
     {
         I8051 i;
         private byte cycles = 2;
@@ -171,7 +150,7 @@ namespace symulator8051.Commands
             get { return bytes; }
         }
         private byte arg;
-        public xB1(I8051 i, byte arg)
+        public xA1(I8051 i, byte arg)
         {
             this.i = i;
             this.arg = arg;
@@ -180,14 +159,10 @@ namespace symulator8051.Commands
         public void execute()
         {
             temp = (UInt16)(i.SFR[i.PC] | 5);
-            i.SP = (byte)(i.SP + 1);
-            i.EXT_RAM[i.SP] = (byte)(i.PC & 0x00ff);
-            i.SP = (byte)(i.SP + 1);
-            i.EXT_RAM[i.SP] = (byte)((i.PC >> 8) & 0x00ff);
             i.PC = (UInt16)(i.PC | temp);
         }
     }
-    class xD1 : ICommand //ACALL  iram addr
+    class xC1 : ICommand // AJMP code addr
     {
         I8051 i;
         private byte cycles = 2;
@@ -201,7 +176,7 @@ namespace symulator8051.Commands
             get { return bytes; }
         }
         private byte arg;
-        public xD1(I8051 i, byte arg)
+        public xC1(I8051 i, byte arg)
         {
             this.i = i;
             this.arg = arg;
@@ -210,41 +185,33 @@ namespace symulator8051.Commands
         public void execute()
         {
             temp = (UInt16)(i.SFR[i.PC] | 6);
-            i.SP = (byte)(i.SP + 1);
-            i.EXT_RAM[i.SP] = (byte)(i.PC & 0x00ff);
-            i.SP = (byte)(i.SP + 1);
-            i.EXT_RAM[i.SP] = (byte)((i.PC >> 8) & 0x00ff);
             i.PC = (UInt16)(i.PC | temp);
         }
-    }
-    class xF1 : ICommand //ACALL  iram addr
-    {
-        I8051 i;
-        private byte cycles = 2;
-        public byte Cycles
+        class xE1 : ICommand // AJMP code addr
         {
-            get { return cycles; }
-        }
-        private ushort bytes = 2;
-        public ushort Bytes
-        {
-            get { return bytes; }
-        }
-        private byte arg;
-        public xF1(I8051 i, byte arg)
-        {
-            this.i = i;
-            this.arg = arg;
-        }
-        private UInt16 temp;
-        public void execute()
-        {
-            temp = (UInt16)(i.SFR[i.PC] | 7);
-            i.SP = (byte)(i.SP + 1);
-            i.EXT_RAM[i.SP] = (byte)(i.PC & 0x00ff);
-            i.SP = (byte)(i.SP + 1);
-            i.EXT_RAM[i.SP] = (byte)((i.PC >> 8) & 0x00ff);
-            i.PC = (UInt16)(i.PC | temp);
+            I8051 i;
+            private byte cycles = 2;
+            public byte Cycles
+            {
+                get { return cycles; }
+            }
+            private ushort bytes = 2;
+            public ushort Bytes
+            {
+                get { return bytes; }
+            }
+            private byte arg;
+            public xE1(I8051 i, byte arg)
+            {
+                this.i = i;
+                this.arg = arg;
+            }
+            private UInt16 temp;
+            public void execute()
+            {
+                temp = (UInt16)(i.SFR[i.PC] | 7);
+                i.PC = (UInt16)(i.PC | temp);
+            }
         }
     }
 }

@@ -71,8 +71,10 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Commands\Acall.cs" />
     <Compile Include="Commands\Add.cs" />
     <Compile Include="Commands\Addc.cs" />
+    <Compile Include="Commands\Ajmp.cs" />
     <Compile Include="Commands\Anl.cs" />
     <Compile Include="Commands\bitOperationHelper.cs" />
     <Compile Include="Commands\CJNE.cs" />
