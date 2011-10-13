@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using ByteExtensionMethods;
 using System.Text;
 
 namespace symulator8051.Commands
@@ -22,20 +23,17 @@ namespace symulator8051.Commands
         {
             this.i = i;
         }
-        private byte temp;
+        private UInt16 temp;
         public void execute()
         {
-            if (i.ACC * i.B > 255)
-            {
-
-            }
-            if (i.ACC * i.B < 255)
-            {
-
-            }
-            temp = Convert.ToByte((i.ACC * i.B) % 256 );
-            i.ACC = Convert.ToByte((i.ACC * i.B) / 256);
-            i.B = temp;
+            temp = (UInt16)(i.ACC * i.B);
+            ByteHelper.clrBit(7, 0);
+            if (temp > 0xff)
+                ByteHelper.setBit(2, 1);
+            else
+                ByteHelper.clrBit(2, 0);
+            i.ACC = (byte)(temp & 0x00ff);
+            i.B = (byte)((temp & 0xff00) >> 8);
         }
     }
 }
