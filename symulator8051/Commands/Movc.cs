@@ -6,7 +6,7 @@ using System.Text;
 namespace symulator8051.Commands
 {
     // PC ma byc podniesiony o 1 przed zamiast po operacji dla x83
-    class x93 //MOVC A, A+@DPTR
+    class x93 : ICommand //MOVC A, A+@DPTR
     {
         I8051 i;
 
@@ -24,7 +24,7 @@ namespace symulator8051.Commands
             i.ACC = i.EXT_PMEM[i.ACC + i.DPTR].Data;
         }
     }
-    class x83 //MOVC A, @A+PC
+    class x83 : ICommand //MOVC A, @A+PC
     {
         I8051 i;
         private byte cycles = 2;
