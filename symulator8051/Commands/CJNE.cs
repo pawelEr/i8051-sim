@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using ByteExtensionMethods;
 
 namespace symulator8051.Commands
 {
@@ -31,6 +32,10 @@ namespace symulator8051.Commands
             
             if (i.ACC != i.SFR[arg])
                 i.PC = Convert.ToUInt16(i.PC + arg2);
+            if (i.ACC < i.SFR[arg])
+                ByteHelper.setBit(7, 1);
+            else
+                ByteHelper.clrBit(7, 0);
         }
     }
     class xB5 : ICommand //CJNE A, iram addr, code addr
@@ -59,6 +64,10 @@ namespace symulator8051.Commands
             
             if (i.ACC != arg)
                 i.PC = Convert.ToUInt16(i.PC + arg2);
+            if (i.ACC < arg)
+                ByteHelper.setBit(7, 1);
+            else
+                ByteHelper.clrBit(7, 0);
         }
     }
     class xB6 : ICommand //CJNE @R0,#data,code addr
@@ -87,6 +96,10 @@ namespace symulator8051.Commands
             
             if (i.EXT_RAM[i.R0] != i.SFR[arg])
                 i.PC = Convert.ToUInt16(i.PC + arg2);
+            if (i.ACC < i.SFR[arg])
+                ByteHelper.setBit(7, 1);
+            else
+                ByteHelper.clrBit(7, 0);
         }
     }
 
@@ -116,6 +129,10 @@ namespace symulator8051.Commands
             
             if (i.EXT_RAM[i.R1] != i.SFR[arg])
                 i.PC = Convert.ToUInt16(i.PC + arg2);
+            if (i.ACC < i.SFR[arg])
+                ByteHelper.setBit(7, 1);
+            else
+                ByteHelper.clrBit(7, 0);
         }
     }
     class xB8 : ICommand //CJNE R0,#data,code addr
@@ -144,6 +161,10 @@ namespace symulator8051.Commands
             
             if (i.R0 != i.SFR[arg])
                 i.PC = Convert.ToUInt16(i.PC + arg2);
+            if (i.ACC < i.SFR[arg])
+                ByteHelper.setBit(7, 1);
+            else
+                ByteHelper.clrBit(7, 0);
         }
     }
     class xB9 : ICommand //CJNE R1,#data,code addr
@@ -172,6 +193,10 @@ namespace symulator8051.Commands
             
             if (i.R1 != i.SFR[arg])
                 i.PC = Convert.ToUInt16(i.PC + arg2);
+            if (i.ACC < i.SFR[arg])
+                ByteHelper.setBit(7, 1);
+            else
+                ByteHelper.clrBit(7, 0);
         }
     }
     class xBA : ICommand //CJNE R2,#data,code addr
@@ -200,6 +225,10 @@ namespace symulator8051.Commands
             
             if (i.R2 != i.SFR[arg])
                 i.PC = Convert.ToUInt16(i.PC + arg2);
+            if (i.ACC < i.SFR[arg])
+                ByteHelper.setBit(7, 1);
+            else
+                ByteHelper.clrBit(7, 0);
         }
     }
     class xBB : ICommand //CJNE R3,#data,code addr
@@ -228,6 +257,10 @@ namespace symulator8051.Commands
             
             if (i.R3 != i.SFR[arg])
                 i.PC = Convert.ToUInt16(i.PC + arg2);
+            if (i.ACC < i.SFR[arg])
+                ByteHelper.setBit(7, 1);
+            else
+                ByteHelper.clrBit(7, 0);
         }
     }
     class xBC : ICommand //CJNE R4,#data,code addr
@@ -256,6 +289,10 @@ namespace symulator8051.Commands
             
             if (i.R4 != i.SFR[arg])
                 i.PC = Convert.ToUInt16(i.PC + arg2);
+            if (i.ACC < i.SFR[arg])
+                ByteHelper.setBit(7, 1);
+            else
+                ByteHelper.clrBit(7, 0);
         }
     }
     class xBD : ICommand //CJNE R5,#data,code addr
@@ -284,6 +321,10 @@ namespace symulator8051.Commands
             
             if (i.R5 != i.SFR[arg])
                 i.PC = Convert.ToUInt16(i.PC + arg2);
+            if (i.ACC < i.SFR[arg])
+                ByteHelper.setBit(7, 1);
+            else
+                ByteHelper.clrBit(7, 0);
         }
     }
     class xBE : ICommand //CJNE R6,#data,code addr
@@ -312,6 +353,10 @@ namespace symulator8051.Commands
             
             if (i.R6 != i.SFR[arg])
                 i.PC = Convert.ToUInt16(i.PC + arg2);
+            if (i.ACC < i.SFR[arg])
+                ByteHelper.setBit(7, 1);
+            else
+                ByteHelper.clrBit(7, 0);
         }
     }
     class xBF : ICommand //CJNE R7,#data,code addr
@@ -340,6 +385,10 @@ namespace symulator8051.Commands
             
             if (i.R7 != i.SFR[arg])
                 i.PC = Convert.ToUInt16(i.PC + arg2);
+            if (i.ACC < i.SFR[arg])
+                ByteHelper.setBit(7, 1);
+            else
+                ByteHelper.clrBit(7, 0);
         }
     }
 }
