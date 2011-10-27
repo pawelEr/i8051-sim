@@ -11,10 +11,10 @@ namespace symulator8051
         public byte Data;
         public ICommand Instruction;
     }
-    class I8051 : INotifyPropertyChanged
+    class I8051
     {
 
-        public event PropertyChangedEventHandler PropertyChanged;
+
         #region memory/registers
         public byte[] SFR = new byte[0x100]; // rejestry funkcji specjalnych 
         public byte[] EXT_RAM = new byte[0x10000]; //zewnetrzna pamiec 64kB
@@ -23,11 +23,7 @@ namespace symulator8051
         public byte ACC //akumulator
         {
             get { return SFR[0xe0]; }
-            set
-            {
-                SFR[0xe0] = value;
-                OnPropertyChanged("ACC");
-            }
+            set { SFR[0xe0] = value; }
 
         }
         private byte[] convert16to2x8(ushort numb) //rozdziela liczbe 16bit na 2 8bit
@@ -51,48 +47,28 @@ namespace symulator8051
         public byte DPH //wyższe bity DPTR
         {
             get { return SFR[0x83]; }
-            set
-            {
-                SFR[0x83] = value;
-                OnPropertyChanged("DPH");
-            }
+            set { SFR[0x83] = value; }
         }
 
         public byte DPL //niższe bity DPTR
         {
             get { return SFR[0x82]; }
-            set
-            {
-                SFR[0x82] = value;
-                OnPropertyChanged("DPL");
-            }
+            set { SFR[0x82] = value; }
         }
         public byte B //rejestr B
         {
             get { return SFR[0xf0]; }
-            set
-            {
-                SFR[0xf0] = value;
-                OnPropertyChanged("B");
-            }
+            set { SFR[0xf0] = value; }
         }
         public byte SP //wskaźnik stosu (stack pointer)
         {
             get { return SFR[0x81]; }
-            set
-            {
-                SFR[0x81] = value;
-                OnPropertyChanged("SP");
-            }
+            set { SFR[0x81] = value; }
         }
         public byte PSW //stany rejestru programu
         {
             get { return SFR[0xd0]; }
-            set
-            {
-                SFR[0xd0] = value;
-                OnPropertyChanged("PSW");
-            }
+            set { SFR[0xd0] = value; }
         }
         public bool OV
         {
@@ -187,39 +163,23 @@ namespace symulator8051
         public byte P0 //pierwszy port
         {
             get { return SFR[0x80]; }
-            set
-            {
-                SFR[0x80] = value;
-                OnPropertyChanged("P0");
-            }
+            set { SFR[0x80] = value; }
         }
 
         public byte P1 //drugi port
         {
             get { return SFR[0x90]; }
-            set
-            {
-                SFR[0x90] = value;
-                OnPropertyChanged("P1");
-            }
+            set { SFR[0x90] = value; }
         }
         public byte P2 //trzeci port
         {
             get { return SFR[0xa0]; }
-            set
-            {
-                SFR[0xa0] = value;
-                OnPropertyChanged("P2");
-            }
+            set { SFR[0xa0] = value; }
         }
         public byte P3 //czwarty port
         {
             get { return SFR[0xb0]; }
-            set
-            {
-                SFR[0xb0] = value;
-                OnPropertyChanged("P3");
-            }
+            set { SFR[0xb0] = value; }
         }
         public byte SBUF //serial transmission buffer
         {
@@ -229,20 +189,12 @@ namespace symulator8051
         public byte IE //interrupt enable
         {
             get { return SFR[0xa8]; }
-            set
-            {
-                SFR[0xa8] = value;
-                OnPropertyChanged("IE");
-            }
+            set { SFR[0xa8] = value; }
         }
         public byte IP //interrupt priority
         {
             get { return SFR[0xc0]; }
-            set
-            {
-                SFR[0xc0] = value;
-                OnPropertyChanged("IP");
-            }
+            set { SFR[0xc0] = value; }
         }
         public byte SCON //serial control
         {
@@ -287,84 +239,48 @@ namespace symulator8051
         public byte R0 //register R0
         {
             get { return SFR[0x00]; }
-            set
-            {
-                SFR[0x00] = value;
-                OnPropertyChanged("RO");
-            }
+            set { SFR[0x00] = value; }
         }
         public byte R1 //register R1
         {
             get { return SFR[0x01]; }
-            set
-            {
-                SFR[0x01] = value;
-                OnPropertyChanged("R1");
-            }
+            set { SFR[0x01] = value; }
         }
         public byte R2 //register R2
         {
             get { return SFR[0x02]; }
-            set
-            {
-                SFR[0x02] = value;
-                OnPropertyChanged("R2");
-            }
+            set { SFR[0x02] = value; }
         }
         public byte R3 //register R3
         {
             get { return SFR[0x03]; }
-            set
-            {
-                SFR[0x03] = value;
-                OnPropertyChanged("R3");
-            }
+            set { SFR[0x03] = value; }
         }
         public byte R4 //register R4
         {
             get { return SFR[0x04]; }
-            set
-            {
-                SFR[0x04] = value;
-                OnPropertyChanged("R4");
-            }
+            set { SFR[0x04] = value; }
         }
         public byte R5 //register R5
         {
             get { return SFR[0x05]; }
-            set
-            {
-                SFR[0x05] = value;
-                OnPropertyChanged("R5");
-            }
+            set { SFR[0x05] = value; }
         }
         public byte R6 //register R6
         {
             get { return SFR[0x06]; }
-            set
-            {
-                SFR[0x06] = value;
-                OnPropertyChanged("R6");
-            }
+            set { SFR[0x06] = value; }
         }
         public byte R7 //register R7
         {
             get { return SFR[0x07]; }
-            set
-            {
-                SFR[0x07] = value;
-                OnPropertyChanged("R7");
-            }
+            set { SFR[0x07] = value; }
         }
         private ushort pc;
         public ushort PC
         {
             get { return pc; }
-            set
-            {
-                pc = value;
-                OnPropertyChanged("PC");
-            }
+            set { pc = value; }
         }
 
         #endregion
@@ -381,21 +297,14 @@ namespace symulator8051
             this.PC = 0x0000;
             this.SP = 0x07;
         }
-        protected void OnPropertyChanged(string name)
-        {
-            PropertyChangedEventHandler handler = PropertyChanged;
-            if (handler != null)
-            {
-                handler(this, new PropertyChangedEventArgs(name));
-            }
-        }
+
         private CommandEngine c;
         public void process()
         {
             SourceCode s = new SourceCode();
             c = new CommandEngine(this);
             ushort memPosition = 0;
-            while (memPosition < this.EXT_PMEM.Length-1)
+            while (memPosition < this.EXT_PMEM.Length - 1)
             {
 
                 switch (this.EXT_PMEM[memPosition].Data)
@@ -1172,7 +1081,7 @@ namespace symulator8051
                         break;
                     //PUSH iram
                     case 0xc0:
-                        
+
                         break;
                     //AJMP page6
                     case 0xc1:
@@ -1180,7 +1089,7 @@ namespace symulator8051
                         break;
                     //CLR bitaddr
                     case 0xc2:
-                        
+
                         break;
                     //CLR C
                     case 0xc3:
@@ -1240,15 +1149,15 @@ namespace symulator8051
                         break;
                     //ACALL page6
                     case 0xd1:
-                        c.SetCommand(new xD1(this,this.EXT_PMEM[memPosition+1].Data), memPosition);
+                        c.SetCommand(new xD1(this, this.EXT_PMEM[memPosition + 1].Data), memPosition);
                         break;
                     //SETB bitaddr
                     case 0xd2:
-                        
+
                         break;
                     //SETB C
                     case 0xd3:
-                        
+
                         break;
                     //DA A
                     case 0xd4:
@@ -1260,7 +1169,7 @@ namespace symulator8051
                         break;
                     //XCHD A, @R0
                     case 0xd6:
-                        
+
                         break;
                     //XCHD A, @R1
                     case 0xd7:
@@ -1300,11 +1209,11 @@ namespace symulator8051
                         break;
                     //MOVX A, @dptr
                     case 0xe0:
-                        
+
                         break;
                     //AJMP page7
                     case 0xe1:
-                        
+
                         break;
                     //MOVX A, @R0
                     case 0xe2:
@@ -1320,7 +1229,7 @@ namespace symulator8051
                         break;
                     //MOV A, iram
                     case 0xe5:
-                        c.SetCommand(new xE5(this.EXT_PMEM[memPosition+1].Data,this), memPosition);
+                        c.SetCommand(new xE5(this.EXT_PMEM[memPosition + 1].Data, this), memPosition);
                         break;
                     //MOV A, @R0
                     case 0xe6:
@@ -1364,11 +1273,11 @@ namespace symulator8051
                         break;
                     //MOVX @DPTR, A
                     case 0xf0:
-                        
+
                         break;
                     //ACALL page7
                     case 0xf1:
-                        c.SetCommand(new xF1(this,this.EXT_PMEM[memPosition+1].Data), memPosition);
+                        c.SetCommand(new xF1(this, this.EXT_PMEM[memPosition + 1].Data), memPosition);
                         break;
                     //MOVX @R0, A
                     case 0xf2:

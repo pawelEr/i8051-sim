@@ -21,12 +21,14 @@ namespace symulator8051
     public partial class Main : Window
     {
         I8051 i8051;
+        GuiDataValues guiData;
         public Main()
         {
             
             InitializeComponent();
             i8051 = new I8051();
-            MainGrid.DataContext = i8051;
+            guiData = new GuiDataValues(i8051);
+            MainGrid.DataContext = guiData;
             
         }
         private void OpenFile(object sender, RoutedEventHandler e)
@@ -49,21 +51,25 @@ namespace symulator8051
         private void MenuItem_Click_1(object sender, RoutedEventArgs e)
         {
             i8051.process();
+            guiData.StartUpdate();
         }
 
         private void MenuItem_Click_2(object sender, RoutedEventArgs e)
         {
             i8051.stop();
+            guiData.StopUpdate();
         }
 
         private void MenuItem_Click_3(object sender, RoutedEventArgs e)
         {
             i8051.pause();
+            guiData.StopUpdate();
         }
 
         private void MenuItem_Click_4(object sender, RoutedEventArgs e)
         {
             i8051.step();
+            guiData.UpdateFields();
         }
     }
 }
