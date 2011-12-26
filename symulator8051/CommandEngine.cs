@@ -9,9 +9,15 @@ namespace symulator8051
 {
     class CommandEngine
     {
-        Thread commandsThread;
+        Thread backgroundThread;
         I8051 i;
         bool pause = false;
+        int commands, sleep;
+        /*
+         * magiczna granica przełączania między trybami wykonywania instrukcji
+         */
+        int magiczna_granica = 100;
+
         public CommandEngine(I8051 i8051)
         {
             this.i = i8051;
@@ -22,34 +28,60 @@ namespace symulator8051
         }
         private void CycleCommands()
         {
-            while (!pause)
+            for (int y = 0; y < commands; y++)
             {
                 this.i.EXT_PMEM[i.PC].Instruction.execute();
                 this.i.PC += this.i.EXT_PMEM[i.PC].Instruction.Bytes;
             }
-            commandsThread.Suspend();
+        }
+        private void OneCommand()
+        {
+            this.i.EXT_PMEM[i.PC].Instruction.execute();
+            this.i.PC += this.i.EXT_PMEM[i.PC].Instruction.Bytes;
         }
         public void Run()
         {
-            commandsThread = new Thread(new ThreadStart(CycleCommands));
-            commandsThread.Start();
+            if (commands * sleep > magiczna_granica)
+            {
+                while (!pause)
+                {
+                    backgroundThread = new Thread(new ThreadStart(Sleep));
+                    backgroundThread.Start();
+                    OneCommand();
+                    backgroundThread.Join();
+                };
+            }
+            else
+            {
+                while (!pause)
+                {
+                    backgroundThread = new Thread(new ThreadStart(CycleCommands));
+                    backgroundThread.Start();
+                    Sleep();
+                    backgroundThread.Join();
+                }
+            }
         }
         public void Pause()
         {
             pause = true;
         }
+        private void Sleep()
+        {
+            Thread.Sleep(this.sleep);
+        }
         public void Resume()
         {
             pause = false;
-            commandsThread.Resume();
+            CycleCommands();
         }
         public void Stop()
         {
-            commandsThread.Abort();
+            backgroundThread.Abort();
         }
         public void OneStep()
         {
-            commandsThread.Resume();
+            OneCommand();
         }
     }
 }
