@@ -286,10 +286,17 @@ namespace symulator8051
         #endregion
         public I8051()
         {
+            init_cpu();
+        }
+        private void init_cpu()
+        {
+            clear_state();
+            clear_pmem();
+        }
+        private void clear_state()
+        {
             for (int i = 0; i < SFR.Length; i++)
                 SFR[i] = 0;
-            for (int i = 0; i < this.EXT_PMEM.Length; i++)
-                this.EXT_PMEM[i] = new MemoryRecord();
             this.P0 = 0xff;
             this.P1 = 0xff;
             this.P2 = 0xff;
@@ -297,10 +304,15 @@ namespace symulator8051
             this.PC = 0x0000;
             this.SP = 0x07;
         }
-
+        private void clear_pmem()
+        {
+            for (int i = 0; i < this.EXT_PMEM.Length; i++)
+                this.EXT_PMEM[i] = new MemoryRecord();
+        }
         private CommandEngine c;
         public void process()
         {
+            clear_state();
             SourceCode s = new SourceCode();
             c = new CommandEngine(this);
             ushort memPosition = 0;
