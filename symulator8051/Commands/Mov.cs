@@ -652,7 +652,6 @@ namespace symulator8051.Commands
         {
             get { return bytes; }
         }
-        private byte arg;
         public xF8(I8051 i)
         {
             this.i = i;
@@ -675,7 +674,6 @@ namespace symulator8051.Commands
         {
             get { return bytes; }
         }
-        private byte arg;
         public xF9(I8051 i)
         {
             this.i = i;
@@ -698,7 +696,6 @@ namespace symulator8051.Commands
         {
             get { return bytes; }
         }
-        private byte arg;
         public xFA(I8051 i)
         {
             this.i = i;
@@ -721,7 +718,6 @@ namespace symulator8051.Commands
         {
             get { return bytes; }
         }
-        private byte arg;
         public xFB(I8051 i)
         {
             this.i = i;
@@ -744,7 +740,6 @@ namespace symulator8051.Commands
         {
             get { return bytes; }
         }
-        private byte arg;
         public xFC(I8051 i)
         {
             this.i = i;
@@ -767,7 +762,6 @@ namespace symulator8051.Commands
         {
             get { return bytes; }
         }
-        private byte arg;
         public xFD(I8051 i)
         {
             this.i = i;
@@ -790,7 +784,6 @@ namespace symulator8051.Commands
         {
             get { return bytes; }
         }
-        private byte arg;
         public xFE(I8051 i)
         {
             this.i = i;
@@ -813,7 +806,6 @@ namespace symulator8051.Commands
         {
             get { return bytes; }
         }
-        private byte arg;
         public xFF(I8051 i)
         {
             this.i = i;
