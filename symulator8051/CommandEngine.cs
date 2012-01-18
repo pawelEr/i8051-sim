@@ -21,6 +21,8 @@ namespace symulator8051
         public CommandEngine(I8051 i8051)
         {
             this.i = i8051;
+            this.commands = Sets.Commands;
+            this.sleep = Sets.Sleep;
         }
         public void SetCommand(ICommand item, ushort memAdress)
         {
