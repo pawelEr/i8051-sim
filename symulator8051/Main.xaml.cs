@@ -45,7 +45,8 @@ namespace symulator8051
             
             MainGrid.DataContext = guiData;
             CodeTbox.DataContext = this;
-            guiData.UpdateFields();memoryPreview.ItemsSource = guiData.EXT_RAM;
+            guiData.UpdateFields();
+            //memoryPreview.ItemsSource = guiData.EXT_RAM;
         }
         private void MenuItem_Click(object sender, RoutedEventArgs e)
         {

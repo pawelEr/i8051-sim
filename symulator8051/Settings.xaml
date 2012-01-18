@@ -8,6 +8,7 @@
             <RowDefinition/>
             <RowDefinition/>
             <RowDefinition/>
+            <RowDefinition/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition/>
@@ -15,11 +16,13 @@
             <ColumnDefinition/>
         </Grid.ColumnDefinitions>
         <Label Content="Taktowanie Układu" Grid.Row="0" Grid.Column="0"/>
-        <Slider Maximum="8000000" Minimum="1" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2"/>
-        <TextBox Grid.Column="2" Grid.Row="1"/>
-        <Label Content="Odświerzanie wyświetlacza" Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2"/>
-        <Slider Maximum="1000" Minimum="1" Grid.Column="0" Grid.Row="3" Grid.ColumnSpan="2"/>
-        <TextBox Grid.Column="2" Grid.Row="4"/>
+        <Slider Name="clockRateSlider" Maximum="500" Minimum="0" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" SmallChange="0.001" ValueChanged="clockRateSlider_ValueChanged" />
+        <TextBox Name="clockRateTbox" Grid.Column="2" Grid.Row="1"/>
+        <Label Content="Odświerzanie GUI" Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2"/>
+        <Slider Name="refreshRateSlider" Maximum="1000" Minimum="1" Grid.Column="0" Grid.Row="3" Grid.ColumnSpan="2" ValueChanged="refreshRateSlider_ValueChanged" SmallChange="1" />
+        <TextBox Name="refreshRateTbox" Grid.Column="2" Grid.Row="3"/>
+        <Button Content="Zapisz" Click="Button_Click" Grid.Column="0" Grid.Row="4"/>
+        <Button Content="Anuluj" Click="Button_Click_1" Grid.Column="2" Grid.Row="4"/>
     </Grid>
     
 </Window>

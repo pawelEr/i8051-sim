@@ -112,8 +112,8 @@
             <TextBox Text="{Binding CY, Mode=TwoWay}" Grid.Column="5" Grid.Row="7"/>
             <TextBox Text="{Binding R7, Mode=TwoWay}" Grid.Column="7" />
         </Grid>
-
-        <ListBox Grid.Column="0" Grid.Row="2" Name="memoryPreview">
+        <TextBlock Grid.Column="0" Grid.Row="2" Text="{Binding EXT_RAM}"/>
+        <!--<ListBox Grid.Column="0" Grid.Row="2" Name="memoryPreview">
             <ListBox.ItemsPanel>
                 <ItemsPanelTemplate>
                     <UniformGrid Columns="10"/>
@@ -124,7 +124,7 @@
                     <TextBlock Text="{}"/>
                 </DataTemplate>
             </ListBox.ItemTemplate>
-        </ListBox>
+        </ListBox>-->
         <TextBox FontFamily="Lucida Console" FontSize="12" Text="{Binding RawSourceCode, Mode=TwoWay}" AllowDrop="False" VerticalScrollBarVisibility="Auto" Name="CodeTbox" Grid.Column="1" Grid.Row="1" AcceptsReturn="True" />
         <Label Content="Pierdoly typu klawisze czy lcd" Grid.Column="1" Grid.Row="2"/>
         <Menu Height="23" Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="1" Width="Auto">

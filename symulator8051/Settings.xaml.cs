@@ -21,6 +21,34 @@ namespace symulator8051
         public Settings()
         {
             InitializeComponent();
+            clockRateSlider.Value = Sets.Commands;
+            clockRateTbox.Text = Sets.Commands.ToString() + " hz";
+            refreshRateSlider.Value = Sets.Sleep;
+            refreshRateTbox.Text = Sets.Sleep.ToString() + " ms";
+        }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            Sets.Commands =Convert.ToInt32(clockRateSlider.Value);
+            Sets.Sleep = Convert.ToInt32(refreshRateSlider.Value);
+            this.Close();
+        }
+
+        private void Button_Click_1(object sender, RoutedEventArgs e)
+        {
+            this.Close();
+        }
+
+        private void clockRateSlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
+        {
+            if(clockRateTbox!=null)
+                clockRateTbox.Text = Convert.ToInt32(clockRateSlider.Value).ToString()+" hz";
+        }
+
+        private void refreshRateSlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
+        {
+            if(refreshRateTbox!=null)
+                refreshRateTbox.Text = Convert.ToInt32(refreshRateSlider.Value).ToString();
         }
     }
 }

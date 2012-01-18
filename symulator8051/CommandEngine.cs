@@ -21,8 +21,14 @@ namespace symulator8051
         public CommandEngine(I8051 i8051)
         {
             this.i = i8051;
-            this.commands = Sets.Commands;
-            this.sleep = Sets.Sleep;
+            if (Sets.Commands > magiczna_granica) //TODO: uzupełnić
+            {
+
+            }
+            else
+            {
+                
+            }
         }
         public void SetCommand(ICommand item, ushort memAdress)
         {
@@ -43,7 +49,7 @@ namespace symulator8051
         }
         public void Run()
         {
-            if (commands * sleep > magiczna_granica)
+            if (commands > magiczna_granica)
             {
                 while (!pause)
                 {

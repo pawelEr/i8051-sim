@@ -368,7 +368,17 @@ namespace symulator8051
                 OnPropertyChanged("TH1");
             }
         }
-        public ObservableCollection<byte> EXT_RAM;
+        //public ObservableCollection<byte> EXT_RAM;
+        private string ext_ram;
+        public string EXT_RAM
+        {
+            get { return ext_ram; }
+            set
+            {
+                ext_ram = value;
+                OnPropertyChanged("EXT_RAM");
+            }
+        }
         public void UpdateFields()
         {
             this.ACC = i.ACC;
@@ -403,7 +413,24 @@ namespace symulator8051
             this.TH0 = i.TH0;
             this.TL1 = i.TL1;
             this.TH1 = i.TH1;
-            this.EXT_RAM = new ObservableCollection<byte>(i.EXT_RAM);
+            string temp=null;
+            int j = 0;
+            //while(j < i.EXT_RAM.Length)
+            //{
+            //    int k=0;
+            //    temp += " " + (j + 10) + "\t";
+            //    while (j < i.EXT_RAM.Length)
+            //    {
+            //        if (k == 10)
+            //            break;
+            //        temp += " " + i.EXT_RAM[j] + " ";
+            //        k++;
+            //        j++;
+            //    }
+            //    temp += "\n";
+            //}
+            this.EXT_RAM = temp;
+            //this.EXT_RAM = new ObservableCollection<byte>(i.EXT_RAM);
         }
         public void StartUpdate()
         {
