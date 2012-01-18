@@ -323,6 +323,51 @@ namespace symulator8051
                 OnPropertyChanged("PC");
             }
         }
+        private byte tl0;
+
+        public byte TL0
+        {
+            get { return tl0; }
+            set 
+            { 
+                tl0 = value;
+                OnPropertyChanged("TL0");
+            }
+        }
+        private byte th0;
+
+        public byte TH0
+        {
+            get { return th0; }
+            set 
+            { 
+                th0 = value;
+                OnPropertyChanged("TH0");
+            }
+        }
+        private byte tl1;
+
+        public byte TL1
+        {
+            get { return tl1; }
+            set 
+            { 
+                tl1 = value;
+                OnPropertyChanged("TL1");
+            }
+        }
+        private byte th1;
+
+        public byte TH1
+        {
+            get { return th1; }
+            set 
+            { 
+                th1 = value;
+                OnPropertyChanged("TH1");
+            }
+        }
+
         public void UpdateFields()
         {
             this.ACC = i.ACC;
@@ -353,6 +398,10 @@ namespace symulator8051
             this.R6 = i.R6;
             this.R7 = i.R7;
             this.PC = i.PC;
+            this.TL0 = i.TL0;
+            this.TH0 = i.TH0;
+            this.TL1 = i.TL1;
+            this.TH1 = i.TH1;
         }
         public void StartUpdate()
         {
