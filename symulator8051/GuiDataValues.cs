@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.ComponentModel;
 using System.Timers;
+using System.Collections.ObjectModel;
 
 namespace symulator8051
 {
@@ -367,7 +368,7 @@ namespace symulator8051
                 OnPropertyChanged("TH1");
             }
         }
-
+        public ObservableCollection<byte> EXT_RAM;
         public void UpdateFields()
         {
             this.ACC = i.ACC;
@@ -402,6 +403,7 @@ namespace symulator8051
             this.TH0 = i.TH0;
             this.TL1 = i.TL1;
             this.TH1 = i.TH1;
+            this.EXT_RAM = new ObservableCollection<byte>(i.EXT_RAM);
         }
         public void StartUpdate()
         {
