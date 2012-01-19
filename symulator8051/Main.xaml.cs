@@ -16,6 +16,7 @@ using Microsoft.Win32;
 using System.IO;
 using System.ComponentModel;
 using DmitryBrant.CustomControls;
+using System.Diagnostics;
 
 namespace symulator8051
 {
@@ -29,6 +30,7 @@ namespace symulator8051
         private string rawSourceCode;
         public event PropertyChangedEventHandler PropertyChanged;
         String FileName;
+        public string output;
         public string RawSourceCode
         {
             get { return rawSourceCode; }
@@ -41,15 +43,15 @@ namespace symulator8051
 
         public Main()
         {
-            
+
             InitializeComponent();
             i8051 = new I8051();
-            guiData = new GuiDataValues(i8051);
-            
+            guiData = new GuiDataValues(i8051, this);
+
             MainGrid.DataContext = guiData;
             CodeTbox.DataContext = this;
             guiData.UpdateFields();
-      
+
             //memoryPreview.ItemsSource = guiData.EXT_RAM;
         }
         private void MenuItem_Click(object sender, RoutedEventArgs e)
@@ -58,19 +60,45 @@ namespace symulator8051
             o.DefaultExt = "*.asm";
             if (o.ShowDialog() == true)
             {
-                this.FileName=o.FileName;
-                RawSourceCode = File.ReadAllText(this.FileName);             
+                this.FileName = o.FileName;
+                RawSourceCode = File.ReadAllText(this.FileName);
             }
         }
 
         private void MenuItem_Click_1(object sender, RoutedEventArgs e)
         {
-            SourceCode s = new SourceCode();
-            //s.FilePath = o.FileName;
-            s.Open();
-            s.Load(i8051.EXT_PMEM);
-            i8051.process();
-            guiData.StartUpdate();
+            File.WriteAllText("temp.asm", this.rawSourceCode);
+            Process p = new Process();
+            p.StartInfo.UseShellExecute = false;
+            p.StartInfo.RedirectStandardOutput = true;
+            p.StartInfo.CreateNoWindow = true;
+            p.StartInfo.FileName = "ASM51.exe";
+            p.StartInfo.Arguments = "temp.asm";
+
+            try
+            {
+                p.Start();
+                this.output = p.StandardOutput.ReadToEnd();
+                p.WaitForExit();
+            }
+            catch (FileNotFoundException)
+            {
+                MessageBox.Show("Błąd nie znaleziono ASM51.exe w katalogu programu", "Błąd", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+            catch (Win32Exception)
+            {
+                MessageBox.Show("Do poprawnego działania programu ASM51.exe wymagany jest 32 bitowy system.", "Błąd", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+            
+            if (File.Exists("temp.hex")==true)
+            {
+                SourceCode s = new SourceCode();
+                s.FilePath = "temp.hex";
+                s.Open();
+                s.Load(i8051.EXT_PMEM);
+                i8051.process();
+                guiData.StartUpdate();
+            }
         }
 
         private void MenuItem_Click_2(object sender, RoutedEventArgs e)
@@ -141,9 +169,9 @@ namespace symulator8051
         {
             SaveFileDialog sfd = new SaveFileDialog();
             sfd.FileName = this.FileName;
-            if (sfd.ShowDialog()==true)
+            if (sfd.ShowDialog() == true)
             {
-                File.WriteAllText(sfd.FileName, this.rawSourceCode);    
+                File.WriteAllText(sfd.FileName, this.rawSourceCode);
             }
         }
 

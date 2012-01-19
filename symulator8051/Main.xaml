@@ -3,7 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:c="clr-namespace:symulator8051.Converter"
         xmlns:SevenSegment="clr-namespace:DmitryBrant.CustomControls"
-        Title="MainWindow" Height="500" Width="740" MinWidth="740">
+        Title="I8051 sim" Height="500" Width="740" MinWidth="740" WindowStyle="SingleBorderWindow" WindowStartupLocation="CenterScreen" ResizeMode="NoResize">
 
     <Grid x:Name="MainGrid">
         <Grid.ColumnDefinitions>
@@ -113,7 +113,8 @@
             <TextBox Text="{Binding CY, Mode=TwoWay}" Grid.Column="5" Grid.Row="7"/>
             <TextBox Text="{Binding R7, Mode=TwoWay}" Grid.Column="7" />
         </Grid>
-        <TextBlock Grid.Column="0" Grid.Row="2" Text="{Binding EXT_RAM}"/>
+        <GroupBox Grid.Column="0" Grid.Row="2" Header="Log Kompilacji">
+        <TextBox TextWrapping="Wrap" IsReadOnly="True" Text="{Binding output}" /></GroupBox>
         <!--<ListBox Grid.Column="0" Grid.Row="2" Name="memoryPreview">
             <ListBox.ItemsPanel>
                 <ItemsPanelTemplate>
@@ -142,7 +143,7 @@
                 <ColumnDefinition/>
             </Grid.ColumnDefinitions>
             <WindowsFormsHost Grid.Column="4" Grid.Row="0">
-                <SevenSegment:SevenSegment x:Name="lcdControl1" CustomPattern="0x11"/>
+                <SevenSegment:SevenSegment x:Name="lcdControl1"/>
             </WindowsFormsHost>
             <WindowsFormsHost Grid.Column="3" Grid.Row="0">
                 <SevenSegment:SevenSegment x:Name="lcdControl2"/>
