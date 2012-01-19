@@ -2,6 +2,7 @@
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:c="clr-namespace:symulator8051.Converter"
+        xmlns:SevenSegment="clr-namespace:DmitryBrant.CustomControls"
         Title="MainWindow" Height="500" Width="740" MinWidth="740">
 
     <Grid x:Name="MainGrid">
@@ -55,7 +56,7 @@
             <TextBox Text="{Binding R2, Mode=TwoWay}" Grid.Column="7" Grid.Row="5"/>
             <TextBox Text="{Binding R1, Mode=TwoWay}" Grid.Column="7" Grid.Row="6"/>
             <TextBox Text="{Binding R0, Mode=TwoWay, Converter={StaticResource HexByte}}" Grid.Column="7" Grid.Row="7"/>
-            
+
             <Label Content="Acc" Grid.Column="8" />
             <Label Content="B" Grid.Column="8" Grid.Row="1"/>
             <Label Content="PSW" Grid.Column="8" Grid.Row="2"/>
@@ -73,30 +74,30 @@
             <TextBox Text="{Binding DPH, Mode=TwoWay}" Grid.Column="9" Grid.Row="5"/>
             <TextBox Text="{Binding DPL, Mode=TwoWay}" Grid.Column="9" Grid.Row="6"/>
             <TextBox Text="{Binding SP,Mode=TwoWay}" Grid.Column="9" Grid.Row="7"/>
-            
+
             <Label Content="THO" Grid.Column="3" Grid.Row="0"/>
             <Label Content="TL0" Grid.Column="4" Grid.Row="0"/>
             <TextBox Text="{Binding TH0, Mode=TwoWay}" Grid.Column="3" Grid.Row="1"/>
             <TextBox Text="{Binding TL0, Mode=TwoWay}" Grid.Column="4" Grid.Row="1"/>
-            
+
             <Label Content="TH1" Grid.Column="3" Grid.Row="2"/>
             <Label Content="TL1" Grid.Column="4" Grid.Row="2"/>
             <TextBox Text="{Binding TH1, Mode=TwoWay}" Grid.Column="3" Grid.Row="2"/>
             <TextBox Text="{Binding TL1, Mode=TwoWay}" Grid.Column="4" Grid.Row="2"/>
-            
+
             <Label Content="PC" Grid.Column="0" Grid.Row="0"/>
             <TextBox Text="{Binding PC, Mode=TwoWay}" Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="2"/>
-            
+
             <Label Content="P0" Grid.Column="0" Grid.Row="2"/>
             <Label Content="P1" Grid.Column="0" Grid.Row="3"/>
             <Label Content="P2" Grid.Column="0" Grid.Row="4"/>
             <Label Content="P3" Grid.Column="0" Grid.Row="5"/>
-            
+
             <TextBox Text="{Binding P0, Mode=TwoWay}" Grid.Column="1" Grid.Row="2"/>
             <TextBox Text="{Binding P1, Mode=TwoWay}" Grid.Column="1" Grid.Row="3"/>
             <TextBox Text="{Binding P2, Mode=TwoWay}" Grid.Column="1" Grid.Row="4"/>
             <TextBox Text="{Binding P3, Mode=TwoWay}" Grid.Column="1" Grid.Row="5"/>
-            
+
             <Label Content="OV" Grid.Column="0" Grid.Row="6"/>
             <Label Content="RS0" Grid.Column="1" Grid.Row="6"/>
             <Label Content="RS1" Grid.Column="2" Grid.Row="6"/>
@@ -126,7 +127,33 @@
             </ListBox.ItemTemplate>
         </ListBox>-->
         <TextBox FontFamily="Lucida Console" FontSize="12" Text="{Binding RawSourceCode, Mode=TwoWay}" AllowDrop="False" VerticalScrollBarVisibility="Auto" Name="CodeTbox" Grid.Column="1" Grid.Row="1" AcceptsReturn="True" />
-        <Label Content="Pierdoly typu klawisze czy lcd" Grid.Column="1" Grid.Row="2"/>
+        <Grid Grid.Column="1" Grid.Row="2">
+            <Grid.RowDefinitions>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+            <WindowsFormsHost Grid.Column="4" Grid.Row="0">
+                <SevenSegment:SevenSegment x:Name="lcdControl1" CustomPattern="0x11"/>
+            </WindowsFormsHost>
+            <WindowsFormsHost Grid.Column="3" Grid.Row="0">
+                <SevenSegment:SevenSegment x:Name="lcdControl2"/>
+            </WindowsFormsHost>
+            <WindowsFormsHost Grid.Column="2" Grid.Row="0">
+                <SevenSegment:SevenSegment x:Name="lcdControl3"/>
+            </WindowsFormsHost>
+            <WindowsFormsHost Grid.Column="1" Grid.Row="0">
+                <SevenSegment:SevenSegment x:Name="lcdControl4"/>
+            </WindowsFormsHost>
+        </Grid>
         <Menu Height="23" Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="1" Width="Auto">
             <MenuItem Header="_Plik">
                 <MenuItem Header="_Otwórz" Click="MenuItem_Click"/>
