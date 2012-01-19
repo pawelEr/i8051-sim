@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using ByteExtensionMethods;
 
 namespace symulator8051.Commands
 {
@@ -348,6 +349,62 @@ namespace symulator8051.Commands
         public void execute()
         {
             i.ACC = (byte)(i.ACC | i.R7);
+        }
+    }
+    class x72 : ICommand //ORL C,bit
+    {
+        I8051 i;
+
+        private byte cycles = 2;
+        public byte Cycles
+        {
+            get { return cycles; }
+        }
+        private ushort bytes = 2;
+        public ushort Bytes
+        {
+            get { return bytes; }
+        }
+        private byte arg;
+        public x72(I8051 i, byte arg)
+        {
+            this.i = i;
+            this.arg = arg;
+        }
+        public void execute()
+        {
+            if ((i.CY) | (arg) == 1)
+                ByteHelper.setBit(1, 7);
+            else
+                ByteHelper.clrBit(0,7);
+        }
+    }
+    class xA0 : ICommand //ORL C,~bit
+    {
+        I8051 i;
+
+        private byte cycles = 2;
+        public byte Cycles
+        {
+            get { return cycles; }
+        }
+        private ushort bytes = 2;
+        public ushort Bytes
+        {
+            get { return bytes; }
+        }
+        private byte arg;
+        public xA0(I8051 i, byte arg)
+        {
+            this.i = i;
+            this.arg = arg;
+        }
+        public void execute()
+        {
+            if ((i.CY) | (~arg) == 1)
+                ByteHelper.setBit(1, 7);
+            else
+                ByteHelper.clrBit(0, 7);
         }
     }
 }

@@ -90,6 +90,7 @@
     <Compile Include="Commands\Movc.cs" />
     <Compile Include="Commands\Mul.cs" />
     <Compile Include="Commands\Orl.cs" />
+    <Compile Include="Commands\Rr.cs" />
     <Compile Include="Commands\Subb.cs" />
     <Compile Include="Commands\Swap.cs" />
     <Compile Include="Commands\XCH.cs" />
