@@ -11,9 +11,11 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using System.Windows.Forms.Integration;
 using Microsoft.Win32;
 using System.IO;
 using System.ComponentModel;
+using DmitryBrant.CustomControls;
 
 namespace symulator8051
 {
@@ -36,6 +38,7 @@ namespace symulator8051
                 OnPropertyChanged("RawSourceCode");
             }
         }
+
         public Main()
         {
             
@@ -46,6 +49,7 @@ namespace symulator8051
             MainGrid.DataContext = guiData;
             CodeTbox.DataContext = this;
             guiData.UpdateFields();
+      
             //memoryPreview.ItemsSource = guiData.EXT_RAM;
         }
         private void MenuItem_Click(object sender, RoutedEventArgs e)

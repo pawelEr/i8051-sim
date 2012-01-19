@@ -12,9 +12,11 @@ namespace symulator8051
     {
         I8051 i;
         Timer t;
-        public GuiDataValues(I8051 i)
+        lcdControler l;
+        public GuiDataValues(I8051 i, Main m)
         {
             this.i = i;
+            this.l = new lcdControler(m, i);
         }
         public event PropertyChangedEventHandler PropertyChanged;
         private byte acc;
@@ -431,6 +433,7 @@ namespace symulator8051
             //}
             this.EXT_RAM = temp;
             //this.EXT_RAM = new ObservableCollection<byte>(i.EXT_RAM);
+            this.l.refresh();
         }
         public void StartUpdate()
         {
