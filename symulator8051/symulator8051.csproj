@@ -82,6 +82,7 @@
     <Compile Include="Commands\bitOperationHelper.cs" />
     <Compile Include="Commands\CJNE.cs" />
     <Compile Include="Commands\Clr.cs" />
+    <Compile Include="Commands\Cpl.cs" />
     <Compile Include="Commands\Data.cs" />
     <Compile Include="Commands\Dec.cs" />
     <Compile Include="Commands\Div.cs" />
@@ -95,10 +96,13 @@
     <Compile Include="Commands\Movc.cs" />
     <Compile Include="Commands\Mul.cs" />
     <Compile Include="Commands\Orl.cs" />
+    <Compile Include="Commands\Pop.cs" />
+    <Compile Include="Commands\Push.cs" />
     <Compile Include="Commands\Ret.cs" />
     <Compile Include="Commands\Rl.cs" />
     <Compile Include="Commands\Rr.cs" />
     <Compile Include="Commands\Rrc.cs" />
+    <Compile Include="Commands\Sjmp.cs" />
     <Compile Include="Commands\Subb.cs" />
     <Compile Include="Commands\Swap.cs" />
     <Compile Include="Commands\XCH.cs" />

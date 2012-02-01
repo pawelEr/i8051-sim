@@ -14,7 +14,7 @@ namespace symulator8051.Commands
         {
             get { return cycles; }
         }
-        private ushort bytes = 2;
+        private ushort bytes = 3;
         public ushort Bytes
         {
             get { return bytes; }

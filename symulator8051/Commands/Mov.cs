@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using ByteExtensionMethods;
 
 
 /* 
@@ -1322,6 +1323,60 @@ namespace symulator8051.Commands
         public void execute()
         {
             i.SFR[arg2] = i.SFR[arg];
+        }
+    }
+    class x92 : ICommand //MOV bit addres, C
+    {
+        I8051 i;
+        private byte cycles = 1;
+        public byte Cycles
+        {
+            get { return cycles; }
+        }
+        private ushort bytes = 2;
+        public ushort Bytes
+        {
+            get { return bytes; }
+        }
+        private byte arg;
+        public x92(byte arg,  I8051 i)
+        {
+            this.arg = arg;
+            this.i = i;
+        }
+        public void execute()
+        {
+            if (Convert.ToInt16(i.CY) == 1)
+                i.EXT_RAM[arg] = ByteHelper.setBit(arg, 1);
+            else
+                i.EXT_RAM[arg] = ByteHelper.clrBit(arg, 0);
+        }
+    }
+    class xA2 : ICommand //MOV C,bit addres
+    {
+        I8051 i;
+        private byte cycles = 1;
+        public byte Cycles
+        {
+            get { return cycles; }
+        }
+        private ushort bytes = 2;
+        public ushort Bytes
+        {
+            get { return bytes; }
+        }
+        private byte arg;
+        public xA2(byte arg, I8051 i)
+        {
+            this.arg = arg;
+            this.i = i;
+        }
+        public void execute()
+        {
+            if (i.EXT_RAM[arg] == 1)
+                ByteHelper.setBit(7, 1);
+            else
+                ByteHelper.clrBit(7, 0);
         }
     }
 }
