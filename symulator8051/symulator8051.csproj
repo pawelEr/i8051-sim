@@ -90,10 +90,13 @@
     <Compile Include="Commands\Inc.cs" />
     <Compile Include="Commands\Jb.cs" />
     <Compile Include="Commands\Jbc.cs" />
+    <Compile Include="Commands\Jmp.cs" />
     <Compile Include="Commands\Lcall.cs" />
     <Compile Include="Commands\Movc.cs" />
     <Compile Include="Commands\Mul.cs" />
     <Compile Include="Commands\Orl.cs" />
+    <Compile Include="Commands\Ret.cs" />
+    <Compile Include="Commands\Rl.cs" />
     <Compile Include="Commands\Rr.cs" />
     <Compile Include="Commands\Rrc.cs" />
     <Compile Include="Commands\Subb.cs" />
