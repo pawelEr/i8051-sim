@@ -6,62 +6,59 @@ using ByteExtensionMethods;
 
 namespace symulator8051.Commands
 {
-    class x10 : ICommand //JBC bit,adres
+    class x23 : ICommand //RL
     {
         I8051 i;
-        private byte cycles = 2;
+        private byte cycles = 1;
         public byte Cycles
         {
             get { return cycles; }
         }
-        private ushort bytes = 3;
+        private ushort bytes = 1;
         public ushort Bytes
         {
             get { return bytes; }
         }
         private byte arg;
-        private byte arg2;
-        public x10(I8051 i,byte arg, byte arg2)
+        public x23(I8051 i)
         {
             this.i = i;
-            this.arg = arg;
-            this.arg2 = arg2;
         }
         public void execute()
         {
-            if ( arg == 1)
-            {
-                ByteHelper.clrBit(arg, 0);
-                i.PC = (ushort)(i.PC + arg2);
-            }
+            byte b7 = Convert.ToByte(ByteHelper.chkBit(i.ACC, 7));
+            i.ACC = (byte)((i.ACC << 1) | b7);
         }
     }
-    class x30 : ICommand //JBC bit,adres
+    class x33 : ICommand //RLC
     {
         I8051 i;
-        private byte cycles = 2;
+        private byte cycles = 1;
         public byte Cycles
         {
             get { return cycles; }
         }
-        private ushort bytes = 3;
+        private ushort bytes = 1;
         public ushort Bytes
         {
             get { return bytes; }
         }
         private byte arg;
-        private byte arg2;
-        public x30(I8051 i, byte arg, byte arg2)
+        public x33(I8051 i)
         {
             this.i = i;
-            this.arg = arg;
-            this.arg2 = arg2;
         }
         public void execute()
         {
-            if (arg == 0)
+            byte b0 = Convert.ToByte(ByteHelper.chkBit(i.ACC, 7));
+            i.ACC = (byte)((i.ACC << 1) | Convert.ToInt16((i.CY)));
+            if (b0 == 1)
             {
-                i.PC = (ushort)(i.PC + arg2);
+                ByteHelper.setBit(7, 1);
+            }
+            else
+            {
+                ByteHelper.clrBit(7, 0);
             }
         }
     }

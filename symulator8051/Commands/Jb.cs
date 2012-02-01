@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using ByteExtensionMethods;
@@ -13,7 +14,7 @@ namespace symulator8051.Commands
         {
             get { return cycles; }
         }
-        private ushort bytes = 3;
+        private ushort bytes = 2;
         public ushort Bytes
         {
             get { return bytes; }
@@ -34,4 +35,113 @@ namespace symulator8051.Commands
             }
         }
     }
+    class x40 : ICommand //JC adres
+    {
+        I8051 i;
+        private byte cycles = 2;
+        public byte Cycles
+        {
+            get { return cycles; }
+        }
+        private ushort bytes = 2;
+        public ushort Bytes
+        {
+            get { return bytes; }
+        }
+        private byte arg;        
+        public x40(I8051 i, byte arg)
+        {
+            this.i = i;
+            this.arg = arg;            
+        }
+        public void execute()
+        {
+            if ( Convert.ToInt16( i.CY) == 1)
+            {
+                i.PC = (ushort)(i.PC + arg);
+            }
+        }
+    }
+    class x50 : ICommand //JNC adres
+    {
+        I8051 i;
+        private byte cycles = 2;
+        public byte Cycles
+        {
+            get { return cycles; }
+        }
+        private ushort bytes = 2;
+        public ushort Bytes
+        {
+            get { return bytes; }
+        }
+        private byte arg;
+        public x50(I8051 i, byte arg)
+        {
+            this.i = i;
+            this.arg = arg;
+        }
+        public void execute()
+        {
+            if (Convert.ToInt16(i.CY) == 0)
+            {
+                i.PC = (ushort)(i.PC + arg);
+            }
+        }
+    }
+    class x60 : ICommand //JZ adres
+    {
+        I8051 i;
+        private byte cycles = 2;
+        public byte Cycles
+        {
+            get { return cycles; }
+        }
+        private ushort bytes = 2;
+        public ushort Bytes
+        {
+            get { return bytes; }
+        }
+        private byte arg;
+        public x60(I8051 i, byte arg)
+        {
+            this.i = i;
+            this.arg = arg;
+        }
+        public void execute()
+        {
+            if (i.ACC==0)
+            {
+                i.PC = (ushort)(i.PC + arg);
+            }
+        }
+    }
+    class x70 : ICommand //JNZ adres
+    {
+        I8051 i;
+        private byte cycles = 2;
+        public byte Cycles
+        {
+            get { return cycles; }
+        }
+        private ushort bytes = 2;
+        public ushort Bytes
+        {
+            get { return bytes; }
+        }
+        private byte arg;
+        public x70(I8051 i,byte arg)
+        {
+            this.i = i;
+            this.arg = arg;
+        }
+        public void execute()
+        {
+            if (i.ACC != 0)
+            {
+                i.PC = (ushort)(i.PC + arg);
+            }
+        }
+    }
+
 }

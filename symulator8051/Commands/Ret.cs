@@ -6,7 +6,7 @@ using ByteExtensionMethods;
 
 namespace symulator8051.Commands
 {
-    class x10 : ICommand //JBC bit,adres
+    class x22 : ICommand //RET
     {
         I8051 i;
         private byte cycles = 2;
@@ -14,29 +14,25 @@ namespace symulator8051.Commands
         {
             get { return cycles; }
         }
-        private ushort bytes = 3;
+        private ushort bytes = 1;
         public ushort Bytes
         {
             get { return bytes; }
         }
-        private byte arg;
-        private byte arg2;
-        public x10(I8051 i,byte arg, byte arg2)
+        public x22(I8051 i)
         {
             this.i = i;
-            this.arg = arg;
-            this.arg2 = arg2;
         }
         public void execute()
         {
-            if ( arg == 1)
-            {
-                ByteHelper.clrBit(arg, 0);
-                i.PC = (ushort)(i.PC + arg2);
-            }
+            byte addrH = i.EXT_RAM[i.SP];
+            i.SP =(byte)(i.SP-1);
+            byte addrL=i.EXT_RAM[i.SP];
+            i.SP=(byte)(i.SP-1);
+            i.PC=(UInt16)(addrH<<8|addrL);
         }
     }
-    class x30 : ICommand //JBC bit,adres
+    class x32 : ICommand //RETI
     {
         I8051 i;
         private byte cycles = 2;
@@ -44,25 +40,22 @@ namespace symulator8051.Commands
         {
             get { return cycles; }
         }
-        private ushort bytes = 3;
+        private ushort bytes = 1;
         public ushort Bytes
         {
             get { return bytes; }
         }
-        private byte arg;
-        private byte arg2;
-        public x30(I8051 i, byte arg, byte arg2)
+        public x32(I8051 i)
         {
             this.i = i;
-            this.arg = arg;
-            this.arg2 = arg2;
         }
         public void execute()
         {
-            if (arg == 0)
-            {
-                i.PC = (ushort)(i.PC + arg2);
-            }
+            byte addrH = i.EXT_RAM[i.SP];
+            i.SP = (byte)(i.SP - 1);
+            byte addrL = i.EXT_RAM[i.SP];
+            i.SP = (byte)(i.SP - 1);
+            i.PC = (UInt16)(addrH << 8 | addrL);
         }
     }
 }
