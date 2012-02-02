@@ -333,7 +333,7 @@ namespace symulator8051
                         break;
                     //LJMP code addr
                     case 0x02:
-                        
+                        c.SetCommand(new x02(this, this.EXT_PMEM[memPosition + 1].Data, this.EXT_PMEM[memPosition + 2].Data), memPosition);
                         break;
                     //RR A
                     case 0x03:
