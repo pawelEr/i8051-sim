@@ -18,6 +18,7 @@ namespace symulator8051
         #region memory/registers
         public byte[] SFR = new byte[0x100]; // rejestry funkcji specjalnych 
         public byte[] EXT_RAM = new byte[0x10000]; //zewnetrzna pamiec 64kB
+        public byte[] EXT_RAM2 = new byte[0x256];//pamiec do movx
         public MemoryRecord[] EXT_PMEM = new MemoryRecord[0x10000]; //zewnetrzna pamiec na program 64kb 
 
         public byte ACC //akumulator
