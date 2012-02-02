@@ -333,11 +333,11 @@ namespace symulator8051
                         break;
                     //LJMP code addr
                     case 0x02:
-
+                        
                         break;
                     //RR A
                     case 0x03:
-
+                        c.SetCommand(new x03(this), memPosition);
                         break;
                     //INC A
                     case 0x04:
@@ -389,7 +389,7 @@ namespace symulator8051
                         break;
                     //JBC bitaddr, reladdr
                     case 0x10:
-
+                        c.SetCommand(new x10(this, this.EXT_PMEM[memPosition + 1].Data, this.EXT_PMEM[memPosition + 2].Data), memPosition);
                         break;
                     //ACALL page0
                     case 0x11:
@@ -397,11 +397,11 @@ namespace symulator8051
                         break;
                     //LCALL code addr
                     case 0x12:
-
+                        c.SetCommand(new x12(this, this.EXT_PMEM[memPosition + 1].Data, this.EXT_PMEM[memPosition + 2].Data), memPosition);
                         break;
                     //RRC A
                     case 0x13:
-
+                        c.SetCommand(new x13(this), memPosition);
                         break;
                     //DEC A
                     case 0x14:
@@ -453,19 +453,19 @@ namespace symulator8051
                         break;
                     //JB bitaddr, reladdr
                     case 0x20:
-
+                        c.SetCommand(new x20(this, this.EXT_PMEM[memPosition + 1].Data, this.EXT_PMEM[memPosition + 2].Data), memPosition);
                         break;
                     // AJMP page1
                     case 0x21:
-
+                        c.SetCommand(new x21(this, this.EXT_PMEM[memPosition + 1].Data), memPosition);
                         break;
                     // RET -
                     case 0x22:
-
+                        c.SetCommand(new x22(this), memPosition);
                         break;
                     //RL A
                     case 0x23:
-
+                        c.SetCommand(new x23(this), memPosition);
                         break;
                     //ADD A, #data
                     case 0x24:
@@ -517,7 +517,7 @@ namespace symulator8051
                         break;
                     //JNB bitaddr, reladdr
                     case 0x30:
-
+                        c.SetCommand(new x30(this, this.EXT_PMEM[memPosition + 1].Data, this.EXT_PMEM[memPosition + 2].Data), memPosition);
                         break;
                     //ACALL page1
                     case 0x31:
@@ -525,11 +525,11 @@ namespace symulator8051
                         break;
                     //RETI
                     case 0x32:
-
+                        c.SetCommand(new x32(this), memPosition);
                         break;
                     //RLC A
                     case 0x33:
-
+                        c.SetCommand(new x33(this), memPosition);
                         break;
                     //ADDC A, #data
                     case 0x34:
@@ -581,7 +581,7 @@ namespace symulator8051
                         break;
                     //JC reladdr
                     case 0x40:
-
+                        c.SetCommand(new x40(this, this.EXT_PMEM[memPosition + 1].Data), memPosition);
                         break;
                     //AJMP page2
                     case 0x41:
@@ -645,7 +645,7 @@ namespace symulator8051
                         break;
                     //JNC reladdr
                     case 0x50:
-
+                        c.SetCommand(new x50(this, this.EXT_PMEM[memPosition + 1].Data), memPosition);
                         break;
                     //ACALL page2
                     case 0x51:
@@ -709,7 +709,7 @@ namespace symulator8051
                         break;
                     //JZ reladdr
                     case 0x60:
-
+                        c.SetCommand(new x60(this, this.EXT_PMEM[memPosition + 1].Data), memPosition);
                         break;
                     //AJMP page3
                     case 0x61:
@@ -773,7 +773,7 @@ namespace symulator8051
                         break;
                     //JNZ reladdr
                     case 0x70:
-
+                        c.SetCommand(new x70(this, this.EXT_PMEM[memPosition + 1].Data), memPosition);
                         break;
                     //ACALL page3
                     case 0x71:
@@ -781,11 +781,11 @@ namespace symulator8051
                         break;
                     //ORL C, bitaddr
                     case 0x72:
-
+                        c.SetCommand(new x72(this, this.EXT_PMEM[memPosition + 1].Data), memPosition);
                         break;
                     //JMP @a+dptr
                     case 0x73:
-
+                        c.SetCommand(new x73(this), memPosition);
                         break;
                     //MOV A, #data
                     case 0x74:
@@ -837,7 +837,7 @@ namespace symulator8051
                         break;
                     //SJMP reladdr
                     case 0x80:
-
+                        c.SetCommand(new x80(this, this.EXT_PMEM[memPosition + 1].Data), memPosition);
                         break;
                     //AJMP page4
                     case 0x81:
@@ -845,7 +845,7 @@ namespace symulator8051
                         break;
                     //ANL C, bitaddr
                     case 0x82:
-
+                        c.SetCommand(new x82(this, this.EXT_PMEM[memPosition + 1].Data), memPosition);
                         break;
                     //MOVC A, @A+DPTR
                     case 0x83:
@@ -906,11 +906,11 @@ namespace symulator8051
                         break;
                     //ACALL page4
                     case 0x91:
-
+                        c.SetCommand(new x91(this, this.EXT_PMEM[memPosition + 1].Data), memPosition);
                         break;
                     //MOV bitaddr, C
                     case 0x92:
-
+                        c.SetCommand(new x92(this.EXT_PMEM[memPosition + 1].Data, this), memPosition);
                         break;
                     //MOVC A, @A+PC
                     case 0x93:
@@ -966,7 +966,7 @@ namespace symulator8051
                         break;
                     //ORL C, bitaddr
                     case 0xa0:
-
+                        c.SetCommand(new xA0(this, this.EXT_PMEM[memPosition + 1].Data), memPosition);
                         break;
                     //AJMP page5
                     case 0xa1:
@@ -974,7 +974,7 @@ namespace symulator8051
                         break;
                     //MOV C, bitaddr
                     case 0xa2:
-
+                        c.SetCommand(new xA2(this.EXT_PMEM[memPosition + 1].Data, this), memPosition);
                         break;
                     //INC DPTR
                     case 0xa3:
@@ -1030,7 +1030,7 @@ namespace symulator8051
                         break;
                     //ANL C, bitaddr
                     case 0xb0:
-
+                        c.SetCommand(new xB0(this, this.EXT_PMEM[memPosition + 1].Data), memPosition);
                         break;
                     //ACALL page5
                     case 0xb1:
@@ -1038,11 +1038,11 @@ namespace symulator8051
                         break;
                     //CPL bitaddr
                     case 0xb2:
-
+                        c.SetCommand(new xB2(this.EXT_PMEM[memPosition + 1].Data, this), memPosition);
                         break;
                     //CPL C
                     case 0xb3:
-
+                        c.SetCommand(new xB3(this), memPosition);
                         break;
                     //CJNE A, #data, reladdr
                     case 0xb4:
@@ -1094,7 +1094,7 @@ namespace symulator8051
                         break;
                     //PUSH iram
                     case 0xc0:
-
+                        c.SetCommand(new xC0(this, this.EXT_PMEM[memPosition + 1].Data), memPosition);
                         break;
                     //AJMP page6
                     case 0xc1:
@@ -1102,7 +1102,7 @@ namespace symulator8051
                         break;
                     //CLR bitaddr
                     case 0xc2:
-
+                        c.SetCommand(new xC2(this, this.EXT_PMEM[memPosition + 1].Data), memPosition);
                         break;
                     //CLR C
                     case 0xc3:
@@ -1158,7 +1158,7 @@ namespace symulator8051
                         break;
                     //POP iram
                     case 0xd0:
-
+                        c.SetCommand(new xD0(this, this.EXT_PMEM[memPosition + 1].Data), memPosition);
                         break;
                     //ACALL page6
                     case 0xd1:
@@ -1166,75 +1166,75 @@ namespace symulator8051
                         break;
                     //SETB bitaddr
                     case 0xd2:
-
+                        c.SetCommand(new xD2(this, this.EXT_PMEM[memPosition + 1].Data), memPosition);
                         break;
                     //SETB C
                     case 0xd3:
-
+                        c.SetCommand(new xD3(this), memPosition);
                         break;
                     //DA A
                     case 0xd4:
-
+                        c.SetCommand(new xD4(this), memPosition);
                         break;
                     //DJNZ iram, reladdr
                     case 0xd5:
-
+                        c.SetCommand(new xD5(this, this.EXT_PMEM[memPosition + 1].Data, this.EXT_PMEM[memPosition + 2].Data), memPosition);
                         break;
                     //XCHD A, @R0
                     case 0xd6:
-
+                        c.SetCommand(new xD6(this), memPosition);
                         break;
                     //XCHD A, @R1
                     case 0xd7:
-
+                        c.SetCommand(new xD7(this), memPosition);
                         break;
                     //DJNZ R0, reladdr
                     case 0xd8:
-
+                        c.SetCommand(new xD8(this, this.EXT_PMEM[memPosition + 1].Data), memPosition);
                         break;
                     //DJNZ R1, reladdr
                     case 0xd9:
-
+                        c.SetCommand(new xD9(this, this.EXT_PMEM[memPosition + 1].Data), memPosition);
                         break;
                     //DJNZ R2, reladdr
                     case 0xda:
-
+                        c.SetCommand(new xDA(this, this.EXT_PMEM[memPosition + 1].Data), memPosition);
                         break;
                     //DJNZ R3, reladdr
                     case 0xdb:
-
+                        c.SetCommand(new xDB(this, this.EXT_PMEM[memPosition + 1].Data), memPosition);
                         break;
                     //DJNZ R4, reladdr
                     case 0xdc:
-
+                        c.SetCommand(new xDC(this, this.EXT_PMEM[memPosition + 1].Data), memPosition);
                         break;
                     //DJNZ R5, reladdr
                     case 0xdd:
-
+                        c.SetCommand(new xDD(this, this.EXT_PMEM[memPosition + 1].Data), memPosition);
                         break;
                     //DJNZ R6, reladdr
                     case 0xde:
-
+                        c.SetCommand(new xDE(this, this.EXT_PMEM[memPosition + 1].Data), memPosition);
                         break;
                     //DJNZ R7, reladdr
                     case 0xdf:
-
+                        c.SetCommand(new xDF(this, this.EXT_PMEM[memPosition + 1].Data), memPosition);
                         break;
                     //MOVX A, @dptr
                     case 0xe0:
-
+                        c.SetCommand(new xE0(this), memPosition);
                         break;
                     //AJMP page7
                     case 0xe1:
-
+                        c.SetCommand(new xE1(this, this.EXT_PMEM[memPosition + 1].Data), memPosition);
                         break;
                     //MOVX A, @R0
                     case 0xe2:
-
+                        c.SetCommand(new xE2(this), memPosition);
                         break;
                     //MOVX A, @R1
                     case 0xe3:
-
+                        c.SetCommand(new xE3(this), memPosition);
                         break;
                     //CLR A
                     case 0xe4:
@@ -1286,7 +1286,7 @@ namespace symulator8051
                         break;
                     //MOVX @DPTR, A
                     case 0xf0:
-
+                        c.SetCommand(new xF0(this), memPosition);
                         break;
                     //ACALL page7
                     case 0xf1:
@@ -1294,15 +1294,15 @@ namespace symulator8051
                         break;
                     //MOVX @R0, A
                     case 0xf2:
-
+                        c.SetCommand(new xF2(this), memPosition);
                         break;
                     //MOVX @R1, A
                     case 0xf3:
-
+                        c.SetCommand(new xF3(this), memPosition);
                         break;
                     //CPL A
                     case 0xf4:
-
+                        c.SetCommand(new xF4(this.EXT_PMEM[memPosition + 1].Data, this), memPosition);
                         break;
                     //MOV iram, A
                     case 0xf5:

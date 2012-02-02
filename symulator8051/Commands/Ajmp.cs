@@ -187,6 +187,7 @@ namespace symulator8051.Commands
             temp = (UInt16)(i.SFR[i.PC] | 6);
             i.PC = (UInt16)(i.PC | temp);
         }
+    }
         class xE1 : ICommand // AJMP code addr
         {
             I8051 i;
@@ -214,4 +215,3 @@ namespace symulator8051.Commands
             }
         }
     }
-}
