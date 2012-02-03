@@ -27,11 +27,11 @@ namespace symulator8051.Commands
         public void execute()
         {
             temp = (UInt16)(i.ACC * i.B);
-            ByteHelper.clrBit(7, 0);
+            i.PSW = i.PSW.clrBit(bits.bit7);
             if (temp > 0xff)
-                ByteHelper.setBit(2, 1);
+                i.PSW = i.PSW.setBit(bits.bit2);
             else
-                ByteHelper.clrBit(2, 0);
+                i.PSW = i.PSW.clrBit(bits.bit2);
             i.ACC = (byte)(temp & 0x00ff);
             i.B = (byte)((temp & 0xff00) >> 8);
         }

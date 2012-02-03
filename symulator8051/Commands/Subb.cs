@@ -31,22 +31,22 @@ namespace symulator8051.Commands
         {
             value=(byte)(i.SFR[arg]+Convert.ToByte(i.CY));
             temp=(UInt16)(i.ACC-value);
-            ByteHelper.clrBit(7, 0);
-            ByteHelper.clrBit(2, 0);
-            ByteHelper.clrBit(6, 0);
+            i.PSW = i.PSW.clrBit(bits.bit7);
+            i.PSW = i.PSW.clrBit(bits.bit2);
+            i.PSW = i.PSW.clrBit(bits.bit6);
             if ((i.SFR[arg] & 0x0f) > (i.ACC & 0x0f))
-                ByteHelper.setBit(6,1);
+                i.PSW = i.PSW.setBit(bits.bit6);
             else
-                ByteHelper.clrBit(6,0);
-            if ((i.SFR[arg]&0x7f)>(i.ACC&0x7f))
-                ByteHelper.setBit(2,1);
+                i.PSW = i.PSW.clrBit(bits.bit6);
+            if ((i.SFR[arg] & 0x7f) > (i.ACC & 0x7f))
+                i.PSW = i.PSW.setBit(bits.bit2);
             if (i.SFR[arg]>i.ACC)
             {
-                ByteHelper.setBit(7,1);
-                if(ByteHelper.chkBit(2,0))
-                    ByteHelper.setBit(2,1);
+                i.PSW = i.PSW.setBit(bits.bit7);
+                if (i.PSW.chkBit(bits.bit2))
+                    i.PSW = i.PSW.setBit(bits.bit2);
                 else
-                    ByteHelper.setBit(2,0);
+                    i.PSW = i.PSW.clrBit(bits.bit2);
             }
         }
     }
@@ -75,22 +75,22 @@ namespace symulator8051.Commands
         {
             value = (byte)(arg + Convert.ToByte(i.CY));
             temp = (UInt16)(i.ACC - value);
-            ByteHelper.clrBit(7, 0);
-            ByteHelper.clrBit(2, 0);
-            ByteHelper.clrBit(6, 0);
+            i.PSW = i.PSW.clrBit(bits.bit7);
+            i.PSW = i.PSW.clrBit(bits.bit2);
+            i.PSW = i.PSW.clrBit(bits.bit6);
             if ((arg & 0x0f) > (i.ACC & 0x0f))
-                ByteHelper.setBit(6, 1);
+                i.PSW = i.PSW.setBit(bits.bit6);
             else
-                ByteHelper.clrBit(6, 0);
+                i.PSW = i.PSW.clrBit(bits.bit6);
             if ((arg & 0x7f) > (i.ACC & 0x7f))
-                ByteHelper.setBit(2, 1);
+                i.PSW = i.PSW.setBit(bits.bit2);
             if (arg > i.ACC)
             {
-                ByteHelper.setBit(7, 1);
-                if (ByteHelper.chkBit(2, 0))
-                    ByteHelper.setBit(2, 1);
+                i.PSW = i.PSW.setBit(bits.bit7);
+                if (i.PSW.chkBit(bits.bit2))
+                    i.PSW = i.PSW.setBit(bits.bit2);
                 else
-                    ByteHelper.setBit(2, 0);
+                    i.PSW = i.PSW.clrBit(bits.bit2);
             }
         }
     }
@@ -118,22 +118,22 @@ namespace symulator8051.Commands
         {
             value = (byte)(i.EXT_RAM[i.R0] + Convert.ToByte(i.CY));
             temp = (UInt16)(i.ACC - value);
-            ByteHelper.clrBit(7, 0);
-            ByteHelper.clrBit(2, 0);
-            ByteHelper.clrBit(6, 0);
+            i.PSW = i.PSW.clrBit(bits.bit7);
+            i.PSW = i.PSW.clrBit(bits.bit2);
+            i.PSW = i.PSW.clrBit(bits.bit6);
             if ((i.EXT_RAM[i.R0] & 0x0f) > (i.ACC & 0x0f))
-                ByteHelper.setBit(6, 1);
+                i.PSW = i.PSW.setBit(bits.bit6);
             else
-                ByteHelper.clrBit(6, 0);
+                i.PSW = i.PSW.clrBit(bits.bit6);
             if ((i.EXT_RAM[i.R0] & 0x7f) > (i.ACC & 0x7f))
-                ByteHelper.setBit(2, 1);
+                i.PSW = i.PSW.setBit(bits.bit2);
             if (i.EXT_RAM[i.R0] > i.ACC)
             {
-                ByteHelper.setBit(7, 1);
-                if (ByteHelper.chkBit(2, 0))
-                    ByteHelper.setBit(2, 1);
+                i.PSW = i.PSW.setBit(bits.bit7);
+                if (i.PSW.chkBit(bits.bit2))
+                    i.PSW = i.PSW.setBit(bits.bit2);
                 else
-                    ByteHelper.setBit(2, 0);
+                    i.PSW = i.PSW.clrBit(bits.bit2);
             }
         }
     }
@@ -162,22 +162,22 @@ namespace symulator8051.Commands
         {
             value = (byte)(i.EXT_RAM[i.R1] + Convert.ToByte(i.CY));
             temp = (UInt16)(i.ACC - value);
-            ByteHelper.clrBit(7, 0);
-            ByteHelper.clrBit(2, 0);
-            ByteHelper.clrBit(6, 0);
+            i.PSW = i.PSW.clrBit(bits.bit7);
+            i.PSW = i.PSW.clrBit(bits.bit2);
+            i.PSW = i.PSW.clrBit(bits.bit6);
             if ((i.EXT_RAM[i.R1] & 0x0f) > (i.ACC & 0x0f))
-                ByteHelper.setBit(6, 1);
+                i.PSW = i.PSW.setBit(bits.bit6);
             else
-                ByteHelper.clrBit(6, 0);
+                i.PSW = i.PSW.clrBit(bits.bit6);
             if ((i.EXT_RAM[i.R1] & 0x7f) > (i.ACC & 0x7f))
-                ByteHelper.setBit(2, 1);
+                i.PSW = i.PSW.setBit(bits.bit2);
             if (i.EXT_RAM[i.R1] > i.ACC)
             {
-                ByteHelper.setBit(7, 1);
-                if (ByteHelper.chkBit(2, 0))
-                    ByteHelper.setBit(2, 1);
+                i.PSW = i.PSW.setBit(bits.bit7);
+                if (i.PSW.chkBit(bits.bit2))
+                    i.PSW = i.PSW.setBit(bits.bit2);
                 else
-                    ByteHelper.setBit(2, 0);
+                    i.PSW = i.PSW.clrBit(bits.bit2);
             }
         }
     }
@@ -205,22 +205,22 @@ namespace symulator8051.Commands
         {
             value = (byte)(i.R0 + Convert.ToByte(i.CY));
             temp = (UInt16)(i.ACC - value);
-            ByteHelper.clrBit(7, 0);
-            ByteHelper.clrBit(2, 0);
-            ByteHelper.clrBit(6, 0);
+            i.PSW = i.PSW.clrBit(bits.bit7);
+            i.PSW = i.PSW.clrBit(bits.bit2);
+            i.PSW = i.PSW.clrBit(bits.bit6);
             if ((i.R0 & 0x0f) > (i.ACC & 0x0f))
-                ByteHelper.setBit(6, 1);
+                i.PSW = i.PSW.setBit(bits.bit6);
             else
-                ByteHelper.clrBit(6, 0);
+                i.PSW = i.PSW.clrBit(bits.bit6);
             if ((i.R0 & 0x7f) > (i.ACC & 0x7f))
-                ByteHelper.setBit(2, 1);
+                i.PSW = i.PSW.setBit(bits.bit2);
             if (i.R0 > i.ACC)
             {
-                ByteHelper.setBit(7, 1);
-                if (ByteHelper.chkBit(2, 0))
-                    ByteHelper.setBit(2, 1);
+                i.PSW = i.PSW.setBit(bits.bit7);
+                if (i.PSW.chkBit(bits.bit2))
+                    i.PSW = i.PSW.setBit(bits.bit2);
                 else
-                    ByteHelper.setBit(2, 0);
+                    i.PSW = i.PSW.clrBit(bits.bit2);
             }
         }
     }
@@ -248,22 +248,22 @@ namespace symulator8051.Commands
         {
             value = (byte)(i.R1 + Convert.ToByte(i.CY));
             temp = (UInt16)(i.ACC - value);
-            ByteHelper.clrBit(7, 0);
-            ByteHelper.clrBit(2, 0);
-            ByteHelper.clrBit(6, 0);
+            i.PSW = i.PSW.clrBit(bits.bit7);
+            i.PSW = i.PSW.clrBit(bits.bit2);
+            i.PSW = i.PSW.clrBit(bits.bit6);
             if ((i.R1 & 0x0f) > (i.ACC & 0x0f))
-                ByteHelper.setBit(6, 1);
+                i.PSW = i.PSW.setBit(bits.bit6);
             else
-                ByteHelper.clrBit(6, 0);
+                i.PSW = i.PSW.clrBit(bits.bit6);
             if ((i.R1 & 0x7f) > (i.ACC & 0x7f))
-                ByteHelper.setBit(2, 1);
+                i.PSW = i.PSW.setBit(bits.bit2);
             if (i.R1 > i.ACC)
             {
-                ByteHelper.setBit(7, 1);
-                if (ByteHelper.chkBit(2, 0))
-                    ByteHelper.setBit(2, 1);
+                i.PSW = i.PSW.setBit(bits.bit7);
+                if (i.PSW.chkBit(bits.bit2))
+                    i.PSW = i.PSW.setBit(bits.bit2);
                 else
-                    ByteHelper.setBit(2, 0);
+                    i.PSW = i.PSW.clrBit(bits.bit2);
             }
         }
     }
@@ -292,22 +292,22 @@ namespace symulator8051.Commands
         {
             value = (byte)(i.R2 + Convert.ToByte(i.CY));
             temp = (UInt16)(i.ACC - value);
-            ByteHelper.clrBit(7, 0);
-            ByteHelper.clrBit(2, 0);
-            ByteHelper.clrBit(6, 0);
+            i.PSW = i.PSW.clrBit(bits.bit7);
+            i.PSW = i.PSW.clrBit(bits.bit2);
+            i.PSW = i.PSW.clrBit(bits.bit6);
             if ((i.R2 & 0x0f) > (i.ACC & 0x0f))
-                ByteHelper.setBit(6, 1);
+                i.PSW = i.PSW.setBit(bits.bit6);
             else
-                ByteHelper.clrBit(6, 0);
+                i.PSW = i.PSW.clrBit(bits.bit6);
             if ((i.R2 & 0x7f) > (i.ACC & 0x7f))
-                ByteHelper.setBit(2, 1);
+                i.PSW = i.PSW.setBit(bits.bit2);
             if (i.R2 > i.ACC)
             {
-                ByteHelper.setBit(7, 1);
-                if (ByteHelper.chkBit(2, 0))
-                    ByteHelper.setBit(2, 1);
+                i.PSW = i.PSW.setBit(bits.bit7);
+                if (i.PSW.chkBit(bits.bit2))
+                    i.PSW = i.PSW.setBit(bits.bit2);
                 else
-                    ByteHelper.setBit(2, 0);
+                    i.PSW = i.PSW.clrBit(bits.bit2);
             }
         }
     }
@@ -335,22 +335,22 @@ namespace symulator8051.Commands
         {
             value = (byte)(i.R3 + Convert.ToByte(i.CY));
             temp = (UInt16)(i.ACC - value);
-            ByteHelper.clrBit(7, 0);
-            ByteHelper.clrBit(2, 0);
-            ByteHelper.clrBit(6, 0);
+            i.PSW = i.PSW.clrBit(bits.bit7);
+            i.PSW = i.PSW.clrBit(bits.bit2);
+            i.PSW = i.PSW.clrBit(bits.bit6);
             if ((i.R3 & 0x0f) > (i.ACC & 0x0f))
-                ByteHelper.setBit(6, 1);
+                i.PSW = i.PSW.setBit(bits.bit6);
             else
-                ByteHelper.clrBit(6, 0);
+                i.PSW = i.PSW.clrBit(bits.bit6);
             if ((i.R3 & 0x7f) > (i.ACC & 0x7f))
-                ByteHelper.setBit(2, 1);
+                i.PSW = i.PSW.setBit(bits.bit2);
             if (i.R3 > i.ACC)
             {
-                ByteHelper.setBit(7, 1);
-                if (ByteHelper.chkBit(2, 0))
-                    ByteHelper.setBit(2, 1);
+                i.PSW = i.PSW.setBit(bits.bit7);
+                if (i.PSW.chkBit(bits.bit2))
+                    i.PSW = i.PSW.setBit(bits.bit2);
                 else
-                    ByteHelper.setBit(2, 0);
+                    i.PSW = i.PSW.clrBit(bits.bit2);
             }
         }
     }
@@ -378,22 +378,22 @@ namespace symulator8051.Commands
         {
             value = (byte)(i.R4 + Convert.ToByte(i.CY));
             temp = (UInt16)(i.ACC - value);
-            ByteHelper.clrBit(7, 0);
-            ByteHelper.clrBit(2, 0);
-            ByteHelper.clrBit(6, 0);
+            i.PSW = i.PSW.clrBit(bits.bit7);
+            i.PSW = i.PSW.clrBit(bits.bit2);
+            i.PSW = i.PSW.clrBit(bits.bit6);
             if ((i.R4 & 0x0f) > (i.ACC & 0x0f))
-                ByteHelper.setBit(6, 1);
+                i.PSW = i.PSW.setBit(bits.bit6);
             else
-                ByteHelper.clrBit(6, 0);
+                i.PSW = i.PSW.clrBit(bits.bit6);
             if ((i.R4 & 0x7f) > (i.ACC & 0x7f))
-                ByteHelper.setBit(2, 1);
+                i.PSW = i.PSW.setBit(bits.bit2);
             if (i.R4 > i.ACC)
             {
-                ByteHelper.setBit(7, 1);
-                if (ByteHelper.chkBit(2, 0))
-                    ByteHelper.setBit(2, 1);
+                i.PSW = i.PSW.setBit(bits.bit7);
+                if (i.PSW.chkBit(bits.bit2))
+                    i.PSW = i.PSW.setBit(bits.bit2);
                 else
-                    ByteHelper.setBit(2, 0);
+                    i.PSW = i.PSW.clrBit(bits.bit2);
             }
         }
     }
@@ -421,22 +421,22 @@ namespace symulator8051.Commands
         {
             value = (byte)(i.R5 + Convert.ToByte(i.CY));
             temp = (UInt16)(i.ACC - value);
-            ByteHelper.clrBit(7, 0);
-            ByteHelper.clrBit(2, 0);
-            ByteHelper.clrBit(6, 0);
+            i.PSW = i.PSW.clrBit(bits.bit7);
+            i.PSW = i.PSW.clrBit(bits.bit2);
+            i.PSW = i.PSW.clrBit(bits.bit6);
             if ((i.R5 & 0x0f) > (i.ACC & 0x0f))
-                ByteHelper.setBit(6, 1);
+                i.PSW = i.PSW.setBit(bits.bit6);
             else
-                ByteHelper.clrBit(6, 0);
+                i.PSW = i.PSW.clrBit(bits.bit6);
             if ((i.R5 & 0x7f) > (i.ACC & 0x7f))
-                ByteHelper.setBit(2, 1);
+                i.PSW = i.PSW.setBit(bits.bit2);
             if (i.R5 > i.ACC)
             {
-                ByteHelper.setBit(7, 1);
-                if (ByteHelper.chkBit(2, 0))
-                    ByteHelper.setBit(2, 1);
+                i.PSW = i.PSW.setBit(bits.bit7);
+                if (i.PSW.chkBit(bits.bit2))
+                    i.PSW = i.PSW.setBit(bits.bit2);
                 else
-                    ByteHelper.setBit(2, 0);
+                    i.PSW = i.PSW.clrBit(bits.bit2);
             }
         }
     }
@@ -464,22 +464,22 @@ namespace symulator8051.Commands
         {
             value = (byte)(i.R6 + Convert.ToByte(i.CY));
             temp = (UInt16)(i.ACC - value);
-            ByteHelper.clrBit(7, 0);
-            ByteHelper.clrBit(2, 0);
-            ByteHelper.clrBit(6, 0);
+            i.PSW = i.PSW.clrBit(bits.bit7);
+            i.PSW = i.PSW.clrBit(bits.bit2);
+            i.PSW = i.PSW.clrBit(bits.bit6);
             if ((i.R6 & 0x0f) > (i.ACC & 0x0f))
-                ByteHelper.setBit(6, 1);
+                i.PSW = i.PSW.setBit(bits.bit6);
             else
-                ByteHelper.clrBit(6, 0);
+                i.PSW = i.PSW.clrBit(bits.bit6);
             if ((i.R6 & 0x7f) > (i.ACC & 0x7f))
-                ByteHelper.setBit(2, 1);
+                i.PSW = i.PSW.setBit(bits.bit2);
             if (i.R6 > i.ACC)
             {
-                ByteHelper.setBit(7, 1);
-                if (ByteHelper.chkBit(2, 0))
-                    ByteHelper.setBit(2, 1);
+                i.PSW = i.PSW.setBit(bits.bit7);
+                if (i.PSW.chkBit(bits.bit2))
+                    i.PSW = i.PSW.setBit(bits.bit2);
                 else
-                    ByteHelper.setBit(2, 0);
+                    i.PSW = i.PSW.clrBit(bits.bit2);
             }
         }
     }
@@ -507,22 +507,22 @@ namespace symulator8051.Commands
         {
             value = (byte)(i.R7 + Convert.ToByte(i.CY));
             temp = (UInt16)(i.ACC - value);
-            ByteHelper.clrBit(7, 0);
-            ByteHelper.clrBit(2, 0);
-            ByteHelper.clrBit(6, 0);
+            i.PSW = i.PSW.clrBit(bits.bit7);
+            i.PSW = i.PSW.clrBit(bits.bit2);
+            i.PSW = i.PSW.clrBit(bits.bit6);
             if ((i.R7 & 0x0f) > (i.ACC & 0x0f))
-                ByteHelper.setBit(6, 1);
+                i.PSW = i.PSW.setBit(bits.bit6);
             else
-                ByteHelper.clrBit(6, 0);
+                i.PSW = i.PSW.clrBit(bits.bit6);
             if ((i.R7 & 0x7f) > (i.ACC & 0x7f))
-                ByteHelper.setBit(2, 1);
+                i.PSW = i.PSW.setBit(bits.bit2);
             if (i.R7 > i.ACC)
             {
-                ByteHelper.setBit(7, 1);
-                if (ByteHelper.chkBit(2, 0))
-                    ByteHelper.setBit(2, 1);
+                i.PSW = i.PSW.setBit(bits.bit7);
+                if (i.PSW.chkBit(bits.bit2))
+                    i.PSW = i.PSW.setBit(bits.bit2);
                 else
-                    ByteHelper.setBit(2, 0);
+                    i.PSW = i.PSW.clrBit(bits.bit2);
             }
         }
     }

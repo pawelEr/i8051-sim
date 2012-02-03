@@ -374,9 +374,9 @@ namespace symulator8051.Commands
         public void execute()
         {
             if ((i.CY) | (arg) == 1)
-                ByteHelper.setBit(1, 7);
+                i.PSW = i.PSW.setBit(bits.bit7);
             else
-                ByteHelper.clrBit(0,7);
+                i.PSW = i.PSW.clrBit(bits.bit7);
         }
     }
     class xA0 : ICommand //ORL C,~bit
@@ -402,9 +402,9 @@ namespace symulator8051.Commands
         public void execute()
         {
             if ((i.CY) | (~arg) == 1)
-                ByteHelper.setBit(1, 7);
+                i.PSW = i.PSW.setBit(bits.bit7);
             else
-                ByteHelper.clrBit(0, 7);
+                i.PSW = i.PSW.clrBit(bits.bit7);
         }
     }
 }

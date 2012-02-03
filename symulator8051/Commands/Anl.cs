@@ -375,11 +375,11 @@ namespace symulator8051.Commands
         {
             if ((i.CY) & (arg) == 1)
             {
-                ByteHelper.setBit(7, 1);
+                i.PSW = i.PSW.setBit(bits.bit7);
             }
             else
             {
-                ByteHelper.clrBit(7, 0);
+                i.PSW = i.PSW.clrBit(bits.bit7);
             }
         }
     }
@@ -407,11 +407,11 @@ namespace symulator8051.Commands
         {
             if ((i.CY) & (~arg) == 1)
             {
-                ByteHelper.setBit(7, 1);
+                i.PSW = i.PSW.setBit(bits.bit7);
             }
             else
             {
-                ByteHelper.clrBit(7, 0);
+                i.PSW = i.PSW.clrBit(bits.bit7);
             }
         }
     }

@@ -31,7 +31,7 @@ namespace symulator8051.Commands
         {
             if ( arg == 1)
             {
-                ByteHelper.clrBit(arg, 0);
+                i.EXT_RAM[arg] = 0;
                 i.PC = (ushort)(i.PC + arg2);
             }
         }

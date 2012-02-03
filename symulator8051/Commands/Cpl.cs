@@ -29,9 +29,9 @@ namespace symulator8051.Commands
         public void execute()
         {
             if (arg == 1)
-                i.EXT_RAM[arg] = ByteHelper.clrBit(arg, 0);
+                i.EXT_RAM[arg] = 0;
             else
-                i.EXT_RAM[arg] = ByteHelper.setBit(arg, 1);
+                i.EXT_RAM[arg] = 1;
         }
     }
     class xB3 : ICommand //CPL C

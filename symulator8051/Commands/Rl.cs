@@ -54,11 +54,11 @@ namespace symulator8051.Commands
             i.ACC = (byte)((i.ACC << 1) | Convert.ToInt16((i.CY)));
             if (b0 == 1)
             {
-                ByteHelper.setBit(7, 1);
+                i.PSW = i.PSW.setBit(bits.bit7);
             }
             else
             {
-                ByteHelper.clrBit(7, 0);
+                i.PSW = i.PSW.clrBit(bits.bit7);
             }
         }
     }
