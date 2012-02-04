@@ -48,16 +48,16 @@ namespace symulator8051
                 switch (currentLcd)
                 {
                     case 0:
-                        m.lcdControl1.CustomPattern = i.P1;
+                        m.lcdControl1.CustomPattern = ~i.P1;
                         break;
                     case 1:
-                        m.lcdControl2.CustomPattern = i.P1;
+                        m.lcdControl2.CustomPattern = ~i.P1;
                         break;
                     case 2:
-                        m.lcdControl3.CustomPattern = i.P1;
+                        m.lcdControl3.CustomPattern = ~i.P1;
                         break;
                     case 3:
-                        m.lcdControl4.CustomPattern = i.P1;
+                        m.lcdControl4.CustomPattern = ~i.P1;
                         break;
                 }
         }
