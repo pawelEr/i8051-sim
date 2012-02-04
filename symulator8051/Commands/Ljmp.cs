@@ -29,7 +29,7 @@ namespace symulator8051.Commands
         }
         private UInt16 addH;
         private UInt16 addL;
-        void execute()
+        public void execute()
         {
             addH = i.SFR[arg];
             addL = i.SFR[arg];
