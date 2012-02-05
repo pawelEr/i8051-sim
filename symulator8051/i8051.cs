@@ -3,6 +3,7 @@
 using System.ComponentModel;
 using symulator8051.Commands;
 using ByteExtensionMethods;
+using System.Collections.Generic;
 
 namespace symulator8051
 {
@@ -50,7 +51,6 @@ namespace symulator8051
             get { return SFR[0x83]; }
             set { SFR[0x83] = value; }
         }
-
         public byte DPL //niższe bity DPTR
         {
             get { return SFR[0x82]; }
@@ -71,7 +71,7 @@ namespace symulator8051
             get { return SFR[0xd0]; }
             set { SFR[0xd0] = value; }
         }
-        public bool OV
+        public bool OV //flaga przepełnienia
         {
             get { return PSW.chkBit(bits.bit2); }
             set
@@ -116,7 +116,7 @@ namespace symulator8051
                 }
             }
         }
-        public bool F0
+        public bool F0 //flaga ogólnego zastosownia
         {
             get { return PSW.chkBit(bits.bit5); }
             set
@@ -131,7 +131,7 @@ namespace symulator8051
                 }
             }
         }
-        public bool AC
+        public bool AC //flaga przeniesienia z mlodszej do starszej tetrady
         {
             get { return PSW.chkBit(bits.bit6); }
             set
@@ -146,7 +146,7 @@ namespace symulator8051
                 }
             }
         }
-        public bool CY
+        public bool CY //flaga przeniesienia z najstarszego bitu
         {
             get { return PSW.chkBit(bits.bit7); }
             set
@@ -166,7 +166,6 @@ namespace symulator8051
             get { return SFR[0x80]; }
             set { SFR[0x80] = value; }
         }
-
         public byte P1 //drugi port
         {
             get { return SFR[0x90]; }
@@ -180,7 +179,28 @@ namespace symulator8051
         public byte P3 //czwarty port
         {
             get { return SFR[0xb0]; }
-            set { SFR[0xb0] = value; }
+            set
+            {
+                bool oldINT0val = SFR[0xb0].chkBit(bits.bit3);
+                bool oldINT1val = SFR[0xb0].chkBit(bits.bit4);
+                SFR[0xb0] = value;
+                if (TCON.chkBit(bits.bit1) && !value.chkBit(bits.bit3)) //zgłoszenie przerwania przy stanie niskim na INT0
+                {
+                    TCON.setBit(bits.bit2);
+                }
+                else if (!TCON.chkBit(bits.bit1) && oldINT0val == true && value.chkBit(bits.bit3) == false) //zgłoszenie przerwania przy opadającym zboczu na INT0
+                {
+                    TCON.setBit(bits.bit2);
+                }
+                if (TCON.chkBit(bits.bit3) && !value.chkBit(bits.bit4)) //zgłoszenie przerwania przy stanie niskim na INT1
+                {
+                    TCON.setBit(bits.bit4);
+                }
+                else if (!TCON.chkBit(bits.bit3) && oldINT1val == true && value.chkBit(bits.bit4) == false) //zgłoszenie przerwania przy opadającym zboczu na INT1
+                {
+                    TCON.setBit(bits.bit4);
+                }
+            }
         }
         public byte SBUF //serial transmission buffer
         {
@@ -225,12 +245,20 @@ namespace symulator8051
         public byte TMOD //timer mode
         {
             get { return SFR[0x89]; }
-            set { SFR[0x89] = value; }
+            set
+            {
+                SFR[0x89] = value;
+                getTModValues();
+            }
         }
         public byte TCON //timer control
         {
             get { return SFR[0x88]; }
-            set { SFR[0x88] = value; }
+            set
+            {
+                SFR[0x88] = value;
+                getTConValues();
+            }
         }
         public byte PCON //power control
         {
@@ -283,8 +311,43 @@ namespace symulator8051
             get { return pc; }
             set { pc = value; }
         }
-
         #endregion
+
+        #region timer variables
+        //Timer 0
+        private int T0Mode; //Tryb pracy licznika/timera 0
+        private bool T0CT; //Ustawienie czy ma to działać jako licznik czy jako timer
+        public bool T0ct
+        { get { return T0CT; } }
+        private bool T0Gate; //Zegar wewnętrzny wg taktów lub naliczanie z portu P3.2
+        public bool T0gate
+        { get { return T0Gate; } }
+        private bool TR0; //zatrzymanie właczenie/wyłączenie licznika
+        private bool TF0; //wskaznik przepełnienia licznika
+        private bool TIE0; //wskaznik zgloszenia przerwania  na wejsciu int0
+        public bool Tie0
+        { get { return TIE0; } }
+        private bool TIT0; //sterowanie sposobem zgłoszenia przerwania
+        public bool Tit0
+        { get { return TIT0; } }
+        //Timer 1
+        private int T1Mode;
+        private bool T1CT;
+        public bool T1ct
+        { get { return T1CT; } }
+        private bool T1Gate;
+        public bool T1gate
+        { get { return T1Gate; } }
+        private bool TR1;
+        private bool TF1;
+        private bool TIE1;
+        public bool Tie1
+        { get { return TIE1; } }
+        private bool TIT1;
+        public bool Tit1
+        { get { return TIT1; } }
+        #endregion
+        public List<ushort> lastInterrupt;
         public I8051()
         {
             init_cpu();
@@ -293,6 +356,8 @@ namespace symulator8051
         {
             clear_state();
             clear_pmem();
+            lastInterrupt.Clear();
+            lastInterrupt.Add(0xffff);
         }
         private void clear_state()
         {
@@ -304,6 +369,7 @@ namespace symulator8051
             this.P3 = 0xff;
             this.PC = 0x0000;
             this.SP = 0x07;
+            this.IE = 0x00;
         }
         private void clear_pmem()
         {
@@ -314,7 +380,6 @@ namespace symulator8051
         public void process()
         {
             clear_state();
-            SourceCode s = new SourceCode();
             c = new CommandEngine(this);
             ushort memPosition = 0;
             while (memPosition < this.EXT_PMEM.Length - 1)
@@ -1375,6 +1440,280 @@ namespace symulator8051
         public void step()
         {
             c.OneStep();
+        }
+        public void getTModValues()
+        {
+            T0Mode = TMOD & 0x03;
+            T1Mode = (TMOD & 0x30) >> 4;
+            T0CT = TMOD.chkBit(bits.bit3);
+            T1CT = TMOD.chkBit(bits.bit7);
+            T0Gate = TMOD.chkBit(bits.bit4);
+            T1Gate = TMOD.chkBit(bits.bit8);
+        }
+        public void getTConValues()
+        {
+            TF0 = TCON.chkBit(bits.bit6);
+            TR0 = TCON.chkBit(bits.bit5);
+            TF1 = TCON.chkBit(bits.bit8);
+            TR1 = TCON.chkBit(bits.bit7);
+            TIE0 = TCON.chkBit(bits.bit2);
+            TIT0 = TCON.chkBit(bits.bit1);
+            TIE1 = TCON.chkBit(bits.bit4);
+            TIT1 = TCON.chkBit(bits.bit3);
+        }
+        public void pingTimer0()
+        {
+            TF0 = false;
+            if (TR0 || (TR1 && T0Mode == 3))
+            {
+                switch (T0Mode)
+                {
+                    case 0:
+                        if (TL0 + EXT_PMEM[PC].Instruction.Cycles <= 0x0f)
+                        {
+                            TL0 += EXT_PMEM[PC].Instruction.Cycles;
+                        }
+                        else
+                        {
+                            TL0 = (byte)((int)TL0 - 0x100 + (int)EXT_PMEM[PC].Instruction.Cycles);
+                            if (TH0 <= 0xff)
+                            {
+                                TH0 += 1;
+                            }
+                            else
+                            {
+                                TH0 = 0;
+                                TF0 = true;
+                            }
+                        }
+                        break;
+                    case 1:
+                        if (TL0 + EXT_PMEM[PC].Instruction.Cycles <= 0xff)
+                        {
+                            TL0 += EXT_PMEM[PC].Instruction.Cycles;
+                        }
+                        else
+                        {
+                            TL0 = (byte)((int)TL0 - 0x100 + (int)EXT_PMEM[PC].Instruction.Cycles);
+                            if (TH0 <= 0xff)
+                            {
+                                TH0 += 1;
+                            }
+                            else
+                            {
+                                TH0 = 0;
+                                TF0 = true;
+                            }
+                        }
+                        break;
+                    case 2:
+                        if (TL0 + EXT_PMEM[PC].Instruction.Cycles <= 0xff)
+                        {
+                            TL0 = TH0;
+                            TF0 = true;
+                        }
+                        break;
+                    case 3:
+                        if (TL0 + EXT_PMEM[PC].Instruction.Cycles <= 0xff)
+                        {
+                            TL0 = 0;
+                            TF0 = true;
+                        }
+                        if (TH0 + EXT_PMEM[PC].Instruction.Cycles <= 0xff)
+                        {
+                            TH0 = 0;
+                            TF1 = true;
+                        }
+                        break;
+                }
+            }
+            if (TF0)
+                TCON.setBit(bits.bit6);
+            else
+                TCON.clrBit(bits.bit6);
+        }
+        public void pingTimer1()
+        {
+            if (T0Mode != 3) TF1 = false;
+            if (TR1 || T0Mode == 3)
+            {
+                switch (T1Mode)
+                {
+                    case 0:
+                        if (TL1 + EXT_PMEM[PC].Instruction.Cycles <= 0x1f)
+                        {
+                            TL1 += EXT_PMEM[PC].Instruction.Cycles;
+                        }
+                        else
+                        {
+                            TL1 = (byte)((int)TL1 - 0x100 + (int)EXT_PMEM[PC].Instruction.Cycles);
+                            if (TH1 <= 0xff)
+                            {
+                                TH1 += 1;
+                            }
+                            else
+                            {
+                                TH1 = 0;
+                                TF1 = true;
+                            }
+                        }
+                        break;
+                    case 1:
+                        if (TL1 + EXT_PMEM[PC].Instruction.Cycles <= 0xff)
+                        {
+                            TL1 += EXT_PMEM[PC].Instruction.Cycles;
+                        }
+                        else
+                        {
+                            TL1 = (byte)((int)TL1 - 0x100 + (int)EXT_PMEM[PC].Instruction.Cycles);
+                            if (TH1 <= 0xff)
+                            {
+                                TH1 += 1;
+                            }
+                            else
+                            {
+                                TH1 = 0;
+                                TF1 = true;
+                            }
+                        }
+                        break;
+                    case 2:
+                        if (TL1 + EXT_PMEM[PC].Instruction.Cycles <= 0xff)
+                        {
+                            TL1 = TH1;
+                            TF1 = true;
+                        }
+                        break;
+                    case 3:
+                        if (TL1 + EXT_PMEM[PC].Instruction.Cycles <= 0xff)
+                        {
+                            TL1 += EXT_PMEM[PC].Instruction.Cycles;
+                        }
+                        else
+                        {
+                            TL1 = (byte)((int)TL1 - 0x100 + (int)EXT_PMEM[PC].Instruction.Cycles);
+                            if (TH1 <= 0xff)
+                            {
+                                TH1 += 1;
+                            }
+                            else
+                            {
+                                TH1 = 0;
+                            }
+                        }
+                        break;
+                }
+            };
+            if (TF1)
+                TCON.setBit(bits.bit8);
+            else
+                TCON.clrBit(bits.bit8);
+        }
+        public void savePC2Stack()
+        {
+            SP++;
+            SFR[SP] = (byte)(PC & 0x00ff);
+            SP++;
+            SFR[SP] = (byte)(PC >> 8);
+        }
+        
+        public void checkInterrupts()
+        {
+            if (IE.chkBit(bits.bit8))
+            {
+                byte checkedBit = 1;
+                bool foundWithHighPriority = false;
+                for (int i = 0; i < 4; i++)
+                {
+                    if (IP.chkBit(checkedBit) && IE.chkBit(checkedBit))
+                    {
+                        switch (checkedBit)
+                        {
+                            case 1:
+                                if (TCON.chkBit(bits.bit2) && lastInterrupt[lastInterrupt.Count - 1] < 0x0003)
+                                {
+                                    savePC2Stack();
+                                    PC = 0x0003;
+                                    foundWithHighPriority = true;
+                                }
+                                break;
+                            case 2:
+                                if (TCON.chkBit(bits.bit6) && lastInterrupt[lastInterrupt.Count - 1] < 0x000b)
+                                {
+                                    savePC2Stack();
+                                    PC = 0x000b;
+                                    foundWithHighPriority = true;
+                                }
+                                break;
+                            case 4:
+                                if (TCON.chkBit(bits.bit4) && lastInterrupt[lastInterrupt.Count - 1] < 0x0013)
+                                {
+                                    savePC2Stack();
+                                    PC = 0x0013;
+                                    foundWithHighPriority = true;
+                                }
+                                break;
+                            case 8:
+                                if (TCON.chkBit(bits.bit8) && lastInterrupt[lastInterrupt.Count - 1] < 0x001b)
+                                {
+                                    savePC2Stack();
+                                    PC = 0x001b;
+                                    foundWithHighPriority = true;
+                                }
+                                break;
+
+                        }
+
+                        if (foundWithHighPriority) break;
+                    };
+                }
+                bool found = false;
+                if (!foundWithHighPriority)
+                {
+                    for (int i = 0; i < 4; i++)
+                    {
+
+                        switch (checkedBit)
+                        {
+                            case 1:
+                                if (TCON.chkBit(bits.bit2) && lastInterrupt[lastInterrupt.Count - 1] < 0x0003)
+                                {
+                                    savePC2Stack();
+                                    PC = 0x0003;
+                                    found = true;
+                                }
+                                break;
+                            case 2:
+                                if (TCON.chkBit(bits.bit6) && lastInterrupt[lastInterrupt.Count - 1] < 0x000b)
+                                {
+                                    savePC2Stack();
+                                    PC = 0x000b;
+                                    found = true;
+                                }
+                                break;
+                            case 4:
+                                if (TCON.chkBit(bits.bit4) && lastInterrupt[lastInterrupt.Count - 1] < 0x0013)
+                                {
+                                    savePC2Stack();
+                                    PC = 0x0013;
+                                    found = true;
+                                }
+                                break;
+                            case 8:
+                                if (TCON.chkBit(bits.bit8) && lastInterrupt[lastInterrupt.Count - 1] < 0x001b)
+                                {
+                                    savePC2Stack();
+                                    PC = 0x001b;
+                                    found = true;
+                                }
+                                break;
+
+                        }
+                        if (found) break;
+                    };
+                }
+                if(found||foundWithHighPriority) lastInterrupt.Add(PC);
+            }
         }
     }
 }

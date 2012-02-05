@@ -67,6 +67,9 @@ namespace symulator8051
 
         private void MenuItem_Click_1(object sender, RoutedEventArgs e)
         {
+            menu.IsEnabled = false;
+            menuStop.IsEnabled = true;
+            menuPause.IsEnabled = true;
             File.WriteAllText("temp.asm", this.rawSourceCode);
             Process p = new Process();
             p.StartInfo.UseShellExecute = false;
@@ -74,7 +77,7 @@ namespace symulator8051
             p.StartInfo.CreateNoWindow = true;
             p.StartInfo.FileName = "ASM51.exe";
             p.StartInfo.Arguments = "temp.asm";
-
+            
             try
             {
                 p.Start();
@@ -84,14 +87,17 @@ namespace symulator8051
             catch (FileNotFoundException)
             {
                 MessageBox.Show("Błąd nie znaleziono ASM51.exe w katalogu programu", "Błąd", MessageBoxButton.OK, MessageBoxImage.Error);
+                menu.IsEnabled = true;
             }
             catch (Win32Exception)
             {
                 MessageBox.Show("Do poprawnego działania programu ASM51.exe wymagany jest 32 bitowy system.", "Błąd", MessageBoxButton.OK, MessageBoxImage.Error);
+                menu.IsEnabled = true;
             }
             
             if (File.Exists("temp.hex")==true)
             {
+                
                 SourceCode s = new SourceCode();
                 s.FilePath = "temp.hex";
                 s.Open();
@@ -109,6 +115,8 @@ namespace symulator8051
 
         private void MenuItem_Click_3(object sender, RoutedEventArgs e)
         {
+            menuPause.IsEnabled = false;
+            menuNextStep.IsEnabled = true;
             i8051.pause();
             guiData.StopUpdate();
         }

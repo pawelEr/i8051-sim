@@ -56,6 +56,7 @@ namespace symulator8051.Commands
             byte addrL = i.EXT_RAM[i.SP];
             i.SP = (byte)(i.SP - 1);
             i.PC = (UInt16)(addrH << 8 | addrL);
+            i.lastInterrupt.RemoveAt(i.lastInterrupt.Count - 1);
         }
     }
 }

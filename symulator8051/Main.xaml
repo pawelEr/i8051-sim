@@ -155,20 +155,20 @@
                 <SevenSegment:SevenSegment x:Name="lcdControl4"/>
             </WindowsFormsHost>
         </Grid>
-        <Menu Height="23" Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="1" Width="Auto">
-            <MenuItem Header="_Plik">
+        <Menu Height="23" Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="1" Width="Auto" Name="menu">
+            <MenuItem Header="_Plik" Name="menuFile">
                 <MenuItem Header="_Otwórz" Click="MenuItem_Click"/>
                 <MenuItem Header="_Nowy" Click="MenuItem_Click_11"/>
                 <MenuItem Header="_Zapisz" Click="MenuItem_Click_12"/>
                 <MenuItem Header="_Zamknij" Click="MenuItem_Click_13"/>
             </MenuItem>
-            <MenuItem Header="U_stawienia" Click="MenuItem_Click_5" />
-            <MenuItem Header="_Uruchom" Click="MenuItem_Click_1"/>
-            <MenuItem Header="_Zatrzymaj" Click="MenuItem_Click_2"/>
-            <MenuItem Header="_Pauza" Click="MenuItem_Click_3"/>
-            <MenuItem Header="_Nast. Krok" Click="MenuItem_Click_4"/>
+            <MenuItem Header="U_stawienia" Name="menuSettings" Click="MenuItem_Click_5" />
+            <MenuItem Header="_Uruchom" Name="menuRun" Click="MenuItem_Click_1"/>
+            <MenuItem Header="_Zatrzymaj" Name="menuStop" Click="MenuItem_Click_2"/>
+            <MenuItem Header="_Pauza" Name="menuPause" Click="MenuItem_Click_3"/>
+            <MenuItem Header="_Nast. Krok" Name="menuNextStep" Click="MenuItem_Click_4"/>
         </Menu>
-        <Menu Height="23" Grid.Column="1" Grid.Row="0" Width="Auto">
+        <Menu Height="23" Grid.Column="1" Grid.Row="0" Width="Auto" Name="menuEditor">
             <MenuItem Click="MenuItem_Click_6" Header="Cofnij">
                 <MenuItem.Icon>
                     <Image Source="/symulator8051;component/Images/stock_undo.png" />
