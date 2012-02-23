@@ -29,7 +29,7 @@ namespace symulator8051.Commands
         }
         public void execute()
         {
-            if (arg == 1)
+            if (i.EXT_RAM[arg / 8 + 0x20].chkBit(arg % 8))
             {
                 i.PC = (ushort)(i.PC + arg2);
             }

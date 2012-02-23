@@ -14,7 +14,7 @@ namespace symulator8051
             get { return commands; }
             set { commands = value;  }
         }
-        static private int sleep = 20;
+        static private int sleep = 500;
         static public int Sleep
         {
             get { return sleep; }

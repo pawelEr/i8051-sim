@@ -6,7 +6,7 @@ using ByteExtensionMethods;
 
 namespace symulator8051.Commands
 {
-    class xB2 : ICommand //CPL bit address
+    class xB2 : ICommand //CPL bit addr
     {
         I8051 i;
 
@@ -28,10 +28,31 @@ namespace symulator8051.Commands
         }
         public void execute()
         {
-            if (arg == 1)
-                i.EXT_RAM[arg] = 0;
-            else
-                i.EXT_RAM[arg] = 1;
+            if (0 < arg || arg < 255)
+            {
+                if (arg <= 127)
+                {
+                    if (i.EXT_RAM[arg / 8 + 0x20].chkBit(arg % 8))
+                    {
+                        i.EXT_RAM[arg / 8 + 0x20] = i.EXT_RAM[arg / 8 + 0x20].clrBit(arg % 8);
+                    }
+                    else
+                    {
+                        i.EXT_RAM[arg / 8 + 0x20] = i.EXT_RAM[arg / 8 + 0x20].setBit(arg % 8);
+                    }
+                }
+                else
+                {
+                    if (i.EXT_RAM[arg - (arg % 8)].chkBit(arg % 8))
+                    {
+                        i.EXT_RAM[arg - (arg % 8)] = i.EXT_RAM[arg - (arg % 8)].clrBit(arg % 8);
+                    }
+                    else
+                    {
+                        i.EXT_RAM[arg - (arg % 8)] = i.EXT_RAM[arg - (arg % 8)].setBit(arg % 8);
+                    }
+                }
+            }
         }
     }
     class xB3 : ICommand //CPL C

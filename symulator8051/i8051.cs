@@ -14,14 +14,11 @@ namespace symulator8051
     }
     class I8051
     {
-
-
         #region memory/registers
-        public byte[] SFR = new byte[0x100]; // rejestry funkcji specjalnych 
-        public byte[] EXT_RAM = new byte[0x10000]; //zewnetrzna pamiec 64kB
-        public byte[] EXT_RAM2 = new byte[0x256];//pamiec do movx
+        public byte[] EXT_RAM = new byte[0xff]; //wewnętrzna pamiec 256b
+        public byte[] EXT_RAM2 = new byte[0xffff];//pamiec do movx
         public MemoryRecord[] EXT_PMEM = new MemoryRecord[0x10000]; //zewnetrzna pamiec na program 64kb 
-
+        public byte[] SFR;
         public byte ACC //akumulator
         {
             get { return SFR[0xe0]; }
@@ -350,18 +347,20 @@ namespace symulator8051
         public List<ushort> lastInterrupt;
         public I8051()
         {
+            this.SFR = this.EXT_RAM;
             init_cpu();
         }
         private void init_cpu()
         {
             clear_state();
             clear_pmem();
+            lastInterrupt = new List<ushort>();
             lastInterrupt.Clear();
             lastInterrupt.Add(0xffff);
         }
         private void clear_state()
         {
-            for (int i = 0; i < SFR.Length; i++)
+            for (int i = 0; i < 127; i++)
                 SFR[i] = 0;
             this.P0 = 0xff;
             this.P1 = 0xff;

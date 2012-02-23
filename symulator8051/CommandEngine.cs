@@ -6,11 +6,13 @@ using System.Collections;
 using System.Threading;
 using ByteExtensionMethods;
 using symulator8051.Commands;
+using System.IO;
 
 namespace symulator8051
 {
     class CommandEngine
     {
+        Thread mainThread;
         Thread backgroundThread;
         I8051 i;
         bool pause = false;
@@ -22,11 +24,13 @@ namespace symulator8051
 
         public CommandEngine(I8051 i8051)
         {
+            
+            
             this.i = i8051;
-            if (Sets.Commands > magiczna_granica) //TODO: uzupełnić
+            if (Sets.Commands < magiczna_granica) //TODO: uzupełnić
             {
                 this.sleep = 50;
-                this.commands = Sets.Commands / this.sleep;
+                this.commands = (Sets.Commands) / this.sleep;
             }
             else
             {
@@ -48,19 +52,26 @@ namespace symulator8051
         private void OneCommand()
         {
             this.i.EXT_PMEM[i.PC].Instruction.execute();
-            this.i.PC += this.i.EXT_PMEM[i.PC].Instruction.Bytes;
+            this.i.PC = (ushort)(this.i.PC + this.i.EXT_PMEM[i.PC].Instruction.Bytes);
+        }
+        public void Run1mode()
+        {
+            while (!pause)
+            {
+                backgroundThread = new Thread(new ThreadStart(Sleep));
+                backgroundThread.Name = "Background commands Thread";
+                backgroundThread.Start();
+                OneCommand();
+                backgroundThread.Join();
+            };
         }
         public void Run()
         {
-            if (commands > magiczna_granica)
+            if (commands < magiczna_granica)
             {
-                while (!pause)
-                {
-                    backgroundThread = new Thread(new ThreadStart(Sleep));
-                    backgroundThread.Start();
-                    OneCommand();
-                    backgroundThread.Join();
-                };
+                mainThread = new Thread(new ThreadStart(Run1mode));
+                mainThread.Name = "Main commands Thread";
+                mainThread.Start();
             }
             else
             {
@@ -92,7 +103,10 @@ namespace symulator8051
         }
         public void Stop()
         {
-            backgroundThread.Abort();
+            mainThread.Abort();
+            File.Delete(@"temp.hex");
+            File.Delete(@"temp.lst");
+            File.Delete(@"temp.asm");
         }
         public void OneStep()
         {

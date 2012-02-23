@@ -61,7 +61,7 @@ namespace symulator8051
                 {
                     for (int i = 0; i <= p; i++)
                     {
-                        DestinationMemory[memInjectAdress + i].Data = Convert.ToByte(s.Substring(8 + i * 2, 2), 16);
+                        DestinationMemory[memInjectAdress + i].Data = Convert.ToByte(s.Substring(9 + i * 2, 2), 16);
                     }
                 }
                 else if (recordType == 01)

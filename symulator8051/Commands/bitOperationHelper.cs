@@ -24,8 +24,52 @@ namespace ByteExtensionMethods
 {
     public static class ByteHelper
     {
+        private static byte num2BitMask(int bitNum)
+        {
+            byte setBit = 0;
+            switch (bitNum)
+            {
+                case 0:
+                    setBit = symulator8051.Commands.bits.bit1;
+                    break;
+                case 1:
+                    setBit = symulator8051.Commands.bits.bit2;
+                    break;
+                case 2:
+                    setBit = symulator8051.Commands.bits.bit3;
+                    break;
+                case 3:
+                    setBit = symulator8051.Commands.bits.bit4;
+                    break;
+                case 4:
+                    setBit = symulator8051.Commands.bits.bit5;
+                    break;
+                case 5:
+                    setBit = symulator8051.Commands.bits.bit6;
+                    break;
+                case 6:
+                    setBit = symulator8051.Commands.bits.bit7;
+                    break;
+                case 7:
+                    setBit = symulator8051.Commands.bits.bit8;
+                    break;
+            }
+            return setBit;
+        }
         public static bool chkBit(this byte b, byte checkedByte)
         {
+            if ((b & checkedByte) == checkedByte)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+        public static bool chkBit(this byte b, int checkedByteNum)
+        {
+            byte checkedByte = num2BitMask(checkedByteNum);
             if ((b & checkedByte) == checkedByte)
             {
                 return true;
@@ -45,8 +89,29 @@ namespace ByteExtensionMethods
             }
             return b;
         }
+        public static byte clrBit(this byte b, int bitNum)
+        {
+            byte setBit = num2BitMask(bitNum);
+            
+            if (b.chkBit(setBit))
+            { }
+            else
+            {
+                b ^= setBit;  //b= b XOR setBit
+            }
+            return b;
+        }
         public static byte setBit(this byte b, byte clrBit)
         {
+            if (b.chkBit(clrBit))
+            {
+                b ^= clrBit; //b= b XOR clrBits
+            }
+            return b;
+        }
+        public static byte setBit(this byte b, int numClrBit)
+        {
+            byte clrBit = num2BitMask(numClrBit);
             if (b.chkBit(clrBit))
             {
                 b ^= clrBit; //b= b XOR clrBits

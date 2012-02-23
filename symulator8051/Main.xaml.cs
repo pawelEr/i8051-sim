@@ -17,6 +17,7 @@ using System.IO;
 using System.ComponentModel;
 using DmitryBrant.CustomControls;
 using System.Diagnostics;
+using System.Threading;
 
 namespace symulator8051
 {
@@ -67,22 +68,27 @@ namespace symulator8051
 
         private void MenuItem_Click_1(object sender, RoutedEventArgs e)
         {
-            menu.IsEnabled = false;
+            //menu.IsEnabled = false;
             menuStop.IsEnabled = true;
             menuPause.IsEnabled = true;
-            File.WriteAllText("temp.asm", this.rawSourceCode);
-            Process p = new Process();
-            p.StartInfo.UseShellExecute = false;
-            p.StartInfo.RedirectStandardOutput = true;
-            p.StartInfo.CreateNoWindow = true;
-            p.StartInfo.FileName = "ASM51.exe";
-            p.StartInfo.Arguments = "temp.asm";
-            
+            File.WriteAllText(@"c:\asm\temp.asm", "$MOD51\n" + this.rawSourceCode);
+
+
             try
             {
+                Process p = new Process();
+                p.StartInfo.UseShellExecute = false;
+                p.StartInfo.RedirectStandardOutput = true;
+                p.StartInfo.RedirectStandardError = true;
+                p.StartInfo.RedirectStandardInput = true;
+                p.StartInfo.CreateNoWindow = true;
+                p.StartInfo.FileName = @"c:\asm\ASM51.exe";
+                p.StartInfo.Arguments = " temp.asm";
+                //p.StartInfo.WorkingDirectory = Environment.CurrentDirectory;
                 p.Start();
                 this.output = p.StandardOutput.ReadToEnd();
                 p.WaitForExit();
+
             }
             catch (FileNotFoundException)
             {
@@ -94,16 +100,17 @@ namespace symulator8051
                 MessageBox.Show("Do poprawnego działania programu ASM51.exe wymagany jest 32 bitowy system.", "Błąd", MessageBoxButton.OK, MessageBoxImage.Error);
                 menu.IsEnabled = true;
             }
-            
-            if (File.Exists("temp.hex")==true)
+
+            if (File.Exists(@"c:\asm\temp.hex") == true)
             {
-                
+
                 SourceCode s = new SourceCode();
-                s.FilePath = "temp.hex";
+                s.FilePath = @"c:\asm\temp.hex";
                 s.Open();
                 s.Load(i8051.EXT_PMEM);
-                i8051.process();
                 guiData.StartUpdate();
+                i8051.process();
+
             }
         }
 

@@ -6,7 +6,7 @@ using ByteExtensionMethods;
 
 namespace symulator8051.Commands
 {
-    class xC2 : ICommand
+    class xC2 : ICommand //CLR bit addr
     {
         I8051 i;
         private byte cycles = 1;
@@ -22,7 +22,17 @@ namespace symulator8051.Commands
         }
         public void execute()
         {
-            i.EXT_RAM[arg] = 0;
+            if (0 < arg || arg < 255)
+            {
+                if (arg <= 127)
+                {
+                    i.EXT_RAM[arg / 8 + 0x20] = i.EXT_RAM[arg / 8 + 0x20].clrBit(arg % 8);
+                }
+                else
+                {
+                    i.EXT_RAM[arg - (arg % 8)] = i.EXT_RAM[arg - (arg % 8)].clrBit(arg % 8);
+                }
+            }
         }
 
         private ushort bytes = 2;
@@ -31,7 +41,7 @@ namespace symulator8051.Commands
             get { return bytes; }
         }
     }
-    class xC3 : ICommand
+    class xC3 : ICommand //CLR C
     {
         I8051 i;
         private byte cycles = 1;
@@ -54,7 +64,7 @@ namespace symulator8051.Commands
             get { return bytes; }
         }
     }
-    class xE4 : ICommand
+    class xE4 : ICommand //CLR A
     {
         I8051 i;
         private byte cycles = 1;

@@ -1346,10 +1346,10 @@ namespace symulator8051.Commands
         }
         public void execute()
         {
-            if (Convert.ToInt16(i.CY) == 1)
-                i.EXT_RAM[arg] = ByteHelper.setBit(arg, 1);
+            if (i.CY)
+                i.EXT_RAM[arg / 8 + 0x20] = i.EXT_RAM[arg / 8 + 0x20].clrBit(arg % 8);
             else
-                i.EXT_RAM[arg] = ByteHelper.clrBit(arg, 0);
+                i.EXT_RAM[arg / 8 + 0x20] = i.EXT_RAM[arg / 8 + 0x20].setBit(arg % 8);
         }
     }
     class xA2 : ICommand //MOV C,bit addres
@@ -1373,10 +1373,7 @@ namespace symulator8051.Commands
         }
         public void execute()
         {
-            if (i.EXT_RAM[arg] == 1)
-                ByteHelper.setBit(7, 1);
-            else
-                ByteHelper.clrBit(7, 0);
+            i.CY = i.EXT_RAM[arg / 8 + 0x20].chkBit(arg % 8);
         }
     }
 }

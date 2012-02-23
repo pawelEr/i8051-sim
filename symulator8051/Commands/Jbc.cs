@@ -29,14 +29,14 @@ namespace symulator8051.Commands
         }
         public void execute()
         {
-            if ( arg == 1)
+            if (i.EXT_RAM[arg / 8 + 0x20].chkBit(arg % 8))
             {
-                i.EXT_RAM[arg] = 0;
+                i.EXT_RAM[arg / 8 + 0x20] = i.EXT_RAM[arg / 8 + 0x20].clrBit(arg % 8);
                 i.PC = (ushort)(i.PC + arg2);
             }
         }
     }
-    class x30 : ICommand //JBC bit,adres
+    class x30 : ICommand //JNB bit,adres
     {
         I8051 i;
         private byte cycles = 2;
@@ -59,7 +59,7 @@ namespace symulator8051.Commands
         }
         public void execute()
         {
-            if (arg == 0)
+            if (!i.EXT_RAM[arg / 8 + 0x20].chkBit(arg % 8))
             {
                 i.PC = (ushort)(i.PC + arg2);
             }
