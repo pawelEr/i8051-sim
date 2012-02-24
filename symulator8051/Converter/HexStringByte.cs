@@ -4,7 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Windows.Data;
 
-
+/*
+ * konwerter wartości dla gui z wartości byte na string w formacie 0xffm i spowrotem
+ */
 
 namespace symulator8051.Converter
 {

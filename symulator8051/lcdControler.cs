@@ -6,6 +6,9 @@ using ByteExtensionMethods;
 
 namespace symulator8051
 {
+    /*
+     * klasa odpowiedzialna za obsługe wyswietlacza 7 seg
+     */
     class lcdControler
     {
         private byte currentLcd;
@@ -17,7 +20,7 @@ namespace symulator8051
             this.m=m;
             this.i=i;
         }
-        private void setLCD()
+        private void setLCD() //ustawia wartośc  wyświetlacza na podstawie portu P3
         {
             currentLcd=0;
             if(i.P3.chkBit(Commands.bits.bit4))
@@ -25,7 +28,7 @@ namespace symulator8051
             if(i.P3.chkBit(Commands.bits.bit5))
                 currentLcd+=2;
         }
-        private void checkActive()
+        private void checkActive() //sprawdza czy jest ustawiony bit odpowiedzialny za aktywacje wyświetlacza
         {
             if (i.P0.chkBit(Commands.bits.bit8))
             {
@@ -36,7 +39,7 @@ namespace symulator8051
                 active = false;
             }
         }
-        public void refresh()
+        public void refresh() //odświerza wartość wyświetlacza
         {
             setLCD();
             checkActive();

@@ -1,10 +1,13 @@
 ﻿using System;
-
 using System.ComponentModel;
 using symulator8051.Commands;
 using ByteExtensionMethods;
 using System.Collections.Generic;
 
+
+/*
+ * wszystkie potrzebne struktury pamieci do zasymulowania tego zacnego intela
+ */
 namespace symulator8051
 {
     class MemoryRecord
@@ -18,7 +21,7 @@ namespace symulator8051
         public byte[] EXT_RAM = new byte[0xff]; //wewnętrzna pamiec 256b
         public byte[] EXT_RAM2 = new byte[0xffff];//pamiec do movx
         public MemoryRecord[] EXT_PMEM = new MemoryRecord[0x10000]; //zewnetrzna pamiec na program 64kb 
-        public byte[] SFR;
+        public byte[] SFR; //rejestry specjalne
         public byte ACC //akumulator
         {
             get { return SFR[0xe0]; }
@@ -178,9 +181,12 @@ namespace symulator8051
             get { return SFR[0xb0]; }
             set
             {
-                bool oldINT0val = SFR[0xb0].chkBit(bits.bit3);
-                bool oldINT1val = SFR[0xb0].chkBit(bits.bit4);
+                bool oldINT0val = SFR[0xb0].chkBit(bits.bit3); //dot przerwań
+                bool oldINT1val = SFR[0xb0].chkBit(bits.bit4); //dot przerwań
                 SFR[0xb0] = value;
+                /*
+                 * czesc obslugi przerwania na 4 porcie
+                 */
                 if (TCON.chkBit(bits.bit1) && !value.chkBit(bits.bit3)) //zgłoszenie przerwania przy stanie niskim na INT0
                 {
                     TCON.setBit(bits.bit2);
@@ -199,7 +205,7 @@ namespace symulator8051
                 }
             }
         }
-        public byte SBUF //serial transmission buffer
+        public byte SBUF //serial transmission buffer (nie zaimplementowane)
         {
             get { return SFR[0x99]; }
             set { SFR[0x99] = value; }
@@ -214,7 +220,7 @@ namespace symulator8051
             get { return SFR[0xc0]; }
             set { SFR[0xc0] = value; }
         }
-        public byte SCON //serial control
+        public byte SCON //serial control  (nie zaimplementowane)
         {
             get { return SFR[0x98]; }
             set { SFR[0x98] = value; }
@@ -257,7 +263,7 @@ namespace symulator8051
                 getTConValues();
             }
         }
-        public byte PCON //power control
+        public byte PCON //power control  (nie zaimplementowane)
         {
             get { return SFR[0x87]; }
             set { SFR[0x87] = value; }
@@ -302,7 +308,7 @@ namespace symulator8051
             get { return SFR[0x07]; }
             set { SFR[0x07] = value; }
         }
-        private ushort pc;
+        private ushort pc; //Program counter
         public ushort PC
         {
             get { return pc; }
@@ -327,7 +333,7 @@ namespace symulator8051
         private bool TIT0; //sterowanie sposobem zgłoszenia przerwania
         public bool Tit0
         { get { return TIT0; } }
-        //Timer 1
+        //Timer 1 analogicznie
         private int T1Mode;
         private bool T1CT;
         public bool T1ct
@@ -344,13 +350,13 @@ namespace symulator8051
         public bool Tit1
         { get { return TIT1; } }
         #endregion
-        public List<ushort> lastInterrupt;
+        public List<ushort> lastInterrupt; //lista pomagajaca ustalic przerwanie z najwyzszym priorytetem
         public I8051()
         {
             this.SFR = this.EXT_RAM;
             init_cpu();
         }
-        private void init_cpu()
+        private void init_cpu() //wyzerowanie stanu układu
         {
             clear_state();
             clear_pmem();
@@ -358,7 +364,7 @@ namespace symulator8051
             lastInterrupt.Clear();
             lastInterrupt.Add(0xffff);
         }
-        private void clear_state()
+        private void clear_state() //czyszczenie rejestrow i ramu do domyślnych wartości
         {
             for (int i = 0; i < 127; i++)
                 SFR[i] = 0;
@@ -370,13 +376,13 @@ namespace symulator8051
             this.SP = 0x07;
             this.IE = 0x00;
         }
-        private void clear_pmem()
+        private void clear_pmem() //czyszczenie pamieci
         {
             for (int i = 0; i < this.EXT_PMEM.Length; i++)
                 this.EXT_PMEM[i] = new MemoryRecord();
         }
         private CommandEngine c;
-        public void process()
+        public void process() //funckcja wpisujaca obiekty pojedynczych rozkazow do pamieci
         {
             clear_state();
             c = new CommandEngine(this);
@@ -1424,7 +1430,6 @@ namespace symulator8051
                         memPosition++;
                     }
                 }
-                //memPosition += Convert.ToUInt16(this.EXT_PMEM[memPosition].Instruction.Bytes - 1);
             };
             c.Run();
         }
@@ -1440,6 +1445,9 @@ namespace symulator8051
         {
             c.OneStep();
         }
+        /*
+         * reszta dotyczy timerow i przerwań
+         */
         public void getTModValues()
         {
             T0Mode = TMOD & 0x03;
@@ -1460,11 +1468,12 @@ namespace symulator8051
             TIE1 = TCON.chkBit(bits.bit4);
             TIT1 = TCON.chkBit(bits.bit3);
         }
-        public void pingTimer0()
+        public void pingTimer0() //wykonanie jednego cyklu zwiazanego z timerem dla timera0
         {
             TF0 = false;
             if (TR0 || (TR1 && T0Mode == 3))
             {
+                //w switchu kolejne tryby pracy timera
                 switch (T0Mode)
                 {
                     case 0:
@@ -1531,7 +1540,7 @@ namespace symulator8051
             else
                 TCON.clrBit(bits.bit6);
         }
-        public void pingTimer1()
+        public void pingTimer1() //wykonanie jednego cyklu zwiazanego z timerem dla timera0
         {
             if (T0Mode != 3) TF1 = false;
             if (TR1 || T0Mode == 3)
@@ -1608,15 +1617,14 @@ namespace symulator8051
             else
                 TCON.clrBit(bits.bit8);
         }
-        public void savePC2Stack()
+        public void savePC2Stack()//dodaje wartość program countera do stosu
         {
             SP++;
             SFR[SP] = (byte)(PC & 0x00ff);
             SP++;
             SFR[SP] = (byte)(PC >> 8);
         }
-        
-        public void checkInterrupts()
+        public void checkInterrupts() //tutaj wszystko co zwiazane z obsluga i zakolejkowaniem przerwania
         {
             if (IE.chkBit(bits.bit8))
             {
@@ -1634,6 +1642,7 @@ namespace symulator8051
                                     savePC2Stack();
                                     PC = 0x0003;
                                     foundWithHighPriority = true;
+                                    TCON.clrBit(bits.bit2);
                                 }
                                 break;
                             case 2:
@@ -1642,6 +1651,7 @@ namespace symulator8051
                                     savePC2Stack();
                                     PC = 0x000b;
                                     foundWithHighPriority = true;
+                                    TCON.clrBit(bits.bit6);
                                 }
                                 break;
                             case 4:
@@ -1650,6 +1660,7 @@ namespace symulator8051
                                     savePC2Stack();
                                     PC = 0x0013;
                                     foundWithHighPriority = true;
+                                    TCON.clrBit(bits.bit4);
                                 }
                                 break;
                             case 8:
@@ -1658,6 +1669,7 @@ namespace symulator8051
                                     savePC2Stack();
                                     PC = 0x001b;
                                     foundWithHighPriority = true;
+                                    TCON.clrBit(bits.bit8);
                                 }
                                 break;
 
@@ -1680,6 +1692,7 @@ namespace symulator8051
                                     savePC2Stack();
                                     PC = 0x0003;
                                     found = true;
+                                    TCON.clrBit(bits.bit2);
                                 }
                                 break;
                             case 2:
@@ -1688,6 +1701,7 @@ namespace symulator8051
                                     savePC2Stack();
                                     PC = 0x000b;
                                     found = true;
+                                    TCON.clrBit(bits.bit6);
                                 }
                                 break;
                             case 4:
@@ -1696,6 +1710,7 @@ namespace symulator8051
                                     savePC2Stack();
                                     PC = 0x0013;
                                     found = true;
+                                    TCON.clrBit(bits.bit4);
                                 }
                                 break;
                             case 8:
@@ -1704,6 +1719,7 @@ namespace symulator8051
                                     savePC2Stack();
                                     PC = 0x001b;
                                     found = true;
+                                    TCON.clrBit(bits.bit8);
                                 }
                                 break;
 
@@ -1711,7 +1727,7 @@ namespace symulator8051
                         if (found) break;
                     };
                 }
-                if(found||foundWithHighPriority) lastInterrupt.Add(PC);
+                if(found||foundWithHighPriority) lastInterrupt.Add(PC); //dodanie adresu przerwania do listy wg której sprawdzane jest czy dodawane jest przerwanie o wyzszym priorytecie a nie o nizszym
             }
         }
     }

@@ -7,8 +7,8 @@ namespace symulator8051
 {
     interface ICommand
     {
-        byte Cycles { get; }
-        ushort Bytes { get; }
-        void execute();
+        byte Cycles { get; } //ilosc cykli przez ktore bedzie wykonywany rozkaz
+        ushort Bytes { get; } //dlugość instrukcji
+        void execute(); //instrukcje wykonujące rozkaz
     }
 }

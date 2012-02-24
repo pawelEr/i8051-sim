@@ -55,7 +55,8 @@ namespace symulator8051
 
             //memoryPreview.ItemsSource = guiData.EXT_RAM;
         }
-        private void MenuItem_Click(object sender, RoutedEventArgs e)
+
+        private void MenuItem_Click(object sender, RoutedEventArgs e) //otworz
         {
             OpenFileDialog o = new OpenFileDialog();
             o.DefaultExt = "*.asm";
@@ -66,12 +67,10 @@ namespace symulator8051
             }
         }
 
-        private void MenuItem_Click_1(object sender, RoutedEventArgs e)
+        private void MenuItem_Click_1(object sender, RoutedEventArgs e) //uruchom
         {
-            //menu.IsEnabled = false;
-            menuStop.IsEnabled = true;
-            menuPause.IsEnabled = true;
-            File.WriteAllText(@"c:\asm\temp.asm", "$MOD51\n" + this.rawSourceCode);
+            //TODO: zablokować część interfejsu
+            File.WriteAllText(@"temp.asm", "$MOD51\n" + this.rawSourceCode);
 
 
             try
@@ -82,7 +81,7 @@ namespace symulator8051
                 p.StartInfo.RedirectStandardError = true;
                 p.StartInfo.RedirectStandardInput = true;
                 p.StartInfo.CreateNoWindow = true;
-                p.StartInfo.FileName = @"c:\asm\ASM51.exe";
+                p.StartInfo.FileName = @"ASM51.exe";
                 p.StartInfo.Arguments = " temp.asm";
                 //p.StartInfo.WorkingDirectory = Environment.CurrentDirectory;
                 p.Start();
@@ -114,13 +113,13 @@ namespace symulator8051
             }
         }
 
-        private void MenuItem_Click_2(object sender, RoutedEventArgs e)
+        private void MenuItem_Click_2(object sender, RoutedEventArgs e) //stop
         {
             i8051.stop();
             guiData.StopUpdate();
         }
 
-        private void MenuItem_Click_3(object sender, RoutedEventArgs e)
+        private void MenuItem_Click_3(object sender, RoutedEventArgs e) //pauza
         {
             menuPause.IsEnabled = false;
             menuNextStep.IsEnabled = true;
@@ -128,59 +127,51 @@ namespace symulator8051
             guiData.StopUpdate();
         }
 
-        private void MenuItem_Click_4(object sender, RoutedEventArgs e)
+        private void MenuItem_Click_4(object sender, RoutedEventArgs e) //nastepny krok
         {
             i8051.step();
             guiData.UpdateFields();
         }
 
-        private void MenuItem_Click_5(object sender, RoutedEventArgs e)
+        private void MenuItem_Click_5(object sender, RoutedEventArgs e) //ustawienia
         {
             Settings f = new Settings();
             f.WindowStartupLocation = WindowStartupLocation.CenterOwner;
             f.ShowDialog();
         }
 
-        private void MenuItem_Click_6(object sender, RoutedEventArgs e)
+        private void MenuItem_Click_6(object sender, RoutedEventArgs e) //wstecz (edytor)
         {
             this.CodeTbox.Undo();
         }
 
-        private void MenuItem_Click_7(object sender, RoutedEventArgs e)
+        private void MenuItem_Click_7(object sender, RoutedEventArgs e) //dalej (edytor)
         {
             this.CodeTbox.Redo();
         }
 
-        private void MenuItem_Click_8(object sender, RoutedEventArgs e)
+        private void MenuItem_Click_8(object sender, RoutedEventArgs e) //kopiuj (edytor)
         {
             this.CodeTbox.Copy();
         }
 
-        private void MenuItem_Click_9(object sender, RoutedEventArgs e)
+        private void MenuItem_Click_9(object sender, RoutedEventArgs e) //wytnij (edytor)
         {
             this.CodeTbox.Cut();
         }
 
-        private void MenuItem_Click_10(object sender, RoutedEventArgs e)
+        private void MenuItem_Click_10(object sender, RoutedEventArgs e) //wklej (edytor)
         {
             this.CodeTbox.Paste();
         }
-        protected void OnPropertyChanged(string name)
-        {
-            PropertyChangedEventHandler handler = PropertyChanged;
-            if (handler != null)
-            {
-                handler(this, new PropertyChangedEventArgs(name));
-            }
-        }
 
-        private void MenuItem_Click_11(object sender, RoutedEventArgs e)
+        private void MenuItem_Click_11(object sender, RoutedEventArgs e) //nowy
         {
             this.FileName = null;
             this.rawSourceCode = null;
         }
 
-        private void MenuItem_Click_12(object sender, RoutedEventArgs e)
+        private void MenuItem_Click_12(object sender, RoutedEventArgs e) //zapisz
         {
             SaveFileDialog sfd = new SaveFileDialog();
             sfd.FileName = this.FileName;
@@ -190,9 +181,18 @@ namespace symulator8051
             }
         }
 
-        private void MenuItem_Click_13(object sender, RoutedEventArgs e)
+        private void MenuItem_Click_13(object sender, RoutedEventArgs e) //zamknij
         {
             Application.Current.Shutdown();
+        }
+
+        protected void OnPropertyChanged(string name)
+        {
+            PropertyChangedEventHandler handler = PropertyChanged;
+            if (handler != null)
+            {
+                handler(this, new PropertyChangedEventArgs(name));
+            }
         }
     }
 }

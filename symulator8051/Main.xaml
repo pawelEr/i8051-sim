@@ -40,6 +40,7 @@
                 <RowDefinition/>
                 <RowDefinition/>
                 <RowDefinition/>
+                <RowDefinition/>
             </Grid.RowDefinitions>
             <Label Content="R7" Grid.Column="6" />
             <Label Content="R6" Grid.Column="6" Grid.Row="1" />
@@ -112,6 +113,16 @@
             <TextBox Text="{Binding AC, Mode=TwoWay}" Grid.Column="4" Grid.Row="7"/>
             <TextBox Text="{Binding CY, Mode=TwoWay}" Grid.Column="5" Grid.Row="7"/>
             <TextBox Text="{Binding R7, Mode=TwoWay}" Grid.Column="7" />
+            
+            <Label Content="Acc" Grid.Column="0" Grid.Row="9"/>
+            <TextBox Text="{Binding Acc1, Mode=TwoWay}" Grid.Column="1" Grid.Row="9"/>
+            <TextBox Text="{Binding Acc2, Mode=TwoWay}" Grid.Column="2" Grid.Row="9"/>
+            <TextBox Text="{Binding Acc3, Mode=TwoWay}" Grid.Column="3" Grid.Row="9"/>
+            <TextBox Text="{Binding Acc4, Mode=TwoWay}" Grid.Column="4" Grid.Row="9"/>
+            <TextBox Text="{Binding Acc5, Mode=TwoWay}" Grid.Column="5" Grid.Row="9"/>
+            <TextBox Text="{Binding Acc6, Mode=TwoWay}" Grid.Column="6" Grid.Row="9"/>
+            <TextBox Text="{Binding Acc7, Mode=TwoWay}" Grid.Column="7" Grid.Row="9"/>
+            <TextBox Text="{Binding Acc8, Mode=TwoWay}" Grid.Column="8" Grid.Row="9"/>
         </Grid>
         <GroupBox Grid.Column="0" Grid.Row="2" Header="Log Kompilacji">
         <TextBox TextWrapping="Wrap" IsReadOnly="True" Text="{Binding output}" /></GroupBox>

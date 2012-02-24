@@ -5,7 +5,14 @@ using System.Text;
 using System.ComponentModel;
 using System.Timers;
 using System.Collections.ObjectModel;
+using ByteExtensionMethods;
+using symulator8051.Commands;
 
+/*
+ * klasa służy tylko do przechowywania cyklicznie odswiezanych parametrow dla gui
+ * 
+ * funkcje start/stop update zatrzymuja lub uruchamiaja odświerzaine gui - timer
+ */
 namespace symulator8051
 {
     class GuiDataValues : INotifyPropertyChanged
@@ -143,8 +150,8 @@ namespace symulator8051
         public bool AC
         {
             get { return ac; }
-            set 
-            { 
+            set
+            {
                 ac = value;
                 OnPropertyChanged("AC");
             }
@@ -154,8 +161,8 @@ namespace symulator8051
         public bool CY
         {
             get { return cy; }
-            set 
-            { 
+            set
+            {
                 cy = value;
                 OnPropertyChanged("CY");
             }
@@ -331,8 +338,8 @@ namespace symulator8051
         public byte TL0
         {
             get { return tl0; }
-            set 
-            { 
+            set
+            {
                 tl0 = value;
                 OnPropertyChanged("TL0");
             }
@@ -342,8 +349,8 @@ namespace symulator8051
         public byte TH0
         {
             get { return th0; }
-            set 
-            { 
+            set
+            {
                 th0 = value;
                 OnPropertyChanged("TH0");
             }
@@ -353,8 +360,8 @@ namespace symulator8051
         public byte TL1
         {
             get { return tl1; }
-            set 
-            { 
+            set
+            {
                 tl1 = value;
                 OnPropertyChanged("TL1");
             }
@@ -364,8 +371,8 @@ namespace symulator8051
         public byte TH1
         {
             get { return th1; }
-            set 
-            { 
+            set
+            {
                 th1 = value;
                 OnPropertyChanged("TH1");
             }
@@ -380,6 +387,69 @@ namespace symulator8051
                 ext_ram = value;
                 OnPropertyChanged("EXT_RAM");
             }
+        }
+        private int acc1;
+
+        public int Acc1
+        {
+            get { return acc1; }
+            set { acc1 = value; OnPropertyChanged("Acc1"); }
+        }
+
+        private int acc2;
+
+        public int Acc2
+        {
+            get { return acc2; }
+            set { acc2 = value; OnPropertyChanged("Acc2"); }
+        }
+
+        private int acc3;
+
+        public int Acc3
+        {
+            get { return acc3; }
+            set { acc3 = value; OnPropertyChanged("Acc3"); }
+        }
+
+        private int acc4;
+
+        public int Acc4
+        {
+            get { return acc4; }
+            set { acc4 = value; OnPropertyChanged("Acc4"); }
+        }
+
+        private int acc5;
+
+        public int Acc5
+        {
+            get { return acc5; }
+            set { acc5 = value; OnPropertyChanged("Acc5"); }
+        }
+
+        private int acc6;
+
+        public int Acc6
+        {
+            get { return acc6; }
+            set { acc6 = value; OnPropertyChanged("Acc6"); }
+        }
+
+        private int acc7;
+
+        public int Acc7
+        {
+            get { return acc7; }
+            set { acc7 = value; OnPropertyChanged("Acc7"); }
+        }
+
+        private int acc8;
+
+        public int Acc8
+        {
+            get { return acc8; }
+            set { acc8 = value; OnPropertyChanged("Acc8"); }
         }
         public void UpdateFields()
         {
@@ -415,7 +485,15 @@ namespace symulator8051
             this.TH0 = i.TH0;
             this.TL1 = i.TL1;
             this.TH1 = i.TH1;
-            string temp=null;
+            this.Acc1 = ACC.chkBit(bits.bit1) ? 1 : 0;
+            this.Acc2 = ACC.chkBit(bits.bit2) ? 1 : 0;
+            this.Acc3 = ACC.chkBit(bits.bit3) ? 1 : 0;
+            this.Acc4 = ACC.chkBit(bits.bit4) ? 1 : 0;
+            this.Acc5 = ACC.chkBit(bits.bit5) ? 1 : 0;
+            this.Acc6 = ACC.chkBit(bits.bit6) ? 1 : 0;
+            this.Acc7 = ACC.chkBit(bits.bit7) ? 1 : 0;
+            this.Acc8 = ACC.chkBit(bits.bit8) ? 1 : 0;
+            string temp = null;
             int j = 0;
             //while(j < i.EXT_RAM.Length)
             //{
@@ -433,7 +511,7 @@ namespace symulator8051
             //}
             this.EXT_RAM = temp;
             //this.EXT_RAM = new ObservableCollection<byte>(i.EXT_RAM);
-            this.l.refresh();
+            this.l.refresh(); //odświerzenie wyświetlacza 7 seg
         }
         public void StartUpdate()
         {
