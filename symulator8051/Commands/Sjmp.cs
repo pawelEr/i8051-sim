@@ -6,7 +6,7 @@ using ByteExtensionMethods;
 
 namespace symulator8051.Commands
 {
-    class x80 : ICommand //JB bit,adres
+    class x80 : ICommand //SJMP bit,adres
     {
         I8051 i;
         private byte cycles = 2;
@@ -19,15 +19,15 @@ namespace symulator8051.Commands
         {
             get { return bytes; }
         }
-        private byte arg;
+        private sbyte arg;
         public x80(I8051 i, byte arg)
         {
             this.i = i;
-            this.arg = arg;
+            this.arg = (sbyte)arg;
         }
         public void execute()
         {
-            i.PC =(ushort)( i.PC + arg);
+            i.PC =(ushort)( i.PC + (sbyte)arg);
         }
     }
 }

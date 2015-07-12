@@ -9,6 +9,6 @@ namespace symulator8051
     {
         byte Cycles { get; } //ilosc cykli przez ktore bedzie wykonywany rozkaz
         ushort Bytes { get; } //dlugość instrukcji
-        void execute(); //instrukcje wykonujące rozkaz
+        void execute(); //metoda zawierająca instrukcje wykonujące rozkaz
     }
 }

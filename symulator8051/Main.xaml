@@ -1,210 +1,249 @@
 ﻿<Window x:Class="symulator8051.Main"
-        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:c="clr-namespace:symulator8051.Converter"
-        xmlns:SevenSegment="clr-namespace:DmitryBrant.CustomControls"
-        Title="I8051 sim" Height="500" Width="740" MinWidth="740" WindowStyle="SingleBorderWindow" WindowStartupLocation="CenterScreen" ResizeMode="NoResize">
+		xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+		xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+		xmlns:c="clr-namespace:symulator8051.Converter"
+		xmlns:SevenSegment="clr-namespace:DmitryBrant.CustomControls"
+		Title="I8051 sim" Height="542" Width="993.15" MinWidth="740" WindowStyle="SingleBorderWindow" WindowStartupLocation="CenterScreen" ResizeMode="NoResize" Closing="onWindowClose">
+	<Window.Resources>
+		<c:HexStringByte x:Key="HexStringByteConverter"/>
+		<c:HexStringUshort x:Key="HexStringUshortConverter"/>
+		<Style x:Key="CodeTextStyle" TargetType="TextBox">
+			<Setter Property="TextAlignment" Value="Left"/>
+		</Style>
+		<Style x:Key="CompilerLogTextStyle" BasedOn="{StaticResource CodeTextStyle}" TargetType="TextBox">
+			<Setter Property="FontSize" Value="11"/>
+		</Style>
+	</Window.Resources>
+	<Grid x:Name="MainGrid">
+		<Grid.ColumnDefinitions>
+			<ColumnDefinition/>
+			<ColumnDefinition/>
+		</Grid.ColumnDefinitions>
+		<Grid.RowDefinitions>
+			<RowDefinition Height="Auto"/>
+			<RowDefinition/>
+			<RowDefinition/>
+		</Grid.RowDefinitions>
+		<Grid Grid.Column="0" Grid.Row="1" x:Name="StatusGrid">
+			<Grid.Resources>
+				<c:HexStringByte x:Key="HexByte"/>
+			</Grid.Resources>
+			<Grid.ColumnDefinitions>
+				<ColumnDefinition Width="35*" />
+				<ColumnDefinition Width="35*" />
+				<ColumnDefinition Width="35*" />
+				<ColumnDefinition Width="35*" />
+				<ColumnDefinition Width="35*" />
+				<ColumnDefinition Width="35*" />
+				<ColumnDefinition Width="35*" />
+				<ColumnDefinition Width="35*" />
+				<ColumnDefinition Width="35" />
+				<ColumnDefinition Width="35*" />
+			</Grid.ColumnDefinitions>
+			<Grid.RowDefinitions>
+				<RowDefinition/>
+				<RowDefinition Height="Auto"/>
+				<RowDefinition/>
+				<RowDefinition/>
+				<RowDefinition/>
+				<RowDefinition/>
+				<RowDefinition/>
+				<RowDefinition/>
+				<RowDefinition/>
+			</Grid.RowDefinitions>
+			<Label Content="R7" Grid.Column="6" Grid.Row="0" />
+			<Label Content="R6" Grid.Column="6" Grid.Row="1" />
+			<Label Content="R5" Grid.Column="6" Grid.Row="2" />
+			<Label Content="R4" Grid.Column="6" Grid.Row="3" />
+			<Label Content="R3" Grid.Column="6" Grid.Row="4" />
+			<Label Content="R2" Grid.Column="6" Grid.Row="5" />
+			<Label Content="R1" Grid.Column="6" Grid.Row="6" />
+			<Label Content="R0" Grid.Column="6" Grid.Row="7" />
+			<TextBox Text="{Binding R7, Mode=TwoWay, Converter={StaticResource HexStringByteConverter}}" Grid.Column="7" Grid.Row="0" />
+			<TextBox Text="{Binding R6, Mode=TwoWay, Converter={StaticResource HexStringByteConverter}}" Grid.Column="7" Grid.Row="1"/>
+			<TextBox Text="{Binding R5, Mode=TwoWay, Converter={StaticResource HexStringByteConverter}}" Grid.Column="7" Grid.Row="2"/>
+			<TextBox Text="{Binding R4, Mode=TwoWay, Converter={StaticResource HexStringByteConverter}}" Grid.Column="7" Grid.Row="3"/>
+			<TextBox Text="{Binding R3, Mode=TwoWay, Converter={StaticResource HexStringByteConverter}}" Grid.Column="7" Grid.Row="4"/>
+			<TextBox Text="{Binding R2, Mode=TwoWay, Converter={StaticResource HexStringByteConverter}}" Grid.Column="7" Grid.Row="5"/>
+			<TextBox Text="{Binding R1, Mode=TwoWay, Converter={StaticResource HexStringByteConverter}}" Grid.Column="7" Grid.Row="6"/>
+			<TextBox Text="{Binding R0, Mode=TwoWay, Converter={StaticResource HexStringByteConverter}}" Grid.Column="7" Grid.Row="7"/>
 
-    <Grid x:Name="MainGrid">
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition/>
-            <ColumnDefinition/>
-        </Grid.ColumnDefinitions>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition/>
-            <RowDefinition/>
-        </Grid.RowDefinitions>
-        <Grid Grid.Column="0" Grid.Row="1" x:Name="StatusGrid">
-            <Grid.Resources>
-                <c:HexStringByte x:Key="HexByte"/>
-            </Grid.Resources>
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="35*" />
-                <ColumnDefinition Width="35*" />
-                <ColumnDefinition Width="35*" />
-                <ColumnDefinition Width="35*" />
-                <ColumnDefinition Width="35*" />
-                <ColumnDefinition Width="35*" />
-                <ColumnDefinition Width="35*" />
-                <ColumnDefinition Width="35*" />
-                <ColumnDefinition Width="35" />
-                <ColumnDefinition Width="35*" />
-            </Grid.ColumnDefinitions>
-            <Grid.RowDefinitions>
-                <RowDefinition/>
-                <RowDefinition/>
-                <RowDefinition/>
-                <RowDefinition/>
-                <RowDefinition/>
-                <RowDefinition/>
-                <RowDefinition/>
-                <RowDefinition/>
-                <RowDefinition/>
-            </Grid.RowDefinitions>
-            <Label Content="R7" Grid.Column="6" />
-            <Label Content="R6" Grid.Column="6" Grid.Row="1" />
-            <Label Content="R5" Grid.Column="6" Grid.Row="2" />
-            <Label Content="R4" Grid.Column="6" Grid.Row="3" />
-            <Label Content="R3" Grid.Column="6" Grid.Row="4" />
-            <Label Content="R2" Grid.Column="6" Grid.Row="5" />
-            <Label Content="R1" Grid.Column="6" Grid.Row="6" />
-            <Label Content="R0" Grid.Column="6" Grid.Row="7" />
-            <TextBox Text="{Binding R6, Mode=TwoWay}" Grid.Column="7" Grid.Row="1"/>
-            <TextBox Text="{Binding R5, Mode=TwoWay}" Grid.Column="7" Grid.Row="2"/>
-            <TextBox Text="{Binding R4, Mode=TwoWay}" Grid.Column="7" Grid.Row="3"/>
-            <TextBox Text="{Binding R3, Mode=TwoWay}" Grid.Column="7" Grid.Row="4"/>
-            <TextBox Text="{Binding R2, Mode=TwoWay}" Grid.Column="7" Grid.Row="5"/>
-            <TextBox Text="{Binding R1, Mode=TwoWay}" Grid.Column="7" Grid.Row="6"/>
-            <TextBox Text="{Binding R0, Mode=TwoWay, Converter={StaticResource HexByte}}" Grid.Column="7" Grid.Row="7"/>
+			<Label Content="Acc" Grid.Column="8" />
+			<Label Content="B" Grid.Column="8" Grid.Row="1"/>
+			<Label Content="PSW" Grid.Column="8" Grid.Row="2"/>
+			<Label Content="IP" Grid.Column="8" Grid.Row="3"/>
+			<Label Content="IE" Grid.Column="8" Grid.Row="4"/>
+			<Label Content="DPH" Grid.Column="8" Grid.Row="5"/>
+			<Label Content="DPL" Grid.Column="8" Grid.Row="6"/>
+			<Label Content="SP" Grid.Column="8" Grid.Row="7"/>
 
-            <Label Content="Acc" Grid.Column="8" />
-            <Label Content="B" Grid.Column="8" Grid.Row="1"/>
-            <Label Content="PSW" Grid.Column="8" Grid.Row="2"/>
-            <Label Content="IP" Grid.Column="8" Grid.Row="3"/>
-            <Label Content="IE" Grid.Column="8" Grid.Row="4"/>
-            <Label Content="DPH" Grid.Column="8" Grid.Row="5"/>
-            <Label Content="DPL" Grid.Column="8" Grid.Row="6"/>
-            <Label Content="SP" Grid.Column="8" Grid.Row="7"/>
+			<TextBox Text="{Binding ACC, Mode=TwoWay, Converter={StaticResource HexStringByteConverter} }" Grid.Column="9" />
+			<TextBox Text="{Binding B, Mode=TwoWay, Converter={StaticResource HexStringByteConverter}}" Grid.Column="9" Grid.Row="1"/>
+			<TextBox Text="{Binding PSW, Mode=TwoWay, Converter={StaticResource HexStringByteConverter}}" Grid.Column="9" Grid.Row="2"/>
+			<TextBox Text="{Binding IP, Mode=TwoWay, Converter={StaticResource HexStringByteConverter}}" Grid.Column="9" Grid.Row="3"/>
+			<TextBox Text="{Binding IE, Mode=TwoWay, Converter={StaticResource HexStringByteConverter}}" Grid.Column="9" Grid.Row="4"/>
+			<TextBox Text="{Binding DPH, Mode=TwoWay, Converter={StaticResource HexStringByteConverter}}" Grid.Column="9" Grid.Row="5"/>
+			<TextBox Text="{Binding DPL, Mode=TwoWay, Converter={StaticResource HexStringByteConverter}}" Grid.Column="9" Grid.Row="6"/>
+			<TextBox Text="{Binding SP,Mode=TwoWay, Converter={StaticResource HexStringByteConverter}}" Grid.Column="9" Grid.Row="7"/>
 
-            <TextBox Text="{Binding ACC, Mode=TwoWay}" Grid.Column="9" />
-            <TextBox Text="{Binding B, Mode=TwoWay}" Grid.Column="9" Grid.Row="1"/>
-            <TextBox Text="{Binding PSW, Mode=TwoWay}" Grid.Column="9" Grid.Row="2"/>
-            <TextBox Text="{Binding IP, Mode=TwoWay}" Grid.Column="9" Grid.Row="3"/>
-            <TextBox Text="{Binding IE, Mode=TwoWay}" Grid.Column="9" Grid.Row="4"/>
-            <TextBox Text="{Binding DPH, Mode=TwoWay}" Grid.Column="9" Grid.Row="5"/>
-            <TextBox Text="{Binding DPL, Mode=TwoWay}" Grid.Column="9" Grid.Row="6"/>
-            <TextBox Text="{Binding SP,Mode=TwoWay}" Grid.Column="9" Grid.Row="7"/>
+			<Label Content="THO" Grid.Column="3" Grid.Row="0"/>
+			<Label Content="TL0" Grid.Column="4" Grid.Row="0"/>
+			<TextBox Text="{Binding TH0, Mode=TwoWay, Converter={StaticResource HexStringByteConverter}}" Grid.Column="3" Grid.Row="1"/>
+			<TextBox Text="{Binding TL0, Mode=TwoWay, Converter={StaticResource HexStringByteConverter}}" Grid.Column="4" Grid.Row="1"/>
 
-            <Label Content="THO" Grid.Column="3" Grid.Row="0"/>
-            <Label Content="TL0" Grid.Column="4" Grid.Row="0"/>
-            <TextBox Text="{Binding TH0, Mode=TwoWay}" Grid.Column="3" Grid.Row="1"/>
-            <TextBox Text="{Binding TL0, Mode=TwoWay}" Grid.Column="4" Grid.Row="1"/>
+			<Label Content="TH1" Grid.Column="3" Grid.Row="2"/>
+			<Label Content="TL1" Grid.Column="4" Grid.Row="2"/>
+			<TextBox Text="{Binding TH1, Mode=TwoWay, Converter={StaticResource HexStringByteConverter}}" Grid.Column="3" Grid.Row="3"/>
+			<TextBox Text="{Binding TL1, Mode=TwoWay, Converter={StaticResource HexStringByteConverter}}" Grid.Column="4" Grid.Row="3"/>
 
-            <Label Content="TH1" Grid.Column="3" Grid.Row="2"/>
-            <Label Content="TL1" Grid.Column="4" Grid.Row="2"/>
-            <TextBox Text="{Binding TH1, Mode=TwoWay}" Grid.Column="3" Grid.Row="2"/>
-            <TextBox Text="{Binding TL1, Mode=TwoWay}" Grid.Column="4" Grid.Row="2"/>
+			<Label Content="PC" Grid.Column="0" Grid.Row="0"/>
+			<TextBox Text="{Binding PC, Mode=TwoWay, Converter={StaticResource HexStringUshortConverter}}" Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="2"/>
 
-            <Label Content="PC" Grid.Column="0" Grid.Row="0"/>
-            <TextBox Text="{Binding PC, Mode=TwoWay}" Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="2"/>
+			<Label Content="P0" Grid.Column="0" Grid.Row="2"/>
+			<Label Content="P1" Grid.Column="0" Grid.Row="3"/>
+			<Label Content="P2" Grid.Column="0" Grid.Row="4"/>
+			<Label Content="P3" Grid.Column="0" Grid.Row="5"/>
 
-            <Label Content="P0" Grid.Column="0" Grid.Row="2"/>
-            <Label Content="P1" Grid.Column="0" Grid.Row="3"/>
-            <Label Content="P2" Grid.Column="0" Grid.Row="4"/>
-            <Label Content="P3" Grid.Column="0" Grid.Row="5"/>
+			<TextBox Text="{Binding P0, Mode=TwoWay, Converter={StaticResource HexStringByteConverter}}" Grid.Column="1" Grid.Row="2"/>
+			<TextBox Text="{Binding P1, Mode=TwoWay, Converter={StaticResource HexStringByteConverter}}" Grid.Column="1" Grid.Row="3"/>
+			<TextBox Text="{Binding P2, Mode=TwoWay, Converter={StaticResource HexStringByteConverter}}" Grid.Column="1" Grid.Row="4"/>
+			<TextBox Text="{Binding P3, Mode=TwoWay, Converter={StaticResource HexStringByteConverter}}" Grid.Column="1" Grid.Row="5"/>
 
-            <TextBox Text="{Binding P0, Mode=TwoWay}" Grid.Column="1" Grid.Row="2"/>
-            <TextBox Text="{Binding P1, Mode=TwoWay}" Grid.Column="1" Grid.Row="3"/>
-            <TextBox Text="{Binding P2, Mode=TwoWay}" Grid.Column="1" Grid.Row="4"/>
-            <TextBox Text="{Binding P3, Mode=TwoWay}" Grid.Column="1" Grid.Row="5"/>
+			<Label Content="OV" Grid.Column="0" Grid.Row="6"/>
+			<Label Content="RS0" Grid.Column="1" Grid.Row="6"/>
+			<Label Content="RS1" Grid.Column="2" Grid.Row="6"/>
+			<Label Content="F0" Grid.Column="3" Grid.Row="6"/>
+			<Label Content="AC" Grid.Column="4" Grid.Row="6"/>
+			<Label Content="CY" Grid.Column="5" Grid.Row="6"/>
 
-            <Label Content="OV" Grid.Column="0" Grid.Row="6"/>
-            <Label Content="RS0" Grid.Column="1" Grid.Row="6"/>
-            <Label Content="RS1" Grid.Column="2" Grid.Row="6"/>
-            <Label Content="F0" Grid.Column="3" Grid.Row="6"/>
-            <Label Content="AC" Grid.Column="4" Grid.Row="6"/>
-            <Label Content="CY" Grid.Column="5" Grid.Row="6"/>
+			<TextBox Text="{Binding OV, Mode=TwoWay}" Grid.Column="0" Grid.Row="7"/>
+			<TextBox Text="{Binding RS0, Mode=TwoWay}" Grid.Column="1" Grid.Row="7"/>
+			<TextBox Text="{Binding RS1, Mode=TwoWay}" Grid.Column="2" Grid.Row="7"/>
+			<TextBox Text="{Binding F0, Mode=TwoWay}" Grid.Column="3" Grid.Row="7"/>
+			<TextBox Text="{Binding AC, Mode=TwoWay}" Grid.Column="4" Grid.Row="7"/>
+			<TextBox Text="{Binding CY, Mode=TwoWay}" Grid.Column="5" Grid.Row="7"/>
+			
 
-            <TextBox Text="{Binding OV, Mode=TwoWay}" Grid.Column="0" Grid.Row="7"/>
-            <TextBox Text="{Binding RS0, Mode=TwoWay}" Grid.Column="1" Grid.Row="7"/>
-            <TextBox Text="{Binding RS1, Mode=TwoWay}" Grid.Column="2" Grid.Row="7"/>
-            <TextBox Text="{Binding F0, Mode=TwoWay}" Grid.Column="3" Grid.Row="7"/>
-            <TextBox Text="{Binding AC, Mode=TwoWay}" Grid.Column="4" Grid.Row="7"/>
-            <TextBox Text="{Binding CY, Mode=TwoWay}" Grid.Column="5" Grid.Row="7"/>
-            <TextBox Text="{Binding R7, Mode=TwoWay}" Grid.Column="7" />
-            
-            <Label Content="Acc" Grid.Column="0" Grid.Row="9"/>
-            <TextBox Text="{Binding Acc1, Mode=TwoWay}" Grid.Column="1" Grid.Row="9"/>
-            <TextBox Text="{Binding Acc2, Mode=TwoWay}" Grid.Column="2" Grid.Row="9"/>
-            <TextBox Text="{Binding Acc3, Mode=TwoWay}" Grid.Column="3" Grid.Row="9"/>
-            <TextBox Text="{Binding Acc4, Mode=TwoWay}" Grid.Column="4" Grid.Row="9"/>
-            <TextBox Text="{Binding Acc5, Mode=TwoWay}" Grid.Column="5" Grid.Row="9"/>
-            <TextBox Text="{Binding Acc6, Mode=TwoWay}" Grid.Column="6" Grid.Row="9"/>
-            <TextBox Text="{Binding Acc7, Mode=TwoWay}" Grid.Column="7" Grid.Row="9"/>
-            <TextBox Text="{Binding Acc8, Mode=TwoWay}" Grid.Column="8" Grid.Row="9"/>
-        </Grid>
-        <GroupBox Grid.Column="0" Grid.Row="2" Header="Log Kompilacji">
-        <TextBox TextWrapping="Wrap" IsReadOnly="True" Text="{Binding output}" /></GroupBox>
-        <!--<ListBox Grid.Column="0" Grid.Row="2" Name="memoryPreview">
-            <ListBox.ItemsPanel>
-                <ItemsPanelTemplate>
-                    <UniformGrid Columns="10"/>
-                </ItemsPanelTemplate>
-            </ListBox.ItemsPanel>
-            <ListBox.ItemTemplate>
-                <DataTemplate>
-                    <TextBlock Text="{}"/>
-                </DataTemplate>
-            </ListBox.ItemTemplate>
-        </ListBox>-->
-        <TextBox FontFamily="Lucida Console" FontSize="12" Text="{Binding RawSourceCode, Mode=TwoWay}" AllowDrop="False" VerticalScrollBarVisibility="Auto" Name="CodeTbox" Grid.Column="1" Grid.Row="1" AcceptsReturn="True" />
-        <Grid Grid.Column="1" Grid.Row="2">
-            <Grid.RowDefinitions>
-                <RowDefinition/>
-                <RowDefinition/>
-                <RowDefinition/>
-            </Grid.RowDefinitions>
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition/>
-                <ColumnDefinition/>
-                <ColumnDefinition/>
-                <ColumnDefinition/>
-                <ColumnDefinition/>
-                <ColumnDefinition/>
-            </Grid.ColumnDefinitions>
-            <WindowsFormsHost Grid.Column="4" Grid.Row="0">
-                <SevenSegment:SevenSegment x:Name="lcdControl1"/>
-            </WindowsFormsHost>
-            <WindowsFormsHost Grid.Column="3" Grid.Row="0">
-                <SevenSegment:SevenSegment x:Name="lcdControl2"/>
-            </WindowsFormsHost>
-            <WindowsFormsHost Grid.Column="2" Grid.Row="0">
-                <SevenSegment:SevenSegment x:Name="lcdControl3"/>
-            </WindowsFormsHost>
-            <WindowsFormsHost Grid.Column="1" Grid.Row="0">
-                <SevenSegment:SevenSegment x:Name="lcdControl4"/>
-            </WindowsFormsHost>
-        </Grid>
-        <Menu Height="23" Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="1" Width="Auto" Name="menu">
-            <MenuItem Header="_Plik" Name="menuFile">
-                <MenuItem Header="_Otwórz" Click="MenuItem_Click"/>
-                <MenuItem Header="_Nowy" Click="MenuItem_Click_11"/>
-                <MenuItem Header="_Zapisz" Click="MenuItem_Click_12"/>
-                <MenuItem Header="_Zamknij" Click="MenuItem_Click_13"/>
-            </MenuItem>
-            <MenuItem Header="U_stawienia" Name="menuSettings" Click="MenuItem_Click_5" />
-            <MenuItem Header="_Uruchom" Name="menuRun" Click="MenuItem_Click_1"/>
-            <MenuItem Header="_Zatrzymaj" Name="menuStop" Click="MenuItem_Click_2"/>
-            <MenuItem Header="_Pauza" Name="menuPause" Click="MenuItem_Click_3"/>
-            <MenuItem Header="_Nast. Krok" Name="menuNextStep" Click="MenuItem_Click_4"/>
-        </Menu>
-        <Menu Height="23" Grid.Column="1" Grid.Row="0" Width="Auto" Name="menuEditor">
-            <MenuItem Click="MenuItem_Click_6" Header="Cofnij">
-                <MenuItem.Icon>
-                    <Image Source="/symulator8051;component/Images/stock_undo.png" />
-                </MenuItem.Icon>
-            </MenuItem>
-            <MenuItem Click="MenuItem_Click_7" Header="Ponów">
-                <MenuItem.Icon>
-                    <Image Source="/symulator8051;component/Images/stock_redo.png" />
-                </MenuItem.Icon>
-            </MenuItem>
-            <MenuItem Click="MenuItem_Click_8" Header="Kopiuj">
-                <MenuItem.Icon>
-                    <Image Source="/symulator8051;component/Images/stock_copy.png" />
-                </MenuItem.Icon>
-            </MenuItem>
-            <MenuItem Click="MenuItem_Click_9" Header="Wytnij">
-                <MenuItem.Icon>
-                    <Image Source="/symulator8051;component/Images/stock_cut.png" />
-                </MenuItem.Icon>
-            </MenuItem>
-            <MenuItem Click="MenuItem_Click_10" Header="Wklej">
-                <MenuItem.Icon>
-                    <Image Source="/symulator8051;component/Images/stock_paste.png" />
-                </MenuItem.Icon>
-            </MenuItem>
-        </Menu>
-    </Grid>
+			<Label Content="Acc" Grid.Column="0" Grid.Row="9"/>
+			<Grid Grid.Column="1" Grid.Row="9" Grid.ColumnSpan="5">
+				<Grid.ColumnDefinitions>
+					<ColumnDefinition/>
+					<ColumnDefinition/>
+					<ColumnDefinition/>
+					<ColumnDefinition/>
+					<ColumnDefinition/>
+					<ColumnDefinition/>
+					<ColumnDefinition/>
+					<ColumnDefinition/>
+				</Grid.ColumnDefinitions>
+				<TextBox Text="{Binding Acc1, Mode=TwoWay}" Grid.Column="0"/>
+				<TextBox Text="{Binding Acc2, Mode=TwoWay}" Grid.Column="1"/>
+				<TextBox Text="{Binding Acc3, Mode=TwoWay}" Grid.Column="2"/>
+				<TextBox Text="{Binding Acc4, Mode=TwoWay}" Grid.Column="3"/>
+				<TextBox Text="{Binding Acc5, Mode=TwoWay}" Grid.Column="4"/>
+				<TextBox Text="{Binding Acc6, Mode=TwoWay}" Grid.Column="5"/>
+				<TextBox Text="{Binding Acc7, Mode=TwoWay}" Grid.Column="6"/>
+				<TextBox Text="{Binding Acc8, Mode=TwoWay}" Grid.Column="7"/>
+			</Grid>
+			
+		</Grid>
+		<GroupBox Grid.Column="0" Grid.Row="2" Header="Log Kompilacji">
+			<TextBox Name="OutputTbox" Style="{StaticResource CompilerLogTextStyle}" TextWrapping="Wrap" IsReadOnly="True" Text="{Binding Output}" />
+		</GroupBox>
+		<!--<ListBox Grid.Column="0" Grid.Row="2" Name="memoryPreview">
+			<ListBox.ItemsPanel>
+				<ItemsPanelTemplate>
+					<UniformGrid Columns="10"/>
+				</ItemsPanelTemplate>
+			</ListBox.ItemsPanel>
+			<ListBox.ItemTemplate>
+				<DataTemplate>
+					<TextBlock Text="{}"/>
+				</DataTemplate>
+			</ListBox.ItemTemplate>
+		</ListBox>-->
+		<TextBox Text="{Binding RawSourceCode, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" AllowDrop="False" VerticalScrollBarVisibility="Auto" Name="CodeTbox" Grid.Column="1" Grid.Row="1" AcceptsReturn="True" Style="{StaticResource CodeTextStyle}"/>
+		<StackPanel Grid.Column="1" Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Center">
+			<WindowsFormsHost Width="80" Height="110">
+				<SevenSegment:SevenSegment x:Name="lcdControl1"/>
+			</WindowsFormsHost>
+			<WindowsFormsHost Width="80" Height="110">
+				<SevenSegment:SevenSegment x:Name="lcdControl2"/>
+			</WindowsFormsHost>
+			<WindowsFormsHost Width="80" Height="110">
+				<SevenSegment:SevenSegment x:Name="lcdControl3"/>
+			</WindowsFormsHost>
+			<WindowsFormsHost Width="80" Height="110">
+				<SevenSegment:SevenSegment x:Name="lcdControl4"/>
+			</WindowsFormsHost>
+		</StackPanel>
+		<!--
+		<Grid >
+			<Grid.RowDefinitions>
+				<RowDefinition/>
+				<RowDefinition/>
+				<RowDefinition/>
+			</Grid.RowDefinitions>
+			<Grid.ColumnDefinitions>
+				<ColumnDefinition/>
+				<ColumnDefinition/>
+				<ColumnDefinition/>
+				<ColumnDefinition/>
+				<ColumnDefinition/>
+				<ColumnDefinition/>
+			</Grid.ColumnDefinitions>
+						<WindowsFormsHost Grid.Column="4" Grid.Row="1">
+				<SevenSegment:SevenSegment x:Name="lcdControl1"/>
+			</WindowsFormsHost>
+			<WindowsFormsHost Grid.Column="3" Grid.Row="1">
+				<SevenSegment:SevenSegment x:Name="lcdControl2"/>
+			</WindowsFormsHost>
+			<WindowsFormsHost Grid.Column="2" Grid.Row="1">
+				<SevenSegment:SevenSegment x:Name="lcdControl3"/>
+			</WindowsFormsHost>
+			<WindowsFormsHost Grid.Column="1" Grid.Row="1">
+				<SevenSegment:SevenSegment x:Name="lcdControl4"/>
+			</WindowsFormsHost>
+		</Grid>-->
+		<Menu Height="23" Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="1" Width="Auto" Name="menu">
+			<MenuItem Header="_Plik" Name="menuFile">
+				<MenuItem Header="_Otwórz" Click="MenuItem_Click"/>
+				<MenuItem Header="_Nowy" Click="MenuItem_Click_11"/>
+				<MenuItem Header="_Zapisz" Click="MenuItem_Click_12"/>
+				<MenuItem Header="_Zamknij" Click="MenuItem_Click_13"/>
+			</MenuItem>
+			<MenuItem Header="U_stawienia" Name="menuSettings" Click="MenuItem_Click_5" />
+			<MenuItem Header="_Uruchom" Name="menuRun" Click="MenuItem_Click_1"/>
+			<MenuItem Header="_Zatrzymaj" Name="menuStop" Click="MenuItem_Click_2"/>
+			<MenuItem Header="_Pauza" Name="menuPause" Click="MenuItem_Click_3"/>
+			<MenuItem Header="_Nast. Krok" Name="menuNextStep" Click="MenuItem_Click_4"/>
+		</Menu>
+		<Menu Height="23" Grid.Column="1" Grid.Row="0" Width="Auto" Name="menuEditor">
+			<MenuItem Click="MenuItem_Click_6" Header="Cofnij">
+				<MenuItem.Icon>
+					<Image Source="/symulator8051;component/Images/stock_undo.png" />
+				</MenuItem.Icon>
+			</MenuItem>
+			<MenuItem Click="MenuItem_Click_7" Header="Ponów">
+				<MenuItem.Icon>
+					<Image Source="/symulator8051;component/Images/stock_redo.png" />
+				</MenuItem.Icon>
+			</MenuItem>
+			<MenuItem Click="MenuItem_Click_8" Header="Kopiuj">
+				<MenuItem.Icon>
+					<Image Source="/symulator8051;component/Images/stock_copy.png" />
+				</MenuItem.Icon>
+			</MenuItem>
+			<MenuItem Click="MenuItem_Click_9" Header="Wytnij">
+				<MenuItem.Icon>
+					<Image Source="/symulator8051;component/Images/stock_cut.png" />
+				</MenuItem.Icon>
+			</MenuItem>
+			<MenuItem Click="MenuItem_Click_10" Header="Wklej">
+				<MenuItem.Icon>
+					<Image Source="/symulator8051;component/Images/stock_paste.png" />
+				</MenuItem.Icon>
+			</MenuItem>
+		</Menu>
+	</Grid>
 </Window>

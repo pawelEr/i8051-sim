@@ -5,29 +5,29 @@ using System.Text;
 using System.Windows.Data;
 
 /*
- * konwerter wartości dla gui z wartości byte na string w formacie 0xff i spowrotem
+ * konwerter wartości dla gui z wartości ushort na string w formacie 0xff i spowrotem
  */
 
 namespace symulator8051.Converter
 {
-	[ValueConversion(typeof(string), typeof(byte))]
-	public class HexStringByte : IValueConverter
+	[ValueConversion(typeof(string), typeof(ushort))]
+	public class HexStringUshort : IValueConverter
 	{
 		public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
 		{
 			string hex = value as string;
-			byte b = 0;
+			ushort us = 0;
 			if (null != hex)
 			{
 				string[] s = hex.Split('x');
-				b = byte.Parse(s[1], System.Globalization.NumberStyles.HexNumber);
+				us = ushort.Parse(s[1], System.Globalization.NumberStyles.HexNumber);
 			}
-			return b;
+			return us;
 		}
 
 		public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
 		{
-			return "0x" + ((byte)value).ToString("X2");
+			return "0x" + ((ushort)value).ToString("X4");
 		}
 	}
 }

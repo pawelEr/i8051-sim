@@ -69,7 +69,6 @@ namespace symulator8051.Commands
         {
             get { return bytes; }
         }
-        private byte arg;
         public xB3( I8051 i)
         {
             this.i = i;
