@@ -15,7 +15,7 @@ namespace symulator8051.Sim
 		/*
 		 * magiczna granica przełączania między trybami wykonywania instrukcji
 		 */
-		int magiczna_granica = 100;
+		int magiczna_granica = 200;
 
 		public CommandEngine(I8051 i8051)
 		{
@@ -24,7 +24,7 @@ namespace symulator8051.Sim
 			this.i = i8051;
 			if (Sets.Commands > magiczna_granica) //jak jest iles instrukcji w ciagu jednego opoznienia
 			{
-				this.sleep = 50;
+				this.sleep = 200;
 				this.commands = (Sets.Commands) / this.sleep;
 			}
 			else//jak jest jedna instrukcja w ciagu jednego opoznienia
@@ -91,11 +91,11 @@ namespace symulator8051.Sim
 			{
 				if (commands < magiczna_granica)
 				{
-					mainThread = new Thread(new ThreadStart(Run1mode));
+					mainThread = new Thread(new ThreadStart(Run1mode)); //tryb jedna komenda na opoznienie
 				}
 				else
 				{
-					mainThread = new Thread(new ThreadStart(Run2mode));
+					mainThread = new Thread(new ThreadStart(Run2mode)); //tryb wiele komend na opoznienie
 				}
 				mainThread.Name = "Main commands Thread";
 			}

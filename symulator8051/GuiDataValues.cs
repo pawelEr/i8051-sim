@@ -534,7 +534,7 @@ namespace symulator8051
 		}
 		public void StartUpdate()
 		{
-			t = new Timer {Interval = 500};
+			t = new Timer {Interval = Sets.Sleep};
 			t.Elapsed += (e, a) => UpdateFields();
 			t.AutoReset = true;
 			t.Enabled = true;
