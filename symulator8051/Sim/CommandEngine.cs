@@ -2,6 +2,7 @@
 using System.IO;
 using System.Threading;
 using System.Windows;
+using symulator8051.Sim.Commands;
 
 namespace symulator8051.Sim
 {

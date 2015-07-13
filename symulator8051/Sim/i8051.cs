@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using ByteExtensionMethods;
-using symulator8051.Commands;
+using symulator8051.Sim.Commands;
 
 /*
  * wszystkie potrzebne struktury pamieci do zasymulowania tego zacnego intela

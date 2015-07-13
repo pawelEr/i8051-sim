@@ -1,8 +1,7 @@
 ﻿using System.ComponentModel;
 using System.Timers;
-using ByteExtensionMethods;
-using symulator8051.Commands;
 using symulator8051.Sim;
+using symulator8051.Sim.Commands;
 
 /*
  * klasa służy tylko do przechowywania cyklicznie odswiezanych parametrow dla gui

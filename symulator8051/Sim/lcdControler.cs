@@ -1,7 +1,6 @@
 ﻿using System.Windows.Forms.VisualStyles;
-using ByteExtensionMethods;
 using DmitryBrant.CustomControls;
-using symulator8051.Commands;
+using symulator8051.Sim.Commands;
 
 namespace symulator8051.Sim
 {
