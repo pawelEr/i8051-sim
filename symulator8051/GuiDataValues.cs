@@ -1,12 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.ComponentModel;
+﻿using System.ComponentModel;
 using System.Timers;
-using System.Collections.ObjectModel;
 using ByteExtensionMethods;
 using symulator8051.Commands;
+using symulator8051.Sim;
 
 /*
  * klasa służy tylko do przechowywania cyklicznie odswiezanych parametrow dla gui
@@ -17,13 +13,13 @@ namespace symulator8051
 {
 	class GuiDataValues : INotifyPropertyChanged
 	{
-		I8051 i;
-		Timer t;
-		lcdControler l;
-		public GuiDataValues(I8051 i, Main m)
+		private I8051 i;
+		private Timer t;
+		private lcdControler l;
+		public GuiDataValues(I8051 i, lcdControler l)
 		{
 			this.i = i;
-			this.l = new lcdControler(m, i);
+			this.l = l;
 		}
 		public event PropertyChangedEventHandler PropertyChanged;
 		private byte acc;
@@ -451,6 +447,29 @@ namespace symulator8051
 			get { return acc8; }
 			set { acc8 = value; OnPropertyChanged("Acc8"); }
 		}
+		private string output;
+		public string Output
+		{
+			get
+			{
+				return output;
+			}
+			set
+			{
+				output = value;
+				OnPropertyChanged("Output");
+			}
+		}
+		private string rawSourceCode;
+		public string RawSourceCode
+		{
+			get { return rawSourceCode; }
+			set
+			{
+				rawSourceCode = value;
+				OnPropertyChanged("RawSourceCode");
+			}
+		}
 		public void UpdateFields()
 		{
 			this.ACC = i.ACC;
@@ -493,7 +512,7 @@ namespace symulator8051
 			this.Acc6 = ACC.chkBit(bits.bit6) ? 1 : 0;
 			this.Acc7 = ACC.chkBit(bits.bit7) ? 1 : 0;
 			this.Acc8 = ACC.chkBit(bits.bit8) ? 1 : 0;
-			string temp = null;
+			//string temp = null;
 			///int j = 0;
 			//while(j < i.EXT_RAM.Length)
 			//{
@@ -509,14 +528,13 @@ namespace symulator8051
 			//    }
 			//    temp += "\n";
 			//}
-			this.EXT_RAM = temp;
+			//this.EXT_RAM = temp;
 			//this.EXT_RAM = new ObservableCollection<byte>(i.EXT_RAM);
 			this.l.refresh(); //odświerzenie wyświetlacza 7 seg
 		}
 		public void StartUpdate()
 		{
-			t = new Timer();
-			t.Interval = 500;
+			t = new Timer {Interval = 500};
 			t.Elapsed += (e, a) => UpdateFields();
 			t.AutoReset = true;
 			t.Enabled = true;
@@ -529,7 +547,7 @@ namespace symulator8051
 		}
 		protected void OnPropertyChanged(string name)
 		{
-			PropertyChangedEventHandler handler = PropertyChanged;
+			var handler = PropertyChanged;
 			if (handler != null)
 			{
 				handler(this, new PropertyChangedEventArgs(name));

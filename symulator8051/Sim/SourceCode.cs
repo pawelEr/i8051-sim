@@ -1,11 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.IO;
 using System.Windows;
 
-namespace symulator8051
+namespace symulator8051.Sim
 {
 
 	class SourceCode

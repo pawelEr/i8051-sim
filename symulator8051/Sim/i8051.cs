@@ -1,20 +1,13 @@
 ﻿using System;
-using System.ComponentModel;
-using symulator8051.Commands;
-using ByteExtensionMethods;
 using System.Collections.Generic;
-
+using ByteExtensionMethods;
+using symulator8051.Commands;
 
 /*
  * wszystkie potrzebne struktury pamieci do zasymulowania tego zacnego intela
  */
-namespace symulator8051
+namespace symulator8051.Sim
 {
-	class MemoryRecord
-	{
-		public byte Data;
-		public ICommand Instruction;
-	}
 	class I8051
 	{
 		#region memory/registers
@@ -382,7 +375,7 @@ namespace symulator8051
 				this.EXT_PMEM[i] = new MemoryRecord();
 		}
 		private CommandEngine c;
-		public void process() //funckcja wpisujaca obiekty pojedynczych rozkazow do pamieci
+		public void process() //metoda wpisujaca obiekty pojedynczych rozkazow do pamieci
 		{
 			clear_state();
 			c = new CommandEngine(this);
@@ -1441,7 +1434,11 @@ namespace symulator8051
 		public void stop()
 		{
 			if (c != null)
+			{
 				c.Stop();
+			}
+			clear_state();
+			clear_pmem();
 		}
 		public void step()
 		{

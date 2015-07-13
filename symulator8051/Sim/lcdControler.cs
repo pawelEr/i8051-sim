@@ -1,11 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Windows.Forms.VisualStyles;
 using ByteExtensionMethods;
+using DmitryBrant.CustomControls;
 using symulator8051.Commands;
 
-namespace symulator8051
+namespace symulator8051.Sim
 {
 	/*
 	 * klasa odpowiedzialna za obsługe wyswietlacza 7 seg
@@ -14,12 +12,24 @@ namespace symulator8051
 	{
 		private byte currentLcd;
 		private bool active;
-		private Main m;
+		private SevenSegment sevenSegment1;
+		private SevenSegment sevenSegment2;
+		private SevenSegment sevenSegment3;
+		private SevenSegment sevenSegment4;
 		private I8051 i;
-		public lcdControler(Main m, I8051 i)
+
+		public I8051 I8051
 		{
-			this.m=m;
-			this.i=i;
+			set { i = value; }
+		}
+
+		public lcdControler(SevenSegment sevenSegment1, SevenSegment sevenSegment2, SevenSegment sevenSegment3,
+			SevenSegment sevenSegment4)
+		{
+			this.sevenSegment1 = sevenSegment1;
+			this.sevenSegment2 = sevenSegment2;
+			this.sevenSegment3 = sevenSegment3;
+			this.sevenSegment4 = sevenSegment4;
 		}
 		private void setLCD() //ustawia wartośc  wyświetlacza na podstawie portu P3
 		{
@@ -31,23 +41,17 @@ namespace symulator8051
 		}
 		private void checkActive() //sprawdza czy jest ustawiony bit odpowiedzialny za aktywacje wyświetlacza
 		{
-			if (i.P0.chkBit(Commands.bits.bit8))
-			{
-				active = true;
-			}
-			else
-			{
-				active = false;
-			}
+			active = i.P0.chkBit(Commands.bits.bit8);
 		}
+
 		public void refresh() //odświerza wartość wyświetlacza
 		{
 			setLCD();
 			checkActive();
-			m.lcdControl1.CustomPattern = 0x00;
-			m.lcdControl2.CustomPattern = 0x00;
-			m.lcdControl3.CustomPattern = 0x00;
-			m.lcdControl4.CustomPattern = 0x00;
+			sevenSegment1 .CustomPattern = 0x00;
+			sevenSegment2.CustomPattern = 0x00;
+			sevenSegment3.CustomPattern = 0x00;
+			sevenSegment4.CustomPattern = 0x00;
 			byte translatedPattern = 0x00;
 
 			if (!i.P1.chkBit(bits.bit1))
@@ -69,16 +73,16 @@ namespace symulator8051
 				switch (currentLcd)
 				{
 					case 0:
-						m.lcdControl1.CustomPattern = translatedPattern;
+						sevenSegment1.CustomPattern = translatedPattern;
 						break;
 					case 1:
-						m.lcdControl2.CustomPattern = translatedPattern;
+						sevenSegment2.CustomPattern = translatedPattern;
 						break;
 					case 2:
-						m.lcdControl3.CustomPattern = translatedPattern;
+						sevenSegment3.CustomPattern = translatedPattern;
 						break;
 					case 3:
-						m.lcdControl4.CustomPattern = translatedPattern;
+						sevenSegment4.CustomPattern = translatedPattern;
 						break;
 				}
 		}

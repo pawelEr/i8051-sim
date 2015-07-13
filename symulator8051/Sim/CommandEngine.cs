@@ -1,15 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Text;
-using System.Collections;
-using System.Threading;
-using ByteExtensionMethods;
-using symulator8051.Commands;
+﻿using System.Diagnostics;
 using System.IO;
+using System.Threading;
+using System.Windows;
 
-namespace symulator8051
+namespace symulator8051.Sim
 {
 	class CommandEngine
 	{
@@ -93,21 +87,24 @@ namespace symulator8051
 		}
 		public void Run() //start symulacji
 		{
-			if (commands < magiczna_granica)
+			if (mainThread == null)
 			{
-				mainThread = new Thread(new ThreadStart(Run1mode));
-
+				if (commands < magiczna_granica)
+				{
+					mainThread = new Thread(new ThreadStart(Run1mode));
+				}
+				else
+				{
+					mainThread = new Thread(new ThreadStart(Run2mode));
+				}
+				mainThread.Name = "Main commands Thread";
 			}
-			else
-			{
-				mainThread = new Thread(new ThreadStart(Run2mode));
-			}
-			mainThread.Name = "Main commands Thread";
 			mainThread.Start();
 		}
 		public void Pause() //pauzowanie, ustawia flage ktora zatrzymuje petle wykonujace(tworzace watki z wykonywanymi instrukcjami instrukcje 
 		{
 			pause = true;
+			mainThread = null;
 		}
 		private void Sleep() //funkcja usypia swoj watek na wyliczony czas  na podstawie ilosci cykli i wyliczonego czasu na jeden cykl (uzywane przy jedna instrukcja - jedno opoznienie
 		{
@@ -124,20 +121,21 @@ namespace symulator8051
 		}
 		public void Stop()
 		{
+			pause = true;
+			mainThread = null;
 			try
 			{
-				mainThread.Abort();
+				if (File.Exists(@"temp.hex"))
+					File.Delete(@"temp.hex");
+				if (File.Exists(@"temp.lst"))
+					File.Delete(@"temp.lst");
+				if (File.Exists(@"temp.asm"))
+					File.Delete(@"temp.asm");
 			}
-			catch (ThreadAbortException e)
+			catch (IOException e)
 			{
-				Trace.WriteLine("Symulacja ubita, nic strasznego.");
+				MessageBox.Show("Bład przy usuwaniu plików tymczaowych", "Bład", MessageBoxButton.OK, MessageBoxImage.Error);
 			}
-			if (File.Exists(@"temp.hex"))
-				File.Delete(@"temp.hex");
-			if (File.Exists(@"temp.lst"))
-				File.Delete(@"temp.lst");
-			if (File.Exists(@"temp.asm"))
-				File.Delete(@"temp.asm");
 		}
 		public void OneStep()  //jeden krok do przodu - aktywne tylko po pauzie
 		{

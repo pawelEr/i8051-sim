@@ -177,34 +177,6 @@
 				<SevenSegment:SevenSegment x:Name="lcdControl4"/>
 			</WindowsFormsHost>
 		</StackPanel>
-		<!--
-		<Grid >
-			<Grid.RowDefinitions>
-				<RowDefinition/>
-				<RowDefinition/>
-				<RowDefinition/>
-			</Grid.RowDefinitions>
-			<Grid.ColumnDefinitions>
-				<ColumnDefinition/>
-				<ColumnDefinition/>
-				<ColumnDefinition/>
-				<ColumnDefinition/>
-				<ColumnDefinition/>
-				<ColumnDefinition/>
-			</Grid.ColumnDefinitions>
-						<WindowsFormsHost Grid.Column="4" Grid.Row="1">
-				<SevenSegment:SevenSegment x:Name="lcdControl1"/>
-			</WindowsFormsHost>
-			<WindowsFormsHost Grid.Column="3" Grid.Row="1">
-				<SevenSegment:SevenSegment x:Name="lcdControl2"/>
-			</WindowsFormsHost>
-			<WindowsFormsHost Grid.Column="2" Grid.Row="1">
-				<SevenSegment:SevenSegment x:Name="lcdControl3"/>
-			</WindowsFormsHost>
-			<WindowsFormsHost Grid.Column="1" Grid.Row="1">
-				<SevenSegment:SevenSegment x:Name="lcdControl4"/>
-			</WindowsFormsHost>
-		</Grid>-->
 		<Menu Height="23" Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="1" Width="Auto" Name="menu">
 			<MenuItem Header="_Plik" Name="menuFile">
 				<MenuItem Header="_Otwórz" Click="MenuItem_Click"/>
@@ -214,32 +186,32 @@
 			</MenuItem>
 			<MenuItem Header="U_stawienia" Name="menuSettings" Click="MenuItem_Click_5" />
 			<MenuItem Header="_Uruchom" Name="menuRun" Click="MenuItem_Click_1"/>
-			<MenuItem Header="_Zatrzymaj" Name="menuStop" Click="MenuItem_Click_2"/>
-			<MenuItem Header="_Pauza" Name="menuPause" Click="MenuItem_Click_3"/>
-			<MenuItem Header="_Nast. Krok" Name="menuNextStep" Click="MenuItem_Click_4"/>
+			<MenuItem Header="_Zatrzymaj" Name="menuStop" Click="MenuItem_Click_2" IsEnabled="False"/>
+			<MenuItem Header="_Pauza" Name="menuPause" Click="MenuItem_Click_3" IsEnabled="False"/>
+			<MenuItem Header="_Nast. Krok" Name="menuNextStep" Click="MenuItem_Click_4" IsEnabled="False"/>
 		</Menu>
 		<Menu Height="23" Grid.Column="1" Grid.Row="0" Width="Auto" Name="menuEditor">
-			<MenuItem Click="MenuItem_Click_6" Header="Cofnij">
+			<MenuItem Click="MenuItem_Click_6" Header="Cofnij" Name="EditorBackButton">
 				<MenuItem.Icon>
-					<Image Source="/symulator8051;component/Images/stock_undo.png" />
+					<Image Source="/symulator8051;component/Images/stock_undo.png"/>
 				</MenuItem.Icon>
 			</MenuItem>
-			<MenuItem Click="MenuItem_Click_7" Header="Ponów">
+			<MenuItem Click="MenuItem_Click_7" Header="Ponów"  Name="EditorRedoButton">
 				<MenuItem.Icon>
 					<Image Source="/symulator8051;component/Images/stock_redo.png" />
 				</MenuItem.Icon>
 			</MenuItem>
-			<MenuItem Click="MenuItem_Click_8" Header="Kopiuj">
+			<MenuItem Click="MenuItem_Click_8" Header="Kopiuj" Name="EditorCopyButton">
 				<MenuItem.Icon>
 					<Image Source="/symulator8051;component/Images/stock_copy.png" />
 				</MenuItem.Icon>
 			</MenuItem>
-			<MenuItem Click="MenuItem_Click_9" Header="Wytnij">
+			<MenuItem Click="MenuItem_Click_9" Header="Wytnij" Name="EditorCutButton">
 				<MenuItem.Icon>
 					<Image Source="/symulator8051;component/Images/stock_cut.png" />
 				</MenuItem.Icon>
 			</MenuItem>
-			<MenuItem Click="MenuItem_Click_10" Header="Wklej">
+			<MenuItem Click="MenuItem_Click_10" Header="Wklej" Name="EditorPasteButton">
 				<MenuItem.Icon>
 					<Image Source="/symulator8051;component/Images/stock_paste.png" />
 				</MenuItem.Icon>
